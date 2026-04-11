@@ -84,7 +84,7 @@
   - [ ] 10.5 Write Integration Points referencing upstream `devops/04` (IAM), `devops/08` (KMS) and downstream `data/01` (Glue reads from S3), `mlops/01` (training data), `finops/01` (cost tracking)
   - [ ] 10.6 Write Requirements & Constraints and Output Format sections
 
-- [ ] 11. Create `data/05_eventbridge_ml_orchestration.md`
+- [-] 11. Create `data/05_eventbridge_ml_orchestration.md`
   - [ ] 11.1 Write template version comment, title, purpose, and role definition for event-driven ML orchestration expertise
   - [ ] 11.2 Write Context & Inputs section with parameters: EVENT_BUS_NAME, SAGEMAKER_EVENTS (JSON list), CUSTOM_EVENT_SCHEMAS (JSON), STEP_FUNCTIONS_ARNS, CROSS_ACCOUNT_TARGETS
   - [ ] 11.3 Write Task section with directory tree and file-by-file instructions: EventBridge rules for SageMaker events (training/endpoint/model package/pipeline state changes), custom event bus with schema registry, Step Functions triggers for multi-step ML workflows, event pattern matching examples, drift→retrain workflow, cross-account event forwarding
