@@ -52,15 +52,15 @@
 
 ## Data Engineering (data/01-05)
 
-- [ ] 7. Create `data/01_glue_etl_ml_features.md`
-  - [ ] 7.1 Write template version comment, title, purpose, and role definition for Glue ETL and ML feature engineering expertise
-  - [ ] 7.2 Write Context & Inputs section with parameters: GLUE_JOB_NAME, S3_SOURCE_PATH, S3_OUTPUT_PATH, TRANSFORM_TYPES (numerical/categorical/timestamp/text), DATA_QUALITY_RULES, CRAWLER_SCHEDULE, OUTPUT_FORMAT (parquet/feature_store)
-  - [ ] 7.3 Write Task section with directory tree and file-by-file instructions: PySpark ETL scripts with ML transforms, Glue Data Quality rulesets, Crawler configurations, job bookmark for incremental processing, Parquet and Feature Store output formats, SNS notification on quality failure
-  - [ ] 7.4 Write Code Scaffolding Hints with working PySpark `GlueContext`, `DynamicFrame`, `ResolveChoice` examples, `glue.create_crawler()`, `create_data_quality_ruleset()` calls
-  - [ ] 7.5 Write Integration Points referencing upstream `devops/04` (IAM), `data/03` (Lake Formation) and downstream `mlops/07` (Feature Store), `mlops/01` (training), `data/05` (EventBridge)
-  - [ ] 7.6 Write Requirements & Constraints and Output Format sections
+- [x] 7. Create `data/01_glue_etl_ml_features.md`
+  - [x] 7.1 Write template version comment, title, purpose, and role definition for Glue ETL and ML feature engineering expertise
+  - [x] 7.2 Write Context & Inputs section with parameters: GLUE_JOB_NAME, S3_SOURCE_PATH, S3_OUTPUT_PATH, TRANSFORM_TYPES (numerical/categorical/timestamp/text), DATA_QUALITY_RULES, CRAWLER_SCHEDULE, OUTPUT_FORMAT (parquet/feature_store)
+  - [x] 7.3 Write Task section with directory tree and file-by-file instructions: PySpark ETL scripts with ML transforms, Glue Data Quality rulesets, Crawler configurations, job bookmark for incremental processing, Parquet and Feature Store output formats, SNS notification on quality failure
+  - [x] 7.4 Write Code Scaffolding Hints with working PySpark `GlueContext`, `DynamicFrame`, `ResolveChoice` examples, `glue.create_crawler()`, `create_data_quality_ruleset()` calls
+  - [x] 7.5 Write Integration Points referencing upstream `devops/04` (IAM), `data/03` (Lake Formation) and downstream `mlops/07` (Feature Store), `mlops/01` (training), `data/05` (EventBridge)
+  - [x] 7.6 Write Requirements & Constraints and Output Format sections
 
-- [ ] 8. Create `data/02_kinesis_realtime_features.md`
+- [-] 8. Create `data/02_kinesis_realtime_features.md`
   - [ ] 8.1 Write template version comment, title, purpose, and role definition for real-time streaming and feature computation expertise
   - [ ] 8.2 Write Context & Inputs section with parameters: STREAM_NAME, SHARD_COUNT, FEATURE_SCHEMA (JSON), WINDOW_SIZES, FIREHOSE_DESTINATION (s3/opensearch), DLQ_QUEUE_NAME
   - [ ] 8.3 Write Task section with directory tree and file-by-file instructions: Kinesis Data Stream + Lambda consumer for feature computation, Firehose delivery to S3 Parquet + OpenSearch, Kinesis Analytics Flink app for windowed aggregations, feature schema definition, DLQ routing, Feature Store online store integration
