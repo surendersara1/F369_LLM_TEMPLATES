@@ -68,7 +68,7 @@
   - [ ] 8.5 Write Integration Points referencing upstream `devops/04` (IAM), `devops/02` (VPC) and downstream `mlops/07` (Feature Store), `data/01` (Glue for batch backfill), `devops/10` (tracing)
   - [ ] 8.6 Write Requirements & Constraints and Output Format sections
 
-- [ ] 9. Create `data/03_lake_formation_ml_governance.md`
+- [-] 9. Create `data/03_lake_formation_ml_governance.md`
   - [ ] 9.1 Write template version comment, title, purpose, and role definition for data lake governance and Lake Formation expertise
   - [ ] 9.2 Write Context & Inputs section with parameters: DATABASE_NAME, TABLE_DEFINITIONS (JSON), LF_TAGS (JSON), CROSS_ACCOUNT_IDS, SAGEMAKER_ROLE_ARN, AUDIT_ENABLED
   - [ ] 9.3 Write Task section with directory tree and file-by-file instructions: Lake Formation resource registration, LF-TBAC tag-based access control, column-level and row-level permissions, cross-account data sharing, Glue Data Catalog table definitions with schema evolution, CloudTrail audit logging
