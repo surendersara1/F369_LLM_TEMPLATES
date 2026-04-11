@@ -76,7 +76,7 @@
   - [ ] 9.5 Write Integration Points referencing upstream `devops/04` (IAM), `data/01` (Glue ETL) and downstream `mlops/01` (training data access), `enterprise/01` (SCPs), `devops/05` (Config compliance)
   - [ ] 9.6 Write Requirements & Constraints and Output Format sections
 
-- [ ] 10. Create `data/04_s3_data_lifecycle_ml.md`
+- [-] 10. Create `data/04_s3_data_lifecycle_ml.md`
   - [ ] 10.1 Write template version comment, title, purpose, and role definition for S3 storage optimization and data lifecycle expertise
   - [ ] 10.2 Write Context & Inputs section with parameters: BUCKET_NAMES (JSON), LIFECYCLE_RULES (JSON with age thresholds), INTELLIGENT_TIERING_CONFIG, BATCH_OPERATION_TYPE, ACCESS_POINT_CONFIGS
   - [ ] 10.3 Write Task section with directory tree and file-by-file instructions: S3 Intelligent-Tiering configuration, lifecycle rules (Standard→IT→Glacier IR→Deep Archive), S3 Batch Operations for bulk management, S3 Access Points per team/project, S3 Inventory configuration, restore-and-wait pattern with EventBridge
