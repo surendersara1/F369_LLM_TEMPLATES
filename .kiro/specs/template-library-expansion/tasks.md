@@ -102,7 +102,7 @@
   - [ ] 12.5 Write Integration Points referencing upstream `devops/04` (IAM), `devops/08` (KMS) and downstream `devops/06` (Security Hub findings), `enterprise/01` (SCPs), `enterprise/04` (Control Tower guardrails)
   - [ ] 12.6 Write Requirements & Constraints and Output Format sections
 
-- [ ] 13. Create `devops/06_guardduty_securityhub_ml.md`
+- [-] 13. Create `devops/06_guardduty_securityhub_ml.md`
   - [ ] 13.1 Write template version comment, title, purpose, and role definition for threat detection and security operations expertise for ML workloads
   - [ ] 13.2 Write Context & Inputs section with parameters: GUARDDUTY_FEATURES (s3_protection/lambda_protection), AUTOMATION_RULES (JSON), CUSTOM_INSIGHTS (JSON), REMEDIATION_ACTIONS, COMPLIANCE_FRAMEWORKS
   - [ ] 13.3 Write Task section with directory tree and file-by-file instructions: GuardDuty detector with S3+Lambda protection, Security Hub automation rules (auto-resolve low/escalate high), Lambda remediation workflow (isolate notebooks, revoke credentials, quarantine S3), custom insights for ML resources, EventBridge rule for anomalous SageMaker/Bedrock API calls, compliance framework mapping
