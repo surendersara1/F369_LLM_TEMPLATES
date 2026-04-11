@@ -94,7 +94,7 @@
 
 ## Security & Compliance (devops/05-09)
 
-- [ ] 12. Create `devops/05_config_rules_ml_compliance.md`
+- [-] 12. Create `devops/05_config_rules_ml_compliance.md`
   - [ ] 12.1 Write template version comment, title, purpose, and role definition for AWS Config and ML compliance expertise
   - [ ] 12.2 Write Context & Inputs section with parameters: MANAGED_RULES (list), CUSTOM_RULES (JSON with Lambda evaluators), APPROVED_INSTANCE_TYPES, CONFORMANCE_PACK_NAME, REMEDIATION_ENABLED
   - [ ] 12.3 Write Task section with directory tree and file-by-file instructions: managed Config rules for SageMaker (KMS, VPC, internet access), custom Lambda evaluators (instance type allowlist, VPC-only training, Bedrock model ID restrictions), conformance pack, SSM Automation remediation documents, EventBridge→SNS→Security Hub notification, compliance dashboard SQL queries
