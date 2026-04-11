@@ -74,11 +74,20 @@ Generate GitHub Actions workflows:
 ```yaml
 name: ML Pipeline
 on:
-  push: { branches: [main] }
-  pull_request: { branches: [main] }
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
-      environment: { type: choice, options: [dev, stage, prod] }
+      environment:
+        type: choice
+        options:
+          - dev
+          - stage
+          - prod
 
 permissions:
   id-token: write    # OIDC

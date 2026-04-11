@@ -109,6 +109,19 @@ Generate a complete LLM fine-tuning pipeline with ALL components:
 
 ### 2. training/finetune.py
 Complete training script using `trl.SFTTrainer` (for sft) or `trl.DPOTrainer` (for dpo):
+- Retrieve HuggingFace token from Secrets Manager at runtime (not from environment variables):
+```python
+import boto3, json, os
+
+def get_hf_token(secret_name: str, region: str) -> str:
+    """Retrieve HuggingFace token from AWS Secrets Manager."""
+    client = boto3.client("secretsmanager", region_name=region)
+    resp = client.get_secret_value(SecretId=secret_name)
+    return json.loads(resp["SecretString"])["HUGGING_FACE_HUB_TOKEN"]
+
+hf_token = get_hf_token(os.environ["HF_TOKEN_SECRET_NAME"], os.environ.get("AWS_REGION", "us-east-1"))
+os.environ["HUGGING_FACE_HUB_TOKEN"] = hf_token  # set for transformers/hub downloads
+```
 - Load base model with quantization config (4-bit BitsAndBytes if QLoRA)
 - Apply LoRA/PEFT config using `peft.get_peft_model()`
 - Load and tokenize dataset using data_utils
@@ -153,20 +166,27 @@ Post-training script to:
 SageMaker HuggingFace Estimator setup:
 ```python
 from sagemaker.huggingface import HuggingFace
+
+# NOTE: Verify latest available DLC versions for your region before launching:
+#   aws ecr describe-images --repository-name huggingface-pytorch-training \
+#     --registry-id 763104351884 --region $AWS_REGION \
+#     --query 'sort_by(imageDetails,&imagePushedAt)[-5:].imageTags' --output table
 estimator = HuggingFace(
     entry_point="finetune.py",
     source_dir="training/",
     instance_type=TRAINING_INSTANCE_TYPE,
     instance_count=INSTANCE_COUNT,
-    transformers_version="4.36",
-    pytorch_version="2.1",
-    py_version="py310",
+    transformers_version="4.45",
+    pytorch_version="2.5",
+    py_version="py311",
     hyperparameters={...},
     metric_definitions=[...],
     use_spot_instances=(ENV != "prod"),
     max_wait=7200,
     checkpoint_s3_uri=checkpoint_path,
-    environment={"HUGGING_FACE_HUB_TOKEN": hf_token}
+    # Do NOT pass HF token as plain-text env var — retrieve it from
+    # Secrets Manager inside the training script (see training/finetune.py).
+    # The SageMaker execution role must have secretsmanager:GetSecretValue permission.
 )
 ```
 

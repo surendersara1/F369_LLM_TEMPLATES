@@ -103,7 +103,7 @@ Output ALL files with headers: `### FILE: [path]`
 
 **CDK Version:** 2.170+. Use L2 constructs where available, CfnResource for SageMaker resources without L2 support.
 
-**Multi-Stack:** Separate stacks for networking, IAM, storage, SageMaker. Cross-stack references via `CfnOutput` + `Fn.import_value()`.
+**Multi-Stack:** Separate stacks for networking, IAM, storage, SageMaker. Cross-stack references via direct stack attribute references (e.g., `vpc=networking.vpc`) for same-environment stacks, or `cdk.CfnOutput` + `cdk.Fn.import_value()` for cross-stage references (using `import aws_cdk as cdk`).
 
 **Security:** KMS encryption for all storage. VPC-only mode. cdk-nag for compliance checks.
 

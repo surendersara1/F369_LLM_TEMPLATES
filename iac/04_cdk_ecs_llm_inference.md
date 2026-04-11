@@ -42,7 +42,7 @@ MODEL_ID:               [OPTIONAL - HuggingFace model ID if downloading at runti
 CONTAINER_CPU:          [OPTIONAL: 16384 (16 vCPU) for GPU instance]
 CONTAINER_MEMORY:       [OPTIONAL: 65536 (64GB) for g5.2xlarge]
 CONTAINER_GPU:          [OPTIONAL: 1]
-CONTAINER_PORT:         [OPTIONAL: 8080]
+CONTAINER_PORT:         [OPTIONAL: 8000]
 
 MIN_TASKS:              [OPTIONAL: 0 for dev, 1 for stage, 2 for prod]
 MAX_TASKS:              [OPTIONAL: 1 for dev, 3 for stage, 10 for prod]
@@ -98,7 +98,7 @@ cdk_ecs_llm/
 ```python
 container = task_def.add_container("vllm",
     image=ecs.ContainerImage.from_ecr_repository(ecr_repo, tag),
-    gpu_count=1,
+    gpu_count=1,  # CDK translates this to resourceRequirements [{"type": "GPU", "value": "1"}]
     memory_limit_mib=65536,
     environment={
         "MODEL_ID": model_id,
@@ -107,7 +107,7 @@ container = task_def.add_container("vllm",
         "QUANTIZATION": "awq"
     },
     logging=ecs.LogDrivers.aws_logs(stream_prefix="vllm"),
-    health_check=ecs.HealthCheck(command=["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"])
+    health_check=ecs.HealthCheck(command=["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"])
 )
 ```
 
@@ -116,7 +116,7 @@ container = task_def.add_container("vllm",
 FROM vllm/vllm-openai:latest
 COPY scripts/download_model.py /app/
 RUN python /app/download_model.py  # Pre-download model for faster cold start
-EXPOSE 8080
+EXPOSE 8000
 CMD ["python", "-m", "vllm.entrypoints.openai.api_server", ...]
 ```
 

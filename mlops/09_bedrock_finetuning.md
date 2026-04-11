@@ -30,13 +30,17 @@ AWS_ACCOUNT_ID:         [REQUIRED]
 ENV:                    [REQUIRED - dev | stage | prod]
 
 BASE_MODEL_ID:          [REQUIRED - Bedrock model identifier]
-                        Options:
-                        - amazon.titan-text-express-v1 (Titan Text)
+                        Options (verify current availability with:
+                        aws bedrock list-foundation-models --by-customization-type FINE_TUNING):
+                        - amazon.titan-text-express-v1 (Titan Text Express)
                         - amazon.titan-text-lite-v1 (Titan Text Lite)
-                        - amazon.titan-text-premier-v1:0 (Titan Premier)
-                        - cohere.command-light-text-v14 (Cohere Command)
+                        - amazon.titan-text-premier-v1:0 (Titan Text Premier)
                         - meta.llama3-1-8b-instruct-v1:0 (Llama 3.1 8B)
                         - meta.llama3-1-70b-instruct-v1:0 (Llama 3.1 70B)
+                        - meta.llama3-2-1b-instruct-v1:0 (Llama 3.2 1B)
+                        - meta.llama3-2-3b-instruct-v1:0 (Llama 3.2 3B)
+                        - meta.llama3-3-70b-instruct-v1:0 (Llama 3.3 70B)
+                        - anthropic.claude-3-haiku-20240307-v1:0 (Claude 3 Haiku)
 
 CUSTOMIZATION_TYPE:     [OPTIONAL: FINE_TUNING | CONTINUED_PRE_TRAINING]
 TRAINING_DATA_S3:       [REQUIRED - s3://bucket/path/to/training.jsonl]
@@ -87,12 +91,15 @@ bedrock_finetuning/
 
 **prepare_training_data.py**: Convert various formats to Bedrock JSONL:
 - Titan format: `{"prompt": "...", "completion": "..."}`
-- Llama/Meta format: `{"prompt": "<s>[INST] ... [/INST]", "completion": "..."}`
+- Llama 3.x/Meta format (Llama 3.1 8B/70B — non-conversational):
+  `{"prompt": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\nYour question here<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n", "completion": "Expected answer"}`
+- Llama 3.2/3.3 models use Converse API format (see AWS docs for `bedrock-conversation-2024` schema)
+- Note: Llama 2 `<s>[INST] ... [/INST]` format is NOT compatible with Llama 3.x models
 - Validate max token counts per model limit
 - Sample and log examples for verification
 
 **validate_dataset.py**: Check Bedrock constraints:
-- Min 1000 records (Titan), min 32 records (Llama/Meta)
+- Min records vary by model (e.g., Titan: check current quotas; Llama 3.1: min 100 records)
 - Max record size varies by model
 - No duplicate records
 - Validate JSON schema per record
@@ -157,12 +164,38 @@ while True:
     time.sleep(60)
 ```
 
-**Invoke custom model:**
+**Invoke custom model (Titan):**
 ```python
+# Amazon Titan Text models use inputText / textGenerationConfig
 response = bedrock_runtime.invoke_model(
     modelId=custom_model_arn,  # or provisioned throughput ARN
-    body=json.dumps({"prompt": "Your prompt here", "maxTokens": 512, "temperature": 0.7})
+    body=json.dumps({
+        "inputText": "Your prompt here",
+        "textGenerationConfig": {
+            "maxTokenCount": 512,
+            "temperature": 0.7,
+            "topP": 0.9
+        }
+    })
 )
+result = json.loads(response["body"].read())
+output_text = result["results"][0]["outputText"]
+```
+
+**Invoke custom model (Meta Llama 3.x):**
+```python
+# Meta Llama 3.x models use prompt / max_gen_len
+response = bedrock_runtime.invoke_model(
+    modelId=custom_model_arn,  # or provisioned throughput ARN
+    body=json.dumps({
+        "prompt": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\nYour prompt here<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+        "max_gen_len": 512,
+        "temperature": 0.7,
+        "top_p": 0.9
+    })
+)
+result = json.loads(response["body"].read())
+output_text = result["generation"]
 ```
 
 ---

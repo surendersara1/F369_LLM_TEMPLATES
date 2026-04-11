@@ -138,7 +138,7 @@ response = bedrock.create_guardrail(
             {"type": "HATE", "inputStrength": CONTENT_FILTER_STRENGTH, "outputStrength": CONTENT_FILTER_STRENGTH},
             {"type": "INSULTS", "inputStrength": CONTENT_FILTER_STRENGTH, "outputStrength": CONTENT_FILTER_STRENGTH},
             {"type": "MISCONDUCT", "inputStrength": CONTENT_FILTER_STRENGTH, "outputStrength": CONTENT_FILTER_STRENGTH},
-            {"type": "PROMPT_ATTACK", "inputStrength": CONTENT_FILTER_STRENGTH, "outputStrength": "NONE"}
+            {"type": "PROMPT_ATTACK", "inputStrength": CONTENT_FILTER_STRENGTH}  # PROMPT_ATTACK is input-only
         ]
     },
     sensitiveInformationPolicyConfig={
@@ -205,7 +205,7 @@ def rag_query_with_guardrails(query: str, guardrail_id: str, kb_id: str):
     # Apply guardrail to INPUT
     input_check = bedrock_runtime.apply_guardrail(
         guardrailIdentifier=guardrail_id, guardrailVersion="1",
-        source="INPUT", content=[{"text": {"text": query}}]
+        source="INPUT", content=[{"text": {"text": query, "qualifiers": ["query"]}}]
     )
     if input_check["action"] == "GUARDRAIL_INTERVENED":
         return {"blocked": True, "reason": "Input blocked by guardrail"}

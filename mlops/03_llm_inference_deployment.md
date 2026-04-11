@@ -193,12 +193,14 @@ Output ALL files for chosen DEPLOYMENT_TYPE with headers: `### FILE: [path]`
 **SageMaker Endpoint:**
 ```python
 from sagemaker.huggingface import HuggingFaceModel
+# NOTE: Verify latest available DLC versions via SageMaker DLC release notes
+# or `aws ecr describe-images --repository-name huggingface-pytorch-inference`
 model = HuggingFaceModel(
     model_data=MODEL_ARTIFACT_S3_PATH,
     role=role_arn,
-    transformers_version="4.37",
-    pytorch_version="2.1",
-    py_version="py310",
+    transformers_version="4.51",
+    pytorch_version="2.6",
+    py_version="py312",
     env={"HF_MODEL_ID": "/opt/ml/model", "SM_NUM_GPUS": "1",
          "MAX_INPUT_LENGTH": str(MAX_INPUT_TOKENS), "MAX_TOTAL_TOKENS": "8192"}
 )
@@ -211,7 +213,9 @@ predictor = model.deploy(
 
 **Inference Components:**
 ```python
-# 1. Create shared endpoint (compute pool)
+# Step 1: Create endpoint config (shared compute pool — no model references)
+# ManagedInstanceScaling and RoutingConfig are set at the ProductionVariant level
+# within CreateEndpointConfig. The endpoint acts as a compute pool for inference components.
 sm_client.create_endpoint_config(
     EndpointConfigName=f"{PROJECT_NAME}-{ENV}-shared-config",
     ExecutionRoleArn=role_arn,
@@ -228,13 +232,19 @@ sm_client.create_endpoint_config(
     }]
 )
 
-# 2. Create inference component per model
+# Step 2: Create endpoint from config
+sm_client.create_endpoint(
+    EndpointName=f"{PROJECT_NAME}-{ENV}-endpoint",
+    EndpointConfigName=f"{PROJECT_NAME}-{ENV}-shared-config"
+)
+
+# Step 3: Create inference component per model (separate from endpoint config)
+# Each component specifies its own model, container, and resource requirements.
 sm_client.create_inference_component(
     InferenceComponentName=f"{PROJECT_NAME}-{model_name}-{ENV}",
     EndpointName=endpoint_name,
     VariantName="shared-compute",
     Specification={
-        "ModelName": model_name,
         "Container": {
             "Image": container_image,
             "ArtifactUrl": model_s3_path
@@ -248,7 +258,7 @@ sm_client.create_inference_component(
     RuntimeConfig={"CopyCount": 1}
 )
 
-# 3. Auto-scale individual component
+# Step 4: Auto-scale individual component
 aas_client.register_scalable_target(
     ServiceNamespace="sagemaker",
     ResourceId=f"inference-component/{component_name}",

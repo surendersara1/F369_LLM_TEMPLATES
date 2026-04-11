@@ -83,7 +83,11 @@ iam/
 ```
 
 **sagemaker_execution_role**: Trust: `sagemaker.amazonaws.com`. Permissions:
-- `sagemaker:*` on project resources (scoped by resource tag or name prefix)
+- `sagemaker:*` on project resources, scoped with IAM condition keys:
+  - `Condition: { "StringEquals": { "aws:ResourceTag/Project": "${PROJECT_NAME}" } }` for actions on existing resources
+  - `Condition: { "StringEquals": { "aws:RequestTag/Project": "${PROJECT_NAME}" } }` for resource creation actions
+  - `Condition: { "StringEquals": { "sagemaker:ResourceTag/Project": "${PROJECT_NAME}" } }` for SageMaker-specific tag-based authorization
+  - Note: Use `aws:ResourceTag` for global tag conditions and `sagemaker:ResourceTag` for SageMaker service-specific condition keys
 - `s3:GetObject/PutObject/ListBucket` on data and artifact buckets
 - `ecr:GetAuthorizationToken/BatchGetImage/GetDownloadUrlForLayer` on project ECR repos
 - `logs:CreateLogGroup/CreateLogStream/PutLogEvents`
@@ -93,7 +97,16 @@ iam/
 
 **codebuild_role**: Trust: `codebuild.amazonaws.com`. Permissions:
 - `sagemaker:CreateTrainingJob/DescribeTrainingJob/CreatePipeline/StartPipelineExecution`
-- `ecr:*` on project repos (for Docker build+push)
+- ECR permissions on project repos (minimum required for Docker build+push):
+  - `ecr:GetAuthorizationToken` (on `Resource: *` — required for registry auth)
+  - `ecr:BatchCheckLayerAvailability`
+  - `ecr:GetDownloadUrlForLayer`
+  - `ecr:BatchGetImage`
+  - `ecr:PutImage`
+  - `ecr:InitiateLayerUpload`
+  - `ecr:UploadLayerPart`
+  - `ecr:CompleteLayerUpload`
+  - Note: Do NOT use `ecr:*` — it includes destructive actions like `ecr:DeleteRepository` and `ecr:DeleteLifecyclePolicy` that CodeBuild should never need
 - `s3:GetObject/PutObject` on artifact/cache buckets
 - `ssm:GetParameter` for config
 - `secretsmanager:GetSecretValue` for tokens
@@ -112,10 +125,26 @@ iam/
 ```
 
 **bedrock_access_role**: Trust: `bedrock.amazonaws.com`. Permissions:
-- `bedrock:InvokeModel/InvokeModelWithResponseStream` on specific model ARNs
-- `bedrock:CreateModelCustomizationJob/GetModelCustomizationJob`
+- Inference actions on specific model ARNs:
+  - `bedrock:InvokeModel`
+  - `bedrock:InvokeModelWithResponseStream`
+- Model customization (fine-tuning) actions:
+  - `bedrock:CreateModelCustomizationJob`
+  - `bedrock:GetModelCustomizationJob`
+  - `bedrock:ListModelCustomizationJobs`
+  - `bedrock:StopModelCustomizationJob`
+  - `bedrock:GetCustomModel`
+  - `bedrock:ListCustomModels`
+- Provisioned throughput actions:
+  - `bedrock:CreateProvisionedModelThroughput`
+  - `bedrock:GetProvisionedModelThroughput`
+  - `bedrock:ListProvisionedModelThroughputs`
+  - `bedrock:UpdateProvisionedModelThroughput`
+- Foundation model discovery:
+  - `bedrock:GetFoundationModel`
+  - `bedrock:ListFoundationModels`
+- Note: Do NOT grant `bedrock:*` — it includes `bedrock:DeleteCustomModel`, `bedrock:DeleteProvisionedModelThroughput`, and `bedrock:DeleteGuardrail` which should not be granted to the service role
 - `s3:GetObject` on training data, `s3:PutObject` on output path
-- `bedrock:CreateProvisionedModelThroughput` (for fine-tuned model deployment)
 
 **cross_account_role**: Trust: specific account IDs. Permissions: scoped to deployment actions (SageMaker endpoint update, ECS service update).
 

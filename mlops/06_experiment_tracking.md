@@ -99,7 +99,7 @@ managed_mlflow/
     └── managed_mlflow_config.py    # Tracking URI from server, artifact location
 ```
 
-**create_tracking_server.py**: Create SageMaker Managed MLflow tracking server using `sagemaker.create_mlflow_tracking_server()`. Zero infrastructure — no ECS, RDS, or ALB to manage. Server launches in ~2 minutes. Auto-scales based on usage. S3 artifact store is auto-configured.
+**create_tracking_server.py**: Create SageMaker Managed MLflow tracking server using `boto3.client("sagemaker").create_mlflow_tracking_server()`. Zero infrastructure — no ECS, RDS, or ALB to manage. Server launches in ~2 minutes. Auto-scales based on usage. S3 artifact store is auto-configured.
 
 **server_lifecycle.py**: Start/stop server to save costs in dev (stopped server costs $0). Resize server (Small → Medium → Large). Export server data for migration.
 
@@ -180,11 +180,12 @@ sm_client.create_mlflow_tracking_server(
     RoleArn=role_arn
 )
 
-# Get tracking URI and use standard MLflow API (identical to self-hosted)
-tracking_uri = sm_client.describe_mlflow_tracking_server(
+# Get tracking server ARN and use it as the tracking URI (requires sagemaker-mlflow plugin)
+# Note: Use the TrackingServerArn (not TrackingServerUrl, which is the MLflow UI URL)
+tracking_server_arn = sm_client.describe_mlflow_tracking_server(
     TrackingServerName=MLFLOW_TRACKING_SERVER_NAME
-)["TrackingServerUrl"]
-mlflow.set_tracking_uri(tracking_uri)
+)["TrackingServerArn"]
+mlflow.set_tracking_uri(tracking_server_arn)
 mlflow.set_experiment(EXPERIMENT_NAME)
 with mlflow.start_run(run_name=f"run-{timestamp}"):
     mlflow.log_params({"learning_rate": lr, "batch_size": bs})

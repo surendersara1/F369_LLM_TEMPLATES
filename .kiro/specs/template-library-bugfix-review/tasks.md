@@ -1,0 +1,51 @@
+# Tasks — Template Library Bugfix Review
+
+## File-by-File Fix Tasks
+
+- [x] 1. Fix `mlops/02_llm_finetuning_pipeline.md` (Bugs 1.1, 1.18)
+  - [x] 1.1 Update HuggingFace Estimator DLC versions: `transformers_version="4.45"`, `pytorch_version="2.5"`, `py_version="py311"` and add note to verify via `aws ecr describe-images`
+  - [x] 1.2 Replace plain-text `environment={"HUGGING_FACE_HUB_TOKEN": hf_token}` with Secrets Manager retrieval pattern inside training script, matching the template's own security requirement
+- [x] 2. Fix `mlops/01_sagemaker_training_pipeline.md` (Bug 1.2)
+  - [x] 2.1 Replace `sagemaker.log_metric()` reference with stdout print pattern (e.g., `print(f"train_loss: {loss}")`) matching `metric_definitions` regex
+- [x] 3. Fix `mlops/06_experiment_tracking.md` (Bugs 1.3, 1.4)
+  - [x] 3.1 Change `sagemaker.create_mlflow_tracking_server()` to `boto3.client("sagemaker").create_mlflow_tracking_server()`
+  - [x] 3.2 Fix `describe_mlflow_tracking_server()` response parsing to match actual boto3 API response schema
+- [x] 4. Fix `iac/03_terraform_bedrock_opensearch_rag.md` (Bugs 1.5, 1.10)
+  - [x] 4.1 Verify and correct Bedrock model ARN format for Claude 3.5 Sonnet v2, add comment about verifying with `aws bedrock list-foundation-models`
+  - [x] 4.2 Add `required_providers` block in providers.tf scaffolding enforcing `aws >= 5.70.0`
+- [x] 5. Fix `mlops/09_bedrock_finetuning.md` (Bugs 1.6, 1.7, 1.8)
+  - [x] 5.1 Replace generic `invoke_model` request body with model-family-specific examples (Titan: `inputText`/`textGenerationConfig`, Llama: `prompt`/`max_gen_len`)
+  - [x] 5.2 Verify fine-tunable model IDs and add note to check `aws bedrock list-foundation-models --by-customization-type FINE_TUNING`
+  - [x] 5.3 Update Llama training data format from Llama 2 `[INST]` template to Llama 3.1 `<|begin_of_text|>` template for Llama 3.x models
+- [x] 6. Fix `mlops/12_bedrock_guardrails_agents.md` (Bugs 1.9, 1.28)
+  - [x] 6.1 Remove `outputStrength` from `PROMPT_ATTACK` filter config (input-only filter)
+  - [x] 6.2 Add `qualifiers` field to `apply_guardrail()` content structure for proper input classification
+- [x] 7. Fix `iac/04_cdk_ecs_llm_inference.md` (Bugs 1.11, 1.26, 1.27)
+  - [x] 7.1 Replace `gpu_count=1` on `add_container()` with correct CDK GPU resource API (`add_resource_requirements` or `LinuxParameters`)
+  - [x] 7.2 Change port 8080 to 8000 across Dockerfile EXPOSE, health check URL, ECS port mapping, and ALB target group
+  - [x] 7.3 Verify port 8000 consistency with `mlops/03_llm_inference_deployment.md`
+- [x] 8. Fix `iac/02_cdk_ml_llm_infrastructure.md` (Bug 1.12)
+  - [x] 8.1 Fix cross-stack reference pattern to use consistent `cdk.Fn.import_value()` or direct stack attribute references with correct Python import paths
+- [x] 9. Fix `cicd/05_bitbucket_pipelines_aws.md` (Bugs 1.13, 1.14)
+  - [x] 9.1 Replace `caches: [docker]` with `services: [docker]` and proper Docker layer caching configuration
+  - [x] 9.2 Fix custom pip cache path from `~/.cache/pip` to absolute path `/root/.cache/pip` or `$HOME/.cache/pip`
+- [x] 10. Fix `cicd/04_github_actions_aws_integration.md` (Bug 1.15)
+  - [x] 10.1 Convert flow-style YAML triggers to block-style and fix `workflow_dispatch` inputs nesting under `on` key
+- [x] 11. Fix `devops/04_iam_roles_policies_mlops.md` (Bugs 1.16, 1.17, 1.19)
+  - [x] 11.1 Add IAM condition keys (`aws:ResourceTag/Project`, `sagemaker:ResourceTag/Project`) to SageMaker execution role policy
+  - [x] 11.2 Replace `ecr:*` with minimum required ECR actions for CodeBuild (GetAuthorizationToken, BatchCheckLayerAvailability, GetDownloadUrlForLayer, BatchGetImage, PutImage, InitiateLayerUpload, UploadLayerPart, CompleteLayerUpload)
+  - [x] 11.3 Replace `bedrock:*` with specific required Bedrock actions (InvokeModel, CreateModelCustomizationJob, GetModelCustomizationJob, etc.) without Delete actions
+- [x] 12. Fix `mlops/04_rag_pipeline.md` (Bugs 1.20, 1.21, 1.30)
+  - [x] 12.1 Change `"engine": "nmslib"` to `"engine": "faiss"` for AOSS VECTORSEARCH collections, add note about nmslib being domain-only
+  - [x] 12.2 Remove `knn.algo_param.ef_search` from AOSS index settings, add note that k-NN params are collection-level
+  - [x] 12.3 Fix JSON boolean `true`/`false` (not Python `True`/`False`) in request body, clarify single-doc-per-call for `invoke_model`, add batch helper pattern
+- [x] 13. Fix `mlops/03_llm_inference_deployment.md` (Bugs 1.22, 1.23, 1.27)
+  - [x] 13.1 Separate endpoint config creation from inference component creation patterns, place `RoutingConfig` at correct API level
+  - [x] 13.2 Update HuggingFaceModel DLC versions to match stated SDK compatibility (`sagemaker-python-sdk: 2.230+`)
+  - [x] 13.3 Verify vLLM port 8000 consistency with `iac/04_cdk_ecs_llm_inference.md`
+- [x] 14. Fix `mlops/05_model_monitoring_drift.md` (Bug 1.25)
+  - [x] 14.1 Change `capture_options=["REQUEST", "RESPONSE"]` to `["Input", "Output"]` in DataCaptureConfig
+- [x] 15. Fix `mlops/00_sagemaker_ai_workspace.md` (Bug 1.24)
+  - [x] 15.1 Update to use `JupyterLabAppSettings` and `CodeEditorAppSettings` for new Studio experience, clarify distinction from Studio Classic `JupyterServerAppSettings`
+- [x] 16. Fix `mlops/07_feature_store.md` (Bug 1.29)
+  - [x] 16.1 Correct `put_record` documentation to single-record API, replace batch reference with `feature_group.ingest()` for batch writes

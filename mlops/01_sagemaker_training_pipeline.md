@@ -110,7 +110,7 @@ Full preprocessing script that:
 Full training script that:
 - Reads processed data from `/opt/ml/input/data/{train,validation}/`
 - Implements model training loop with the specified ML_FRAMEWORK
-- Logs metrics to CloudWatch using `sagemaker.log_metric()`
+- Logs metrics to CloudWatch via stdout print statements matching `metric_definitions` regex patterns (e.g., `print(f"train_loss: {loss}")`, `print(f"val_accuracy: {acc}")`)
 - Saves model artifacts to `/opt/ml/model/`
 - Supports checkpointing for spot instance interruption recovery
 - Includes early stopping logic

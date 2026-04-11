@@ -31,6 +31,8 @@ ENV:                    [REQUIRED - dev | stage | prod]
 VECTOR_DIMENSIONS:      [OPTIONAL: 1536 for Titan v2]
 EMBEDDING_MODEL_ARN:    [OPTIONAL: arn:aws:bedrock:{region}::foundation-model/amazon.titan-embed-text-v2:0]
 GENERATION_MODEL_ARN:   [OPTIONAL: arn:aws:bedrock:{region}::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0]
+                        # NOTE: Verify model ID availability in your region with:
+                        #   aws bedrock list-foundation-models --region {region} --query "modelSummaries[?modelId=='anthropic.claude-3-5-sonnet-20241022-v2:0']"
 
 DOCUMENTS_BUCKET_NAME:  [OPTIONAL: {PROJECT_NAME}-{AWS_ACCOUNT_ID}-{ENV}-documents]
 ENABLE_BEDROCK_KB:      [OPTIONAL: true - create managed Bedrock Knowledge Base]
@@ -82,6 +84,27 @@ terraform-rag/
     └── ingestion_trigger/
         ├── handler.py             # Lambda: S3 event → Bedrock sync
         └── requirements.txt
+```
+
+**providers.tf**:
+```hcl
+terraform {
+  required_version = ">= 1.9.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.70.0"
+      # aws_bedrockagent_knowledge_base and aws_bedrockagent_data_source
+      # require AWS provider >= 5.60.0; AOSS resources require >= 5.24.0.
+      # This template targets >= 5.70.0 for full Bedrock + AOSS support.
+    }
+  }
+}
+
+provider "aws" {
+  region = var.aws_region
+}
 ```
 
 **modules/opensearch-serverless/main.tf**:

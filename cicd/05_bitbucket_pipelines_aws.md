@@ -66,9 +66,12 @@ project_root/
 ```yaml
 image: python:3.11
 
+options:
+  docker: true  # Enable Docker layer caching for build steps
+
 definitions:
   caches:
-    pip: ~/.cache/pip
+    pip: /root/.cache/pip
   steps:
     - step: &test
         name: Test & Lint
@@ -80,7 +83,6 @@ definitions:
     - step: &build-container
         name: Build & Push Docker to ECR
         services: [docker]
-        caches: [docker]
         script:
           - source scripts/aws-auth.sh
           - bash scripts/build-push-ecr.sh

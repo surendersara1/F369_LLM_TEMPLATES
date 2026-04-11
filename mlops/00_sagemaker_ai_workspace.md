@@ -167,31 +167,24 @@ domain_config = {
             "NotebookOutputOption": "Allowed",
             "S3OutputPath": f"s3://{SHARED_DATA_S3_BUCKET}/notebook-outputs/"
         },
-        "JupyterServerAppSettings": {
-            "DefaultResourceSpec": {
-                "InstanceType": "system",
-                "SageMakerImageArn": default_image_arn
-            }
-        },
-        "KernelGatewayAppSettings": {
+        # NOTE: JupyterServerAppSettings and KernelGatewayAppSettings are for
+        # the legacy Studio Classic experience (DefaultLandingUri: "app:JupyterServer:").
+        # For the new Studio experience (DefaultLandingUri: "studio::"), use
+        # JupyterLabAppSettings and CodeEditorAppSettings instead.
+        "JupyterLabAppSettings": {
             "DefaultResourceSpec": {
                 "InstanceType": DEFAULT_INSTANCE_TYPE,
                 "SageMakerImageArn": default_image_arn
             },
-            "CustomImages": custom_image_configs
+            "CustomImages": custom_image_configs,
+            "LifecycleConfigArns": [jupyterlab_lifecycle_arn],
+            "CodeRepositories": git_repo_configs
         },
         "CodeEditorAppSettings": {
             "DefaultResourceSpec": {
                 "InstanceType": DEFAULT_INSTANCE_TYPE
             },
             "LifecycleConfigArns": [code_editor_lifecycle_arn]
-        },
-        "JupyterLabAppSettings": {
-            "DefaultResourceSpec": {
-                "InstanceType": DEFAULT_INSTANCE_TYPE
-            },
-            "LifecycleConfigArns": [jupyterlab_lifecycle_arn],
-            "CodeRepositories": git_repo_configs
         },
         "CanvasAppSettings": {
             "TimeSeriesForecastingSettings": {"Status": "ENABLED"},

@@ -109,7 +109,7 @@ Output ALL files with headers: `### FILE: [path/filename.py]`
 
 **Offline Store:** Append-only in S3 (Parquet). Queryable via Athena through Glue catalog. Use for training dataset generation with point-in-time correctness.
 
-**Ingestion:** Batch: max 500 records per `put_record` batch. Streaming: Lambda with Kinesis trigger, concurrency 10 for dev, 100 for prod.
+**Ingestion:** `put_record` is a single-record API (one record per call). For batch writes, use `feature_group.ingest(df, max_workers=N)` which handles batching internally via multi-threaded `put_record` calls. Streaming: Lambda with Kinesis trigger, concurrency 10 for dev, 100 for prod.
 
 ---
 

@@ -217,7 +217,7 @@ data_capture_config = DataCaptureConfig(
     enable_capture=True,
     sampling_percentage=100,
     destination_s3_uri=capture_s3_path,
-    capture_options=["REQUEST", "RESPONSE"],
+    capture_options=["Input", "Output"],
     csv_content_types=["text/csv"],
     json_content_types=["application/json"]
 )

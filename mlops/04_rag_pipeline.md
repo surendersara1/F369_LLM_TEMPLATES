@@ -143,7 +143,7 @@ custom_rag/
 - Semantic: split on sentence boundaries, merge to size limit
 - Hierarchical: parent (1024 tokens) + child (256 tokens) chunks
 
-**embedder.py**: Batch Bedrock embedding (25 docs/call for Titan), retry with exponential backoff.
+**embedder.py**: Bedrock embedding generation — `invoke_model` processes one document per call. Use a batch helper that loops with rate limiting and exponential backoff for retries.
 
 **opensearch_indexer.py**: AOSS bulk index with knn_vector mapping (HNSW, cosinesimil), upsert by document hash, delete stale docs.
 
@@ -170,7 +170,7 @@ Output ALL files for the chosen RAG_APPROACH with headers:
 
 **Quality:** Chunk metadata must include source_file, page_number, chunk_id, ingestion_timestamp. Dedup by content hash. Citation tracking in responses.
 
-**Performance:** Batch embedding calls (25 docs/call Titan, 96 Cohere). AOSS HNSW: ef_search=512, m=16. Retrieval latency target < 300ms p99.
+**Performance:** Embed via `invoke_model` (1 doc/call Titan — use batch helper with rate limiting; 96 docs/call Cohere via `invoke_model` with `texts` list). AOSS HNSW: m=16 (set in index mapping). Retrieval latency target < 300ms p99.
 
 **Security:** AOSS data access policy locked to Lambda execution role. CloudTrail for all Bedrock API calls. Document-level access control via metadata filtering.
 
@@ -182,13 +182,17 @@ Output ALL files for the chosen RAG_APPROACH with headers:
 
 **AOSS index creation:**
 ```python
+# Note: AOSS VECTORSEARCH collections only support the HNSW algorithm with the "faiss" engine.
+# The "nmslib" engine is only supported on self-managed OpenSearch domains, not AOSS.
+# k-NN algorithm parameters (e.g., ef_search) are managed at the AOSS collection level
+# and cannot be set via index settings — only "index.knn": true is needed.
 index_body = {
-    "settings": {"index": {"knn": True, "knn.algo_param.ef_search": 512}},
+    "settings": {"index": {"knn": True}},
     "mappings": {
         "properties": {
             "embedding": {"type": "knn_vector", "dimension": VECTOR_DIMENSIONS,
                           "method": {"name": "hnsw", "space_type": "cosinesimil",
-                                     "engine": "nmslib", "parameters": {"ef_construction": 512, "m": 16}}},
+                                     "engine": "faiss", "parameters": {"ef_construction": 512, "m": 16}}},
             "text": {"type": "text"},
             "source": {"type": "keyword"},
             "chunk_id": {"type": "keyword"}
@@ -199,11 +203,33 @@ index_body = {
 
 **Bedrock embedding:**
 ```python
+# Note: invoke_model processes ONE document per call (not batch).
+# The JSON request body is: {"inputText": "...", "dimensions": 1536, "normalize": true}
+# json.dumps() handles Python True → JSON true conversion automatically.
+# For batch embedding, call invoke_model in a loop with rate limiting (see helper below).
 response = bedrock_runtime.invoke_model(
     modelId="amazon.titan-embed-text-v2:0",
     body=json.dumps({"inputText": chunk_text, "dimensions": 1536, "normalize": True})
 )
 embedding = json.loads(response["body"].read())["embedding"]
+
+# Batch embedding helper — invoke_model is single-doc, so loop with rate limiting:
+import time
+
+def batch_embed(texts, bedrock_runtime, model_id="amazon.titan-embed-text-v2:0",
+                dimensions=1536, max_rps=10):
+    """Embed a list of texts one at a time with rate limiting.
+    invoke_model only accepts a single inputText per call.
+    """
+    embeddings = []
+    for text in texts:
+        response = bedrock_runtime.invoke_model(
+            modelId=model_id,
+            body=json.dumps({"inputText": text, "dimensions": dimensions, "normalize": True})
+        )
+        embeddings.append(json.loads(response["body"].read())["embedding"])
+        time.sleep(1.0 / max_rps)  # simple rate limiter
+    return embeddings
 ```
 
 **Bedrock Converse:**
