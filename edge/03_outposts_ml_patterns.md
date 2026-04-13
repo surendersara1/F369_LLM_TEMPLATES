@@ -118,7 +118,7 @@ Generate complete AWS Outposts hybrid ML architecture:
 **config.py**: Central configuration dataclass with all parameters. Load from environment variables or CLI args. Validate required fields. Construct resource names using `{PROJECT_NAME}-{component}-{ENV}` convention. Validate that OUTPOST_SUBNET_IDS are non-empty and belong to the specified VPC. Build S3 on Outposts ARN from OUTPOST_ARN and bucket name. Set default CLOUDWATCH_NAMESPACE to `{PROJECT_NAME}/OutpostsML/{ENV}`.
 
 **s3_outposts.py**: Create and configure S3 on Outposts bucket:
-- Call `s3outposts.create_bucket()` with `Bucket` (S3_OUTPOSTS_BUCKET), `OutpostId` (OUTPOST_ID) to create a local S3 bucket on the Outpost
+- Call `s3control.create_bucket()` with `Bucket` (S3_OUTPOSTS_BUCKET), `OutpostId` (OUTPOST_ID) to create a local S3 bucket on the Outpost
 - Create an S3 on Outposts access point using `s3control.create_access_point()` with `Name` (S3_OUTPOSTS_ACCESS_POINT), `Bucket` (S3 on Outposts bucket ARN), `VpcConfiguration` restricting access to VPC_ID
 - Apply access point policy that grants the SageMaker execution role and ECS task role `s3-outposts:GetObject`, `s3-outposts:PutObject`, `s3-outposts:ListBucket`
 - Configure lifecycle rules on the bucket for automatic cleanup of processed data (e.g., delete objects older than 90 days)
@@ -259,11 +259,10 @@ Output ALL files with headers: `### FILE: [path]`
 ```python
 import boto3
 
-s3outposts = boto3.client("s3outposts", region_name=AWS_REGION)
 s3control = boto3.client("s3control", region_name=AWS_REGION)
 
-# Create S3 on Outposts bucket
-bucket_response = s3outposts.create_bucket(
+# Create S3 on Outposts bucket (uses s3control, not s3outposts)
+bucket_response = s3control.create_bucket(
     Bucket=S3_OUTPOSTS_BUCKET,
     OutpostId=OUTPOST_ID,
 )

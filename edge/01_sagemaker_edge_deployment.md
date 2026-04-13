@@ -1,21 +1,26 @@
 <!-- Template Version: 1.0 | boto3: 1.35+ -->
 
-# Template Edge 01 — SageMaker Edge Manager Deployment
+# Template Edge 01 — SageMaker Edge Deployment (Neo + IoT)
+
+> **⚠️ DEPRECATION NOTICE:** SageMaker Edge Manager reached end of life on April 26, 2024. The Edge Manager APIs (`create_device_fleet`, `register_devices`, `create_edge_packaging_job`, `describe_device`) are no longer functional. AWS recommends migrating to **AWS IoT Greengrass V2** (see `edge/02`) for edge deployment and monitoring, or **ONNX Runtime** for cross-platform edge inference. The **SageMaker Neo compilation** APIs (`create_compilation_job`) remain fully supported and are still the recommended approach for model optimization.
+>
+> This template retains Neo compilation as its core value and uses IoT Jobs for OTA delivery. For device fleet management and data capture, use `edge/02` (IoT Greengrass V2) instead of the deprecated Edge Manager fleet APIs.
 
 ## Purpose
-Generate a production-ready SageMaker Edge Manager deployment pipeline: Neo model compilation for target edge platforms, device fleet creation with S3 data capture and IoT role alias authentication, edge packaging jobs, OTA model update workflows via IoT Jobs, Lambda-based edge inference metric aggregation, and CloudWatch fleet monitoring dashboards.
+Generate a production-ready edge ML deployment pipeline: SageMaker Neo model compilation for target edge platforms, OTA model update workflows via IoT Jobs, Lambda-based edge inference metric aggregation, and CloudWatch fleet monitoring dashboards. **Note:** Device fleet management and edge packaging use IoT Greengrass V2 patterns (see `edge/02`) as SageMaker Edge Manager is no longer available.
 
 ---
 
 ## Role Definition
 
-You are an expert AWS edge ML engineer specializing in SageMaker Edge Manager with expertise in:
+You are an expert AWS edge ML engineer specializing in SageMaker Neo and IoT-based edge deployment with expertise in:
 - SageMaker Neo: model compilation for ARM64, x86_64, Android, and iOS target platforms across PyTorch, TensorFlow, and ONNX frameworks
-- Edge Manager: device fleet creation, device registration, edge packaging jobs, S3 data capture configuration
 - IoT Core: role aliases for device authentication, IoT Jobs for OTA model deployment, thing registry management
+- IoT Greengrass V2: component-based edge deployment (preferred over deprecated Edge Manager — see `edge/02`)
 - Edge inference monitoring: S3 event-driven Lambda aggregation, CloudWatch custom metrics for fleet health
-- IAM policies for SageMaker Edge Manager service roles, IoT device roles, and Lambda execution roles
+- IAM policies for SageMaker execution roles, IoT device roles, and Lambda execution roles
 - Model optimization: quantization, pruning, and compilation trade-offs for resource-constrained edge devices
+- **Note:** SageMaker Edge Manager (device fleets, edge packaging) reached EOL April 2024. This template focuses on Neo compilation + IoT Jobs OTA. For full device fleet management, use `edge/02` (IoT Greengrass V2).
 
 Generate complete, production-deployable code.
 
@@ -599,6 +604,8 @@ print(f"Dashboard created: {dashboard_name}")
 ---
 
 ## Requirements & Constraints
+
+**DEPRECATION:** SageMaker Edge Manager APIs (`create_device_fleet`, `register_devices`, `create_edge_packaging_job`, `describe_device`, `deregister_devices`) are no longer available as of April 26, 2024. The fleet management and edge packaging code in this template is preserved for reference only. Use IoT Greengrass V2 (`edge/02`) for device fleet management and model deployment. SageMaker Neo compilation (`create_compilation_job`) remains fully supported.
 
 **Compilation:** SageMaker Neo supports specific framework versions per target platform. Verify compatibility in the [Neo supported frameworks documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/neo-supported-devices-edge-frameworks.html). Compilation jobs can take 5–15 minutes depending on model size. Use `ml.c5.4xlarge` or larger for compilation instances.
 
