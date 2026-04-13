@@ -179,6 +179,46 @@ Step 12: finops/05_finops_dashboards_ml.md
          → Outputs: Cost-per-inference dashboards, budget alerts
 ```
 
+### Example: Strands Agent Workflow — SOP Authoring → Deployment → Multi-Agent → Observability → Guardrails
+
+This chain builds a complete Strands agent system from SOP authoring through production deployment with observability and guardrails:
+
+```
+Step 1:  devops/04_iam_roles_policies_mlops.md
+         → Outputs: IAM role ARNs for Lambda execution, Bedrock access,
+                    AgentCore service role, DynamoDB session table access
+
+Step 2:  mlops/23_agent_sop_authoring.md
+         (uses IAM roles from step 1 for SOP loader permissions)
+         → Outputs: Agent SOP markdown files with RFC 2119 keywords,
+                    parameterized workflows, SOP loader/validator scripts
+
+Step 3:  mlops/24_bedrock_prompt_management.md
+         (uses SOPs from step 2 as managed prompt templates)
+         → Outputs: Versioned prompts in Bedrock Prompt Management,
+                    A/B testing variants, Flows integration config
+
+Step 4:  mlops/20_strands_agent_lambda_deployment.md
+         (uses IAM roles from step 1, SOPs from step 2, prompts from step 3)
+         → Outputs: CDK stack with Lambda + API Gateway + DynamoDB,
+                    Strands Agent with BedrockModel + MCP tools
+
+Step 5:  mlops/21_strands_multi_agent_patterns.md
+         (uses deployed agent from step 4 as base agent)
+         → Outputs: Graph/Swarm/Workflow multi-agent orchestration,
+                    shared state management, A2A protocol integration
+
+Step 6:  devops/15_strands_agent_observability.md
+         (uses deployed agents from steps 4-5)
+         → Outputs: OTel tracing for agent loops and tool calls,
+                    CloudWatch dashboards, latency alarms
+
+Step 7:  devops/16_agent_guardrails_control.md
+         (uses deployed agents from steps 4-5, observability from step 6)
+         → Outputs: Agent Control YAML config, Bedrock Guardrails integration,
+                    tool consent policies, prompt injection defense
+```
+
 ---
 
 ## 5. Environment-Specific Overrides
@@ -302,12 +342,17 @@ If AWS services update their APIs, regenerate using the latest template version.
 | Bedrock invocation logging costs | Log to S3 (not CloudWatch Logs) for high-volume workloads; use lifecycle rules on the logging bucket (`devops/12`) |
 | Edge device connectivity gaps | Design for offline inference with local model cache; sync results when connectivity resumes (`edge/01`, `edge/02`) |
 | Model compilation compatibility on edge | Verify target device hardware against SageMaker Neo supported frameworks and chip architectures before compiling (`edge/01`) |
+| Strands Lambda layer cold start | Use provisioned concurrency for prod; keep Lambda layer under 250 MB unzipped; pre-initialize Agent outside handler (`mlops/20`) |
+| MCP server connection timeout | Set MCP client timeout to 30s+; implement connection retry with backoff; validate MCP server URI before agent init (`mlops/20`, `mlops/21`) |
+| Agent Control fail-closed behavior | Agent Control denies by default when config is missing — always deploy `agent_control.yaml` before agent code; test deny rules in dev first (`devops/16`) |
+| AgentCore session state loss | Configure session TTL and persistence; use health checks to detect endpoint drift; implement session recovery on `FAILED` status (`mlops/22`) |
+| Multi-agent cascading failures | Set per-agent timeouts and fallback routing; isolate agent failures with circuit breakers; avoid unbounded recursive agent calls (`mlops/21`) |
 
 ---
 
 ## 12. Template Interaction Map
 
-67 templates across 8 directories organized into 10 layers:
+74 templates across 8 directories organized into 10 layers:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -348,13 +393,23 @@ If AWS services update their APIs, regenerate using the latest template version.
 │  09 Bedrock Fine-tuning · 10 Model Registry · 11 Governance               │
 │  12 Guardrails & Agents · 13 Continuous Training                           │
 │                                                                             │
-│  New AI/ML Gaps (mlops/14-19):                                             │
+│  AI/ML Gaps (mlops/14-19):                                                 │
 │  14 Bedrock Agents  ──► mlops/16 Flows, devops/10 OpenTelemetry            │
 │  15 Multimodal Pipelines                                                   │
 │  16 Bedrock Flows  ◄── mlops/14 Agents                                     │
 │  17 LLM Evaluation  ──► mlops/10 Registry, enterprise/05 Central Registry  │
 │  18 Prompt Caching                                                         │
 │  19 Marketplace Models                                                     │
+│                                                                             │
+│  Strands Agents (mlops/20-24):                                             │
+│  20 Strands Lambda Deploy  ◄── mlops/23 SOPs, mlops/24 Prompt Mgmt        │
+│     ──► mlops/21 Multi-Agent, devops/15 Observability, devops/16 Guardrails│
+│  21 Multi-Agent Patterns  ◄── mlops/20 Lambda, devops/15 Observability     │
+│  22 AgentCore Deploy  ──► devops/15 Observability, devops/16 Guardrails    │
+│  23 Agent SOP Authoring  ──► mlops/20 Lambda, mlops/21 Multi-Agent,        │
+│     mlops/24 Prompt Mgmt                                                   │
+│  24 Bedrock Prompt Mgmt  ──► mlops/20 Lambda, mlops/16 Flows, mlops/17    │
+│     Evaluation, mlops/23 SOPs                                              │
 └──────────┬──────────────────────────────────────────────────────────────────┘
            │
            ▼
@@ -365,6 +420,10 @@ If AWS services update their APIs, regenerate using the latest template version.
 │  devops/12 Bedrock Invocation Logging  ──► devops/13, finops/01            │
 │  devops/13 Cost-per-Inference Dashboards  ◄── devops/10, devops/12         │
 │  devops/14 Clarify Real-Time Bias Monitoring                               │
+│  devops/15 Strands Agent Observability  ◄── devops/10, devops/03           │
+│     ──► mlops/20 Lambda, mlops/22 AgentCore                               │
+│  devops/16 Agent Guardrails & Control  ◄── mlops/12 Bedrock Guardrails     │
+│     ──► devops/15 Observability, mlops/20 Lambda, mlops/22 AgentCore       │
 └──────────┬──────────────────────────────────────────────────────────────────┘
            │
            ▼
@@ -417,7 +476,13 @@ KEY CROSS-LAYER REFERENCES:
   mlops/14 (Agents)        ──► mlops/16, devops/10
   mlops/17 (Evaluation)    ──► mlops/10, enterprise/05
   enterprise/05 (Registry) ──► enterprise/02, mlops/03
-  devops/10 (OpenTelemetry)──► devops/13, devops/11
+  devops/10 (OpenTelemetry)──► devops/13, devops/11, devops/15
   devops/12 (Bedrock Logs) ──► devops/13, finops/01
   finops/01 (Cost Alloc)   ──► finops/05, devops/13
+  mlops/20 (Strands Lambda)──► mlops/21, devops/15, devops/16
+  mlops/22 (AgentCore)     ──► devops/15, devops/16
+  mlops/23 (Agent SOPs)    ──► mlops/20, mlops/21, mlops/24
+  mlops/24 (Prompt Mgmt)   ──► mlops/20, mlops/16, mlops/17
+  devops/15 (Agent Obs)    ──► mlops/20, mlops/22
+  devops/16 (Agent Guard)  ──► devops/15, mlops/20, mlops/22
 ```

@@ -6,7 +6,7 @@ F369_LLM_TEMPLATES/
 ├── PROMPT_GUIDE.md                               How to use templates effectively
 ├── Library.md                                    This file — full library overview
 │
-├── mlops/                                        (20 templates)
+├── mlops/                                        (25 templates)
 │   ├── 00_sagemaker_ai_workspace                 **DEPLOY FIRST** SageMaker Domain + Studio + Users + Canvas + JumpStart
 │   ├── 01_sagemaker_training_pipeline            ML training pipeline
 │   ├── 02_llm_finetuning_pipeline                LoRA/QLoRA fine-tuning
@@ -26,7 +26,12 @@ F369_LLM_TEMPLATES/
 │   ├── 16_bedrock_flows_orchestration            Bedrock Flows visual DAG orchestration
 │   ├── 17_llm_evaluation_pipeline                LLM eval metrics + A/B testing + human-in-the-loop
 │   ├── 18_prompt_caching_patterns                Bedrock prompt caching + semantic cache + DynamoDB cache
-│   └── 19_bedrock_marketplace_models             Marketplace model deployment + provisioned throughput + cross-region inference
+│   ├── 19_bedrock_marketplace_models             Marketplace model deployment + provisioned throughput + cross-region inference
+│   ├── 20_strands_agent_lambda_deployment        Strands Agent Lambda + CDK + MCP tools + conversation management
+│   ├── 21_strands_multi_agent_patterns           Graph/Swarm/Workflow multi-agent orchestration
+│   ├── 22_strands_agentcore_deployment           AgentCore Runtime + identity + auto-scaling
+│   ├── 23_agent_sop_authoring                    Agent SOP markdown authoring with RFC 2119 keywords
+│   └── 24_bedrock_prompt_management              Bedrock Prompt Management API lifecycle + A/B testing
 │
 ├── cicd/                                         (5 templates)
 │   ├── 01_codebuild_ml_training                  buildspec.yml for ML
@@ -41,7 +46,7 @@ F369_LLM_TEMPLATES/
 │   ├── 03_terraform_bedrock_opensearch            Terraform RAG infra
 │   └── 04_cdk_ecs_llm_inference                  CDK ECS + vLLM/TGI
 │
-├── devops/                                       (14 templates)
+├── devops/                                       (16 templates)
 │   ├── 01_ecr_ml_docker                          Dockerfiles + ECR
 │   ├── 02_vpc_networking_ml                      VPC + PrivateLink
 │   ├── 03_cloudwatch_monitoring                  Dashboards + alarms + Slack
@@ -55,7 +60,9 @@ F369_LLM_TEMPLATES/
 │   ├── 11_custom_cloudwatch_model_quality         Custom CloudWatch metrics for model quality + anomaly detection
 │   ├── 12_bedrock_invocation_logging             Bedrock invocation logging + Athena queries + Logs Insights
 │   ├── 13_cost_per_inference_dashboards          Cost-per-inference tracking + per-customer metering
-│   └── 14_clarify_realtime_bias_monitoring       SageMaker Clarify real-time bias + explainability monitoring
+│   ├── 14_clarify_realtime_bias_monitoring       SageMaker Clarify real-time bias + explainability monitoring
+│   ├── 15_strands_agent_observability            Agent OTel tracing + CloudWatch metrics + dashboards
+│   └── 16_agent_guardrails_control               Agent Control + Bedrock Guardrails + consent + defense
 │
 ├── data/                                         (5 templates)
 │   ├── 01_glue_etl_ml_features                   Glue ETL PySpark feature engineering + data quality
@@ -84,7 +91,7 @@ F369_LLM_TEMPLATES/
     └── 03_outposts_ml_patterns                    Outposts local ML training + inference + DataSync
 ```
 
-**Total: 61 template files** across 8 categories.
+**Total: 74 template files** across 8 categories.
 
 ---
 
@@ -152,3 +159,8 @@ See [PROMPT_GUIDE.md](./PROMPT_GUIDE.md) for chaining templates and advanced usa
 ### Phase 10 — CI/CD Pipelines
 31. `cicd/03` (CodePipeline) → `cicd/01` (CodeBuild) → `cicd/02` (CodeDeploy)
 32. `cicd/04` (GitHub Actions) or `cicd/05` (Bitbucket Pipelines)
+
+### Phase 11 — Strands Agents
+33. `devops/04` (IAM) → `mlops/23` (Agent SOP Authoring) → `mlops/24` (Bedrock Prompt Management)
+34. `mlops/20` (Strands Lambda Deployment) or `mlops/22` (AgentCore Deployment)
+35. `mlops/21` (Multi-Agent Patterns) → `devops/15` (Agent Observability) → `devops/16` (Agent Guardrails & Control)

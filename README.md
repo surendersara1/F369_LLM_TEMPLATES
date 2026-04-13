@@ -1,6 +1,6 @@
 # F369 — AWS MLOps & AI/LLM CI/CD Prompt Template Library
 
-A curated collection of **67 LLM prompt templates** across **8 directories** for generating production-ready AWS infrastructure code. Feed any template to Claude (or another capable LLM) to get fully deployable code for MLOps pipelines, LLM inference, data engineering, security, FinOps, enterprise governance, observability, edge deployment, CI/CD, and IaC.
+A curated collection of **74 LLM prompt templates** across **8 directories** for generating production-ready AWS infrastructure code. Feed any template to Claude (or another capable LLM) to get fully deployable code for MLOps pipelines, LLM inference, data engineering, security, FinOps, enterprise governance, observability, edge deployment, CI/CD, and IaC.
 
 ---
 
@@ -41,6 +41,11 @@ See **[PROMPT_GUIDE.md](./PROMPT_GUIDE.md)** for advanced usage, chaining templa
 | 17 | [mlops/17_llm_evaluation_pipeline.md](./mlops/17_llm_evaluation_pipeline.md) | LLM evaluation: ROUGE/BLEU/BERTScore, Bedrock Model Evaluation, human-in-the-loop, A/B testing |
 | 18 | [mlops/18_prompt_caching_patterns.md](./mlops/18_prompt_caching_patterns.md) | Prompt caching: Bedrock native caching, ElastiCache semantic cache, DynamoDB exact-match cache |
 | 19 | [mlops/19_bedrock_marketplace_models.md](./mlops/19_bedrock_marketplace_models.md) | Bedrock Marketplace models, provisioned throughput, cross-region inference profiles |
+| 20 | [mlops/20_strands_agent_lambda_deployment.md](./mlops/20_strands_agent_lambda_deployment.md) | Strands Agent Lambda + CDK + MCP tools + conversation management |
+| 21 | [mlops/21_strands_multi_agent_patterns.md](./mlops/21_strands_multi_agent_patterns.md) | Graph/Swarm/Workflow multi-agent orchestration with Strands community tools |
+| 22 | [mlops/22_strands_agentcore_deployment.md](./mlops/22_strands_agentcore_deployment.md) | AgentCore Runtime deployment + identity integration + auto-scaling |
+| 23 | [mlops/23_agent_sop_authoring.md](./mlops/23_agent_sop_authoring.md) | Agent SOP markdown authoring with RFC 2119 keywords + chaining |
+| 24 | [mlops/24_bedrock_prompt_management.md](./mlops/24_bedrock_prompt_management.md) | Bedrock Prompt Management API lifecycle + A/B testing + Flows integration |
 
 ### CI/CD Pipelines
 
@@ -79,6 +84,8 @@ See **[PROMPT_GUIDE.md](./PROMPT_GUIDE.md)** for advanced usage, chaining templa
 | 12 | [devops/12_bedrock_invocation_logging.md](./devops/12_bedrock_invocation_logging.md) | Bedrock invocation logging: CloudWatch Logs + S3 + Athena queries for usage analysis |
 | 13 | [devops/13_cost_per_inference_dashboards.md](./devops/13_cost_per_inference_dashboards.md) | Cost-per-inference dashboards: metric math, per-customer tracking, QuickSight analysis |
 | 14 | [devops/14_clarify_realtime_bias_monitoring.md](./devops/14_clarify_realtime_bias_monitoring.md) | SageMaker Clarify real-time bias monitoring: explainability, bias drift, scheduled checks |
+| 15 | [devops/15_strands_agent_observability.md](./devops/15_strands_agent_observability.md) | Strands Agent OTel tracing + CloudWatch metrics + dashboards |
+| 16 | [devops/16_agent_guardrails_control.md](./devops/16_agent_guardrails_control.md) | Agent Control + Bedrock Guardrails + consent + defense |
 
 ### Data Engineering
 
@@ -151,6 +158,12 @@ See **[PROMPT_GUIDE.md](./PROMPT_GUIDE.md)** for advanced usage, chaining templa
 │  S3 Lifecycle (data/04)           │  │(02, 09)  │ Agents   │ Store(07)│     │
 │  EventBridge Orch (data/05)       │  │          │(14,16)   │          │     │
 │                                    │  └──────────┴──────────┴──────────┘     │
+│                                    │                                          │
+│                                    │  ┌─ Strands Agents ──────────────────┐  │
+│                                    │  │ SOP (23) → Prompt Mgmt (24)       │  │
+│                                    │  │ Lambda (20) / AgentCore (22)      │  │
+│                                    │  │ Multi-Agent (21)                  │  │
+│                                    │  └───────────────────────────────────┘  │
 └────────────────────────────────────┴─────────────────────────────────────────┘
                                │
               ┌────────────────┴────────────────┐
@@ -169,6 +182,7 @@ See **[PROMPT_GUIDE.md](./PROMPT_GUIDE.md)** for advanced usage, chaining templa
 │                        Observability Layer                                    │
 │  OpenTelemetry (devops/10) | Custom Metrics (11) | Bedrock Logging (12)     │
 │  Cost-per-Inference (13) | Clarify Bias Monitoring (14)                     │
+│  Agent Observability (devops/15) | Agent Guardrails & Control (devops/16)   │
 └──────────────────────────────────────────────────────────────────────────────┘
               │
               ▼
@@ -213,16 +227,17 @@ See **[PROMPT_GUIDE.md](./PROMPT_GUIDE.md)** for advanced usage, chaining templa
 8. **Model lifecycle**: `mlops/06` (Experiments) → `mlops/10` (Registry) → `mlops/05` (Monitoring)
 9. **LLM specifics**: `mlops/02` (Fine-tuning) → `mlops/09` (Bedrock) → `mlops/04` (RAG)
 10. **Agentic AI**: `mlops/12` (Guardrails) → `mlops/14` (Bedrock Agents) → `mlops/16` (Bedrock Flows)
-11. **Multimodal + Marketplace**: `mlops/15` (Multimodal Pipelines) → `mlops/19` (Marketplace Models)
-12. **Serving**: `mlops/03` (Inference) or `iac/04` (ECS) → `mlops/18` (Prompt Caching)
-13. **Evaluation + Governance**: `mlops/17` (LLM Evaluation) → `mlops/11` (Governance + Responsible AI)
-14. **Continuous training**: `mlops/13` (Drift-triggered retraining) → `data/05` (EventBridge ML Orchestration)
-15. **Cross-account deployment**: `enterprise/02` (Cross-Account) → `enterprise/05` (Centralized Registry)
-16. **Observability**: `devops/10` (OpenTelemetry) → `devops/11` (Custom Metrics) → `devops/12` (Bedrock Logging) → `devops/14` (Clarify Bias)
-17. **Security operations**: `devops/06` (GuardDuty + Security Hub) → `devops/07` (Macie PII)
-18. **FinOps**: `finops/01` (Cost Allocation) → `finops/02` (Spot) → `finops/03` (Savings Plans) → `finops/04` (Inference Cost Opt) → `finops/05` (Dashboards) → `devops/13` (Cost-per-Inference)
-19. **CI/CD**: `cicd/03` (CodePipeline) → `cicd/04` (GitHub) or `cicd/05` (Bitbucket)
-20. **Edge / Hybrid** (if needed): `edge/01` (SageMaker Edge) → `edge/02` (IoT Greengrass) → `edge/03` (Outposts)
+11. **Strands Agents**: `mlops/23` (Agent SOPs) → `mlops/24` (Prompt Management) → `mlops/20` (Strands Lambda) or `mlops/22` (AgentCore) → `mlops/21` (Multi-Agent) → `devops/15` (Agent Observability) → `devops/16` (Agent Guardrails & Control)
+12. **Multimodal + Marketplace**: `mlops/15` (Multimodal Pipelines) → `mlops/19` (Marketplace Models)
+13. **Serving**: `mlops/03` (Inference) or `iac/04` (ECS) → `mlops/18` (Prompt Caching)
+14. **Evaluation + Governance**: `mlops/17` (LLM Evaluation) → `mlops/11` (Governance + Responsible AI)
+15. **Continuous training**: `mlops/13` (Drift-triggered retraining) → `data/05` (EventBridge ML Orchestration)
+16. **Cross-account deployment**: `enterprise/02` (Cross-Account) → `enterprise/05` (Centralized Registry)
+17. **Observability**: `devops/10` (OpenTelemetry) → `devops/11` (Custom Metrics) → `devops/12` (Bedrock Logging) → `devops/14` (Clarify Bias)
+18. **Security operations**: `devops/06` (GuardDuty + Security Hub) → `devops/07` (Macie PII)
+19. **FinOps**: `finops/01` (Cost Allocation) → `finops/02` (Spot) → `finops/03` (Savings Plans) → `finops/04` (Inference Cost Opt) → `finops/05` (Dashboards) → `devops/13` (Cost-per-Inference)
+20. **CI/CD**: `cicd/03` (CodePipeline) → `cicd/04` (GitHub) or `cicd/05` (Bitbucket)
+21. **Edge / Hybrid** (if needed): `edge/01` (SageMaker Edge) → `edge/02` (IoT Greengrass) → `edge/03` (Outposts)
 
 ---
 
