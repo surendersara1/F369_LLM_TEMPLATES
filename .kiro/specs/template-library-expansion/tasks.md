@@ -220,97 +220,97 @@
 
 ## Observability (devops/10-14)
 
-- [ ] 27. Create `devops/10_opentelemetry_ml_tracing.md`
-  - [ ] 27.1 Write template version comment, title, purpose, and role definition for OpenTelemetry distributed tracing and ML observability expertise
-  - [ ] 27.2 Write Context & Inputs section with parameters: DEPLOYMENT_MODE (lambda_layer/ecs_sidecar), COLLECTOR_CONFIG, TRACE_GROUP_NAME, CUSTOM_SPAN_ATTRIBUTES (JSON), LATENCY_THRESHOLD_MS, EXPORT_DESTINATION (xray)
-  - [ ] 27.3 Write Task section with directory tree and file-by-file instructions: ADOT Collector configuration (Lambda layer or ECS sidecar), instrumented Lambda function with custom spans (request parsing, model invocation, response formatting, guardrail evaluation), X-Ray trace group with ML filter expressions, custom span attributes for ML metadata (model.id, latency_ms, tokens), X-Ray Insights notification for latency threshold, trace analysis utility (p50/p95/p99)
-  - [ ] 27.4 Write Code Scaffolding Hints with working OpenTelemetry instrumentation code for `bedrock_runtime.invoke_model()` and `sagemaker_runtime.invoke_endpoint()`, ADOT collector YAML config, `xray.create_group()`, `xray.get_trace_summaries()` calls
-  - [ ] 27.5 Write Integration Points referencing upstream `devops/04` (IAM), `mlops/03` (inference endpoints), `mlops/14` (Bedrock Agents) and downstream `devops/13` (cost-per-inference), `devops/11` (custom metrics)
-  - [ ] 27.6 Write Requirements & Constraints and Output Format sections
+- [x] 27. Create `devops/10_opentelemetry_ml_tracing.md`
+  - [x] 27.1 Write template version comment, title, purpose, and role definition for OpenTelemetry distributed tracing and ML observability expertise
+  - [x] 27.2 Write Context & Inputs section with parameters: DEPLOYMENT_MODE (lambda_layer/ecs_sidecar), COLLECTOR_CONFIG, TRACE_GROUP_NAME, CUSTOM_SPAN_ATTRIBUTES (JSON), LATENCY_THRESHOLD_MS, EXPORT_DESTINATION (xray)
+  - [x] 27.3 Write Task section with directory tree and file-by-file instructions: ADOT Collector configuration (Lambda layer or ECS sidecar), instrumented Lambda function with custom spans (request parsing, model invocation, response formatting, guardrail evaluation), X-Ray trace group with ML filter expressions, custom span attributes for ML metadata (model.id, latency_ms, tokens), X-Ray Insights notification for latency threshold, trace analysis utility (p50/p95/p99)
+  - [x] 27.4 Write Code Scaffolding Hints with working OpenTelemetry instrumentation code for `bedrock_runtime.invoke_model()` and `sagemaker_runtime.invoke_endpoint()`, ADOT collector YAML config, `xray.create_group()`, `xray.get_trace_summaries()` calls
+  - [x] 27.5 Write Integration Points referencing upstream `devops/04` (IAM), `mlops/03` (inference endpoints), `mlops/14` (Bedrock Agents) and downstream `devops/13` (cost-per-inference), `devops/11` (custom metrics)
+  - [x] 27.6 Write Requirements & Constraints and Output Format sections
 
-- [ ] 28. Create `devops/11_custom_cloudwatch_model_quality.md`
-  - [ ] 28.1 Write template version comment, title, purpose, and role definition for CloudWatch custom metrics and ML model quality monitoring expertise
-  - [ ] 28.2 Write Context & Inputs section with parameters: ENDPOINT_NAMES (list), METRIC_NAMESPACE, METRICS_TO_PUBLISH (tokens_per_second/latency_percentiles/error_rate/embedding_similarity), ANOMALY_DETECTION_ENABLED, DASHBOARD_NAME
-  - [ ] 28.3 Write Task section with directory tree and file-by-file instructions: custom metric publishing code (tokens/sec, latency p50/p95/p99, error rate, embedding cosine similarity), metric math expressions (cost per 1K tokens, error rate %, throughput efficiency), anomaly detection models, metric publishing Lambda from CloudWatch Logs, anomaly breach alarm + SNS, dashboard with all custom metrics by endpoint and model version
-  - [ ] 28.4 Write Code Scaffolding Hints with working `cloudwatch.put_metric_data()` with statistic sets, `put_anomaly_detector()`, metric math expression syntax, Lambda log parsing patterns
-  - [ ] 28.5 Write Integration Points referencing upstream `devops/04` (IAM), `mlops/03` (inference endpoints), `devops/03` (CloudWatch base) and downstream `devops/13` (cost-per-inference), `finops/05` (dashboards), `devops/14` (Clarify bias)
-  - [ ] 28.6 Write Requirements & Constraints and Output Format sections
+- [x] 28. Create `devops/11_custom_cloudwatch_model_quality.md`
+  - [x] 28.1 Write template version comment, title, purpose, and role definition for CloudWatch custom metrics and ML model quality monitoring expertise
+  - [x] 28.2 Write Context & Inputs section with parameters: ENDPOINT_NAMES (list), METRIC_NAMESPACE, METRICS_TO_PUBLISH (tokens_per_second/latency_percentiles/error_rate/embedding_similarity), ANOMALY_DETECTION_ENABLED, DASHBOARD_NAME
+  - [x] 28.3 Write Task section with directory tree and file-by-file instructions: custom metric publishing code (tokens/sec, latency p50/p95/p99, error rate, embedding cosine similarity), metric math expressions (cost per 1K tokens, error rate %, throughput efficiency), anomaly detection models, metric publishing Lambda from CloudWatch Logs, anomaly breach alarm + SNS, dashboard with all custom metrics by endpoint and model version
+  - [x] 28.4 Write Code Scaffolding Hints with working `cloudwatch.put_metric_data()` with statistic sets, `put_anomaly_detector()`, metric math expression syntax, Lambda log parsing patterns
+  - [x] 28.5 Write Integration Points referencing upstream `devops/04` (IAM), `mlops/03` (inference endpoints), `devops/03` (CloudWatch base) and downstream `devops/13` (cost-per-inference), `finops/05` (dashboards), `devops/14` (Clarify bias)
+  - [x] 28.6 Write Requirements & Constraints and Output Format sections
 
-- [ ] 29. Create `devops/12_bedrock_invocation_logging.md`
-  - [ ] 29.1 Write template version comment, title, purpose, and role definition for Bedrock observability and invocation log analysis expertise
-  - [ ] 29.2 Write Context & Inputs section with parameters: LOG_DESTINATIONS (cloudwatch_logs/s3), S3_LOG_BUCKET, ATHENA_DATABASE, LOG_RETENTION_DAYS, ALERT_ERROR_RATE_THRESHOLD, FAILOVER_ENABLED
-  - [ ] 29.3 Write Task section with directory tree and file-by-file instructions: Bedrock invocation logging configuration (CloudWatch Logs + S3), Athena table DDL and named queries (invocations by model, avg latency, token distribution, error rate), cost-per-invocation tracking joining logs with pricing, CloudWatch Logs Insights query library, error rate alarm with optional model failover Lambda, S3 lifecycle rules for log archival
-  - [ ] 29.4 Write Code Scaffolding Hints with working `bedrock.put_model_invocation_logging_configuration()`, Athena CREATE TABLE DDL for Bedrock log schema, CloudWatch Logs Insights query syntax, S3 lifecycle rule JSON
-  - [ ] 29.5 Write Integration Points referencing upstream `devops/04` (IAM), `mlops/12` (Guardrails logging) and downstream `devops/13` (cost-per-inference), `finops/01` (cost data), `finops/05` (dashboards)
-  - [ ] 29.6 Write Requirements & Constraints and Output Format sections
+- [x] 29. Create `devops/12_bedrock_invocation_logging.md`
+  - [x] 29.1 Write template version comment, title, purpose, and role definition for Bedrock observability and invocation log analysis expertise
+  - [x] 29.2 Write Context & Inputs section with parameters: LOG_DESTINATIONS (cloudwatch_logs/s3), S3_LOG_BUCKET, ATHENA_DATABASE, LOG_RETENTION_DAYS, ALERT_ERROR_RATE_THRESHOLD, FAILOVER_ENABLED
+  - [x] 29.3 Write Task section with directory tree and file-by-file instructions: Bedrock invocation logging configuration (CloudWatch Logs + S3), Athena table DDL and named queries (invocations by model, avg latency, token distribution, error rate), cost-per-invocation tracking joining logs with pricing, CloudWatch Logs Insights query library, error rate alarm with optional model failover Lambda, S3 lifecycle rules for log archival
+  - [x] 29.4 Write Code Scaffolding Hints with working `bedrock.put_model_invocation_logging_configuration()`, Athena CREATE TABLE DDL for Bedrock log schema, CloudWatch Logs Insights query syntax, S3 lifecycle rule JSON
+  - [x] 29.5 Write Integration Points referencing upstream `devops/04` (IAM), `mlops/12` (Guardrails logging) and downstream `devops/13` (cost-per-inference), `finops/01` (cost data), `finops/05` (dashboards)
+  - [x] 29.6 Write Requirements & Constraints and Output Format sections
 
-- [ ] 30. Create `devops/13_cost_per_inference_dashboards.md`
-  - [ ] 30.1 Write template version comment, title, purpose, and role definition for inference cost analytics and per-customer cost allocation expertise
-  - [ ] 30.2 Write Context & Inputs section with parameters: ENDPOINTS_TO_TRACK (list), BEDROCK_MODELS_TO_TRACK (list), CUSTOMER_TRACKING_ENABLED, QUICKSIGHT_ENABLED, COST_ALERT_THRESHOLD, REPORT_FREQUENCY
-  - [ ] 30.3 Write Task section with directory tree and file-by-file instructions: CloudWatch dashboard with per-model cost-per-inference metric math, DynamoDB per-customer cost allocation table + Lambda processor, QuickSight analysis (cost trends, model comparison, per-customer breakdown, margin analysis), cost alerting alarms, automatic registration for new endpoints, monthly CSV cost report generator
-  - [ ] 30.4 Write Code Scaffolding Hints with working CloudWatch metric math (cost/invocations), DynamoDB table schema and Lambda update function, `quicksight.create_analysis()`, CSV report generation code
-  - [ ] 30.5 Write Integration Points referencing upstream `devops/11` (custom metrics), `devops/12` (Bedrock logging), `finops/04` (inference cost optimization) and downstream `finops/05` (FinOps dashboards), `finops/01` (cost allocation)
-  - [ ] 30.6 Write Requirements & Constraints and Output Format sections
+- [x] 30. Create `devops/13_cost_per_inference_dashboards.md`
+  - [x] 30.1 Write template version comment, title, purpose, and role definition for inference cost analytics and per-customer cost allocation expertise
+  - [x] 30.2 Write Context & Inputs section with parameters: ENDPOINTS_TO_TRACK (list), BEDROCK_MODELS_TO_TRACK (list), CUSTOMER_TRACKING_ENABLED, QUICKSIGHT_ENABLED, COST_ALERT_THRESHOLD, REPORT_FREQUENCY
+  - [x] 30.3 Write Task section with directory tree and file-by-file instructions: CloudWatch dashboard with per-model cost-per-inference metric math, DynamoDB per-customer cost allocation table + Lambda processor, QuickSight analysis (cost trends, model comparison, per-customer breakdown, margin analysis), cost alerting alarms, automatic registration for new endpoints, monthly CSV cost report generator
+  - [x] 30.4 Write Code Scaffolding Hints with working CloudWatch metric math (cost/invocations), DynamoDB table schema and Lambda update function, `quicksight.create_analysis()`, CSV report generation code
+  - [x] 30.5 Write Integration Points referencing upstream `devops/11` (custom metrics), `devops/12` (Bedrock logging), `finops/04` (inference cost optimization) and downstream `finops/05` (FinOps dashboards), `finops/01` (cost allocation)
+  - [x] 30.6 Write Requirements & Constraints and Output Format sections
 
-- [ ] 31. Create `devops/14_clarify_realtime_bias_monitoring.md`
-  - [ ] 31.1 Write template version comment, title, purpose, and role definition for SageMaker Clarify, responsible AI, and bias detection expertise
-  - [ ] 31.2 Write Context & Inputs section with parameters: ENDPOINT_NAME, BIAS_METRICS (DPL/DI/KL), MONITORING_SCHEDULE, BASELINE_DATASET_S3, BIAS_THRESHOLDS (JSON), EXPLAINABILITY_ENABLED
-  - [ ] 31.3 Write Task section with directory tree and file-by-file instructions: Clarify real-time explainability endpoint config with `ClarifyExplainerConfig` (SHAP values), bias drift monitoring schedule with `ModelBiasMonitor`, bias baseline creation with training dataset, CloudWatch alarm + SNS + EventBridge for threshold breaches, bias report visualization utility, integration with mlops/11 for Model Cards audit trail
-  - [ ] 31.4 Write Code Scaffolding Hints with working `sagemaker.create_endpoint_config()` with `ClarifyExplainerConfig`, `create_model_bias_job_definition()`, `create_monitoring_schedule()` with `MonitoringType='ModelBiasMonitor'`, Clarify JSON output parsing
-  - [ ] 31.5 Write Integration Points referencing upstream `devops/04` (IAM), `mlops/03` (inference endpoints), `mlops/05` (model monitoring) and downstream `mlops/11` (governance audit trail), `devops/03` (CloudWatch dashboards)
-  - [ ] 31.6 Write Requirements & Constraints and Output Format sections
+- [x] 31. Create `devops/14_clarify_realtime_bias_monitoring.md`
+  - [x] 31.1 Write template version comment, title, purpose, and role definition for SageMaker Clarify, responsible AI, and bias detection expertise
+  - [x] 31.2 Write Context & Inputs section with parameters: ENDPOINT_NAME, BIAS_METRICS (DPL/DI/KL), MONITORING_SCHEDULE, BASELINE_DATASET_S3, BIAS_THRESHOLDS (JSON), EXPLAINABILITY_ENABLED
+  - [x] 31.3 Write Task section with directory tree and file-by-file instructions: Clarify real-time explainability endpoint config with `ClarifyExplainerConfig` (SHAP values), bias drift monitoring schedule with `ModelBiasMonitor`, bias baseline creation with training dataset, CloudWatch alarm + SNS + EventBridge for threshold breaches, bias report visualization utility, integration with mlops/11 for Model Cards audit trail
+  - [x] 31.4 Write Code Scaffolding Hints with working `sagemaker.create_endpoint_config()` with `ClarifyExplainerConfig`, `create_model_bias_job_definition()`, `create_monitoring_schedule()` with `MonitoringType='ModelBiasMonitor'`, Clarify JSON output parsing
+  - [x] 31.5 Write Integration Points referencing upstream `devops/04` (IAM), `mlops/03` (inference endpoints), `mlops/05` (model monitoring) and downstream `mlops/11` (governance audit trail), `devops/03` (CloudWatch dashboards)
+  - [x] 31.6 Write Requirements & Constraints and Output Format sections
 
 ## Edge / Hybrid (edge/01-03)
 
-- [ ] 32. Create `edge/01_sagemaker_edge_deployment.md`
-  - [ ] 32.1 Write template version comment, title, purpose, and role definition for SageMaker Edge Manager and edge ML deployment expertise
-  - [ ] 32.2 Write Context & Inputs section with parameters: TARGET_PLATFORM (linux_arm64/linux_x86_64/android/ios), FRAMEWORK (pytorch/tensorflow/onnx), DEVICE_FLEET_NAME, S3_OUTPUT_PATH, IOT_ROLE_ALIAS, OTA_ENABLED
-  - [ ] 32.3 Write Task section with directory tree and file-by-file instructions: SageMaker Neo compilation job for target platform, device fleet creation with S3 data capture and IoT role alias, edge packaging job, OTA model update workflow via IoT Jobs, Lambda for S3 edge inference metric aggregation, CloudWatch fleet monitoring dashboard (active devices, model version distribution, latency, heartbeat)
-  - [ ] 32.4 Write Code Scaffolding Hints with working `sagemaker.create_compilation_job()`, `create_device_fleet()`, `create_edge_packaging_job()`, `register_devices()`, `describe_device()` calls and IoT Jobs configuration
-  - [ ] 32.5 Write Integration Points referencing upstream `devops/04` (IAM), `mlops/01` (trained model) and downstream `edge/02` (IoT Greengrass), `devops/03` (CloudWatch dashboards), `devops/11` (custom metrics)
-  - [ ] 32.6 Write Requirements & Constraints and Output Format sections
+- [x] 32. Create `edge/01_sagemaker_edge_deployment.md`
+  - [x] 32.1 Write template version comment, title, purpose, and role definition for SageMaker Edge Manager and edge ML deployment expertise
+  - [x] 32.2 Write Context & Inputs section with parameters: TARGET_PLATFORM (linux_arm64/linux_x86_64/android/ios), FRAMEWORK (pytorch/tensorflow/onnx), DEVICE_FLEET_NAME, S3_OUTPUT_PATH, IOT_ROLE_ALIAS, OTA_ENABLED
+  - [x] 32.3 Write Task section with directory tree and file-by-file instructions: SageMaker Neo compilation job for target platform, device fleet creation with S3 data capture and IoT role alias, edge packaging job, OTA model update workflow via IoT Jobs, Lambda for S3 edge inference metric aggregation, CloudWatch fleet monitoring dashboard (active devices, model version distribution, latency, heartbeat)
+  - [x] 32.4 Write Code Scaffolding Hints with working `sagemaker.create_compilation_job()`, `create_device_fleet()`, `create_edge_packaging_job()`, `register_devices()`, `describe_device()` calls and IoT Jobs configuration
+  - [x] 32.5 Write Integration Points referencing upstream `devops/04` (IAM), `mlops/01` (trained model) and downstream `edge/02` (IoT Greengrass), `devops/03` (CloudWatch dashboards), `devops/11` (custom metrics)
+  - [x] 32.6 Write Requirements & Constraints and Output Format sections
 
-- [ ] 33. Create `edge/02_iot_greengrass_ml_inference.md`
-  - [ ] 33.1 Write template version comment, title, purpose, and role definition for IoT Greengrass V2 and edge ML inference expertise
-  - [ ] 33.2 Write Context & Inputs section with parameters: COMPONENT_NAME, ML_FRAMEWORK (pytorch/tflite/onnx), MODEL_S3_URI, THING_GROUP_NAME, RESOURCE_LIMITS (memory/cpu), STREAM_MANAGER_DESTINATION (s3/kinesis), OPTIMIZATION_TYPE (tflite/onnx_int8/torch_mobile)
-  - [ ] 33.3 Write Task section with directory tree and file-by-file instructions: Greengrass V2 component recipe (YAML) with ML inference artifact, deployment configuration targeting thing group with resource limits, model optimization scripts (TFLite conversion, ONNX INT8 quantization, PyTorch mobile), Stream Manager configuration for buffered upload to S3/Kinesis, offline inference fallback pattern, component lifecycle health check scripts
-  - [ ] 33.4 Write Code Scaffolding Hints with working Greengrass component recipe YAML (artifact URIs, lifecycle scripts, configuration), `greengrassv2.create_deployment()`, Stream Manager SDK usage, model optimization code snippets
-  - [ ] 33.5 Write Integration Points referencing upstream `edge/01` (compiled models), `devops/04` (IAM) and downstream `data/02` (Kinesis for streaming results), `devops/03` (CloudWatch dashboards)
-  - [ ] 33.6 Write Requirements & Constraints and Output Format sections
+- [x] 33. Create `edge/02_iot_greengrass_ml_inference.md`
+  - [x] 33.1 Write template version comment, title, purpose, and role definition for IoT Greengrass V2 and edge ML inference expertise
+  - [x] 33.2 Write Context & Inputs section with parameters: COMPONENT_NAME, ML_FRAMEWORK (pytorch/tflite/onnx), MODEL_S3_URI, THING_GROUP_NAME, RESOURCE_LIMITS (memory/cpu), STREAM_MANAGER_DESTINATION (s3/kinesis), OPTIMIZATION_TYPE (tflite/onnx_int8/torch_mobile)
+  - [x] 33.3 Write Task section with directory tree and file-by-file instructions: Greengrass V2 component recipe (YAML) with ML inference artifact, deployment configuration targeting thing group with resource limits, model optimization scripts (TFLite conversion, ONNX INT8 quantization, PyTorch mobile), Stream Manager configuration for buffered upload to S3/Kinesis, offline inference fallback pattern, component lifecycle health check scripts
+  - [x] 33.4 Write Code Scaffolding Hints with working Greengrass component recipe YAML (artifact URIs, lifecycle scripts, configuration), `greengrassv2.create_deployment()`, Stream Manager SDK usage, model optimization code snippets
+  - [x] 33.5 Write Integration Points referencing upstream `edge/01` (compiled models), `devops/04` (IAM) and downstream `data/02` (Kinesis for streaming results), `devops/03` (CloudWatch dashboards)
+  - [x] 33.6 Write Requirements & Constraints and Output Format sections
 
-- [ ] 34. Create `edge/03_outposts_ml_patterns.md`
-  - [ ] 34.1 Write template version comment, title, purpose, and role definition for AWS Outposts and hybrid ML architecture expertise
-  - [ ] 34.2 Write Context & Inputs section with parameters: OUTPOST_SUBNET_IDS (list), S3_OUTPOSTS_BUCKET, DATA_SYNC_DIRECTION (outpost_to_region/region_to_outpost/bidirectional), LOCAL_INFERENCE_ENABLED, DATA_RESIDENCY_REGION
-  - [ ] 34.3 Write Task section with directory tree and file-by-file instructions: SageMaker endpoint deployment targeting Outposts subnets, hybrid training pattern (preprocessing on Outposts ECS/EC2, training in Region), S3 on Outposts bucket configuration, DataSync/S3 replication for model artifact and training data sync, local inference continuity pattern for degraded connectivity, CloudWatch agent on Outposts for local metrics
-  - [ ] 34.4 Write Code Scaffolding Hints with working `s3outposts.create_bucket()`, SageMaker endpoint config with Outposts `SubnetId`, DataSync task configuration, CloudWatch agent config for Outposts
-  - [ ] 34.5 Write Integration Points referencing upstream `devops/04` (IAM), `devops/02` (VPC/Outposts networking), `mlops/03` (inference deployment) and downstream `devops/03` (CloudWatch monitoring), `finops/01` (cost tracking)
-  - [ ] 34.6 Write Requirements & Constraints and Output Format sections
+- [x] 34. Create `edge/03_outposts_ml_patterns.md`
+  - [x] 34.1 Write template version comment, title, purpose, and role definition for AWS Outposts and hybrid ML architecture expertise
+  - [x] 34.2 Write Context & Inputs section with parameters: OUTPOST_SUBNET_IDS (list), S3_OUTPOSTS_BUCKET, DATA_SYNC_DIRECTION (outpost_to_region/region_to_outpost/bidirectional), LOCAL_INFERENCE_ENABLED, DATA_RESIDENCY_REGION
+  - [x] 34.3 Write Task section with directory tree and file-by-file instructions: SageMaker endpoint deployment targeting Outposts subnets, hybrid training pattern (preprocessing on Outposts ECS/EC2, training in Region), S3 on Outposts bucket configuration, DataSync/S3 replication for model artifact and training data sync, local inference continuity pattern for degraded connectivity, CloudWatch agent on Outposts for local metrics
+  - [x] 34.4 Write Code Scaffolding Hints with working `s3outposts.create_bucket()`, SageMaker endpoint config with Outposts `SubnetId`, DataSync task configuration, CloudWatch agent config for Outposts
+  - [x] 34.5 Write Integration Points referencing upstream `devops/04` (IAM), `devops/02` (VPC/Outposts networking), `mlops/03` (inference deployment) and downstream `devops/03` (CloudWatch monitoring), `finops/01` (cost tracking)
+  - [x] 34.6 Write Requirements & Constraints and Output Format sections
 
 ## Index and Documentation Updates
 
-- [ ] 35. Update `README.md` with all new templates
-  - [ ] 35.1 Add new category tables for data/, finops/, enterprise/, edge/ directories with template number, file path, and one-line description for each new template
-  - [ ] 35.2 Add new rows to existing MLOps and DevOps tables for mlops/14-19 and devops/05-14
-  - [ ] 35.3 Update the Architecture Overview ASCII diagram to show Data Engineering, Security, FinOps, Enterprise, Observability, and Edge layers
-  - [ ] 35.4 Update the Recommended Build Order to incorporate all expansion areas at appropriate positions
+- [x] 35. Update `README.md` with all new templates
+  - [x] 35.1 Add new category tables for data/, finops/, enterprise/, edge/ directories with template number, file path, and one-line description for each new template
+  - [x] 35.2 Add new rows to existing MLOps and DevOps tables for mlops/14-19 and devops/05-14
+  - [x] 35.3 Update the Architecture Overview ASCII diagram to show Data Engineering, Security, FinOps, Enterprise, Observability, and Edge layers
+  - [x] 35.4 Update the Recommended Build Order to incorporate all expansion areas at appropriate positions
 
-- [ ] 36. Update `Library.md` with expanded directory tree and build order
-  - [ ] 36.1 Update the directory tree to show all 67 templates across 8 directories with one-line descriptions
-  - [ ] 36.2 Update the template count from 29 to 67
-  - [ ] 36.3 Update the Recommended Build Order to include data engineering, security, FinOps, enterprise, observability, and edge templates
+- [x] 36. Update `Library.md` with expanded directory tree and build order
+  - [x] 36.1 Update the directory tree to show all 67 templates across 8 directories with one-line descriptions
+  - [x] 36.2 Update the template count from 29 to 67
+  - [x] 36.3 Update the Recommended Build Order to include data engineering, security, FinOps, enterprise, observability, and edge templates
 
-- [ ] 37. Update `PROMPT_GUIDE.md` with new interaction map and chaining examples
-  - [ ] 37.1 Update the Template Interaction Map ASCII diagram to include all new templates and their cross-references
-  - [ ] 37.2 Add a new chaining example demonstrating a workflow spanning expansion areas (e.g., Data Engineering → MLOps → Observability → FinOps)
-  - [ ] 37.3 Update the Common Pitfalls table with new entries for expansion area templates
+- [x] 37. Update `PROMPT_GUIDE.md` with new interaction map and chaining examples
+  - [x] 37.1 Update the Template Interaction Map ASCII diagram to include all new templates and their cross-references
+  - [x] 37.2 Add a new chaining example demonstrating a workflow spanning expansion areas (e.g., Data Engineering → MLOps → Observability → FinOps)
+  - [x] 37.3 Update the Common Pitfalls table with new entries for expansion area templates
 
-- [ ] 38. Update existing template Integration Points for bidirectional references
-  - [ ] 38.1 Update `devops/04` (IAM) Integration Points to add downstream references to all new templates that consume IAM roles
-  - [ ] 38.2 Update `devops/02` (VPC) Integration Points to add downstream references to `devops/09` (VPC endpoints), `edge/03` (Outposts), `data/02` (Kinesis)
-  - [ ] 38.3 Update `devops/03` (CloudWatch) Integration Points to add downstream references to `devops/10-14` (observability templates), `edge/01-02` (edge monitoring)
-  - [ ] 38.4 Update `mlops/03` (Inference) Integration Points to add downstream references to `finops/04` (inference cost), `devops/10` (tracing), `devops/14` (Clarify bias)
-  - [ ] 38.5 Update `mlops/04` (RAG) Integration Points to add downstream references to `mlops/14` (Agents), `mlops/16` (Flows)
-  - [ ] 38.6 Update `mlops/05` (Monitoring) Integration Points to add downstream references to `data/05` (EventBridge drift events), `devops/14` (Clarify bias)
-  - [ ] 38.7 Update `mlops/10` (Model Registry) Integration Points to add downstream references to `enterprise/02` (cross-account), `enterprise/05` (central registry)
-  - [ ] 38.8 Update `mlops/12` (Guardrails) Integration Points to add downstream references to `mlops/14` (Agents), `devops/12` (Bedrock logging)
-  - [ ] 38.9 Update `mlops/13` (Continuous Training) Integration Points to add downstream references to `data/05` (EventBridge triggers)
+- [x] 38. Update existing template Integration Points for bidirectional references
+  - [x] 38.1 Update `devops/04` (IAM) Integration Points to add downstream references to all new templates that consume IAM roles
+  - [x] 38.2 Update `devops/02` (VPC) Integration Points to add downstream references to `devops/09` (VPC endpoints), `edge/03` (Outposts), `data/02` (Kinesis)
+  - [x] 38.3 Update `devops/03` (CloudWatch) Integration Points to add downstream references to `devops/10-14` (observability templates), `edge/01-02` (edge monitoring)
+  - [x] 38.4 Update `mlops/03` (Inference) Integration Points to add downstream references to `finops/04` (inference cost), `devops/10` (tracing), `devops/14` (Clarify bias)
+  - [x] 38.5 Update `mlops/04` (RAG) Integration Points to add downstream references to `mlops/14` (Agents), `mlops/16` (Flows)
+  - [x] 38.6 Update `mlops/05` (Monitoring) Integration Points to add downstream references to `data/05` (EventBridge drift events), `devops/14` (Clarify bias)
+  - [x] 38.7 Update `mlops/10` (Model Registry) Integration Points to add downstream references to `enterprise/02` (cross-account), `enterprise/05` (central registry)
+  - [x] 38.8 Update `mlops/12` (Guardrails) Integration Points to add downstream references to `mlops/14` (Agents), `devops/12` (Bedrock logging)
+  - [x] 38.9 Update `mlops/13` (Continuous Training) Integration Points to add downstream references to `data/05` (EventBridge triggers)

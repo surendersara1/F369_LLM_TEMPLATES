@@ -120,4 +120,8 @@ Output ALL files for chosen IAC_TOOL with headers: `### FILE: [path]`
 
 - **Downstream**: ALL templates → every ML resource uses VPC created here
 - **Downstream**: SSM parameters consumed by `mlops/01`, `mlops/03`, `iac/01`, `iac/02`
+- **Downstream**: `devops/09` → VPC endpoint policies and security groups build on this VPC
+- **Downstream**: `data/02` → Kinesis Lambda consumers and Flink apps run in VPC subnets
+- **Downstream**: `edge/03` → Outposts extends VPC to on-premises subnets
+- **Downstream**: `devops/10` → OpenTelemetry collectors run in VPC private subnets
 - **Upstream**: `devops/04` → IAM roles for VPC endpoint access policies

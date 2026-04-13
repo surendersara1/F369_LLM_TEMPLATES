@@ -256,3 +256,5 @@ monitor.create_monitoring_schedule(
 - **Upstream**: `devops/03_cloudwatch_monitoring_alerting.md` → shared CloudWatch dashboard
 - **Downstream**: `mlops/01_sagemaker_training_pipeline.md` → trigger retraining pipeline
 - **Downstream**: `cicd/03_codepipeline_multistage_ml.md` → monitoring violations feed into pipeline gates
+- **Downstream**: `data/05` → EventBridge drift detection events trigger ML orchestration workflows
+- **Downstream**: `devops/14` → Clarify real-time bias monitoring extends drift detection to fairness metrics

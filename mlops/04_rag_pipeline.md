@@ -251,3 +251,5 @@ response = bedrock.converse(
 - **Downstream**: `mlops/03` → custom SageMaker endpoint for generation
 - **Downstream**: `devops/03` → CloudWatch dashboards for RAG latency/quality
 - **Downstream**: `cicd/04` → GitHub Actions triggers re-ingestion on S3 changes
+- **Downstream**: `mlops/14` → Bedrock Agents use RAG Knowledge Bases for grounded responses
+- **Downstream**: `mlops/16` → Bedrock Flows include Knowledge Base nodes for RAG-augmented flows

@@ -287,3 +287,5 @@ Output ALL files for chosen COMPONENTS with headers: `### FILE: [path]`
 - **Downstream**: `mlops/11` → guardrail violations feed into governance audit
 - **Downstream**: `devops/03` → CloudWatch dashboard for guardrail metrics
 - **Downstream**: `cicd/03` → evaluation job runs in pipeline before deployment
+- **Downstream**: `mlops/14` → Bedrock Agents attach guardrails for safe agentic workflows
+- **Downstream**: `devops/12` → Bedrock invocation logging captures guardrail assessment traces

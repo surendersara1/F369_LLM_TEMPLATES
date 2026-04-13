@@ -292,3 +292,4 @@ Output ALL files with headers: `### FILE: [path]`
 - **Downstream**: `mlops/10` → new model registered in registry
 - **Downstream**: `mlops/11` → retrain event logged in governance audit
 - **Downstream**: `cicd/03` → CodePipeline deploys promoted model
+- **Downstream**: `data/05` → EventBridge triggers for retraining events and data change notifications

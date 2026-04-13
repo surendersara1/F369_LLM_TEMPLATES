@@ -177,8 +177,42 @@ Output ALL files in chosen IAC_TOOL format with headers: `### FILE: [path]`
 ## Integration Points
 
 - **Downstream**: ALL templates → every template reads role ARNs from SSM
+- **Downstream**: `cicd/01-03` → CodeBuild/Deploy/Pipeline roles
 - **Downstream**: `cicd/04` → GitHub Actions uses OIDC role
 - **Downstream**: `cicd/05` → Bitbucket uses OIDC role
 - **Downstream**: `mlops/01-10` → SageMaker execution role
-- **Downstream**: `cicd/01-03` → CodeBuild/Deploy/Pipeline roles
+- **Downstream**: `mlops/14` → Bedrock Agent execution roles
+- **Downstream**: `mlops/15` → Bedrock, Rekognition, Transcribe, Textract roles
+- **Downstream**: `mlops/16` → Bedrock Flows execution roles
+- **Downstream**: `mlops/17` → Bedrock evaluation job roles
+- **Downstream**: `mlops/18` → Bedrock, ElastiCache, DynamoDB roles
+- **Downstream**: `mlops/19` → Bedrock provisioned throughput roles
+- **Downstream**: `devops/05` → Config rule Lambda evaluator roles
+- **Downstream**: `devops/06` → GuardDuty, Security Hub, remediation Lambda roles
+- **Downstream**: `devops/07` → Macie classification job roles
+- **Downstream**: `devops/08` → KMS key administration roles
+- **Downstream**: `devops/09` → VPC endpoint access policy roles
+- **Downstream**: `devops/10` → ADOT collector and X-Ray roles
+- **Downstream**: `devops/11` → CloudWatch metrics publishing roles
+- **Downstream**: `devops/12` → Bedrock invocation logging roles
+- **Downstream**: `devops/13` → CloudWatch and QuickSight roles
+- **Downstream**: `devops/14` → SageMaker Clarify monitoring roles
+- **Downstream**: `data/01` → Glue job execution roles
+- **Downstream**: `data/02` → Kinesis, Lambda, Firehose roles
+- **Downstream**: `data/03` → Lake Formation admin and data access roles
+- **Downstream**: `data/04` → S3 batch operations roles
+- **Downstream**: `data/05` → EventBridge rule target roles
+- **Downstream**: `finops/01` → Budgets and Cost Explorer roles
+- **Downstream**: `finops/02` → SageMaker spot training roles
+- **Downstream**: `finops/03` → Cost Explorer read roles
+- **Downstream**: `finops/04` → Auto-scaling and SageMaker roles
+- **Downstream**: `finops/05` → CloudWatch and QuickSight roles
+- **Downstream**: `enterprise/01` → Organizations policy management roles
+- **Downstream**: `enterprise/02` → Cross-account deployment roles
+- **Downstream**: `enterprise/03` → Service Catalog launch constraint roles
+- **Downstream**: `enterprise/04` → Control Tower customization roles
+- **Downstream**: `enterprise/05` → Cross-account model registry roles
+- **Downstream**: `edge/01` → Edge Manager and IoT roles
+- **Downstream**: `edge/02` → Greengrass component roles
+- **Downstream**: `edge/03` → Outposts ML workload roles
 - This template should be created FIRST in any new project.

@@ -139,3 +139,10 @@ Output ALL files with headers: `### FILE: [path]`
 - **Upstream**: `iac/04` → ECS service metrics
 - **Downstream**: `mlops/01` → alerts trigger retraining
 - **Downstream**: `cicd/02` → alarms trigger deployment rollback
+- **Downstream**: `devops/10` → OpenTelemetry traces feed into CloudWatch dashboards
+- **Downstream**: `devops/11` → custom model quality metrics extend these dashboards
+- **Downstream**: `devops/12` → Bedrock invocation logs analyzed via CloudWatch Logs Insights
+- **Downstream**: `devops/13` → cost-per-inference dashboards build on CloudWatch metric math
+- **Downstream**: `devops/14` → Clarify bias metrics displayed in monitoring dashboards
+- **Downstream**: `edge/01` → SageMaker Edge device metrics reported to CloudWatch
+- **Downstream**: `edge/02` → IoT Greengrass inference metrics reported to CloudWatch

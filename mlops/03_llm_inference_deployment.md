@@ -295,3 +295,6 @@ task_def = {
 - **Downstream**: `mlops/04` → RAG pipeline calls inference endpoint
 - **Downstream**: `cicd/02` → CodeDeploy for blue/green endpoint updates
 - **Downstream**: `mlops/11` → governance tracks deployed models
+- **Downstream**: `finops/04` → inference cost optimization and auto-scaling policies
+- **Downstream**: `devops/10` → OpenTelemetry tracing for inference latency
+- **Downstream**: `devops/14` → Clarify real-time bias monitoring on endpoints

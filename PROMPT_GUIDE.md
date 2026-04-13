@@ -126,6 +126,59 @@ Step 12: cicd/03_codepipeline_multistage_ml.md
          → Outputs: full CodePipeline definition
 ```
 
+### Example: Enterprise ML Pipeline — Data Engineering → Security → MLOps → Observability → FinOps
+
+This chain spans the new expansion areas for a governed, cost-optimized production ML workflow:
+
+```
+Step 1:  devops/04_iam_roles_policies_mlops.md
+         → Outputs: IAM role ARNs for all downstream services
+
+Step 2:  data/03_lake_formation_ml_governance.md
+         (uses IAM roles from step 1)
+         → Outputs: Lake Formation permissions, LF-Tags, governed tables
+
+Step 3:  devops/08_kms_encryption_ml.md
+         (uses IAM roles from step 1)
+         → Outputs: KMS key ARNs for data and model encryption
+
+Step 4:  data/01_glue_etl_ml_features.md
+         (uses governed tables from step 2, KMS keys from step 3)
+         → Outputs: Feature datasets in S3 (Parquet), Glue Data Catalog
+
+Step 5:  mlops/01_sagemaker_training_pipeline.md
+         (uses feature datasets from step 4)
+         → Outputs: Trained model artifacts in S3
+
+Step 6:  mlops/17_llm_evaluation_pipeline.md
+         (uses model from step 5)
+         → Outputs: Evaluation metrics (ROUGE, BLEU, BERTScore), approval gate
+
+Step 7:  mlops/10_model_registry_versioning.md
+         (uses approved model from step 6)
+         → Outputs: Model package ARN, approved version
+
+Step 8:  mlops/03_llm_inference_deployment.md
+         (uses model package from step 7)
+         → Outputs: SageMaker endpoint
+
+Step 9:  devops/10_opentelemetry_ml_tracing.md
+         (uses endpoint from step 8)
+         → Outputs: Distributed traces via ADOT + X-Ray
+
+Step 10: devops/11_custom_cloudwatch_model_quality.md
+         (uses endpoint from step 8, traces from step 9)
+         → Outputs: Custom model quality metrics, anomaly detectors
+
+Step 11: finops/04_inference_cost_optimization.md
+         (uses endpoint from step 8)
+         → Outputs: Auto-scaling policies, scale-to-zero for dev
+
+Step 12: finops/05_finops_dashboards_ml.md
+         (uses cost data from step 11, metrics from step 10)
+         → Outputs: Cost-per-inference dashboards, budget alerts
+```
+
 ---
 
 ## 5. Environment-Specific Overrides
@@ -235,70 +288,136 @@ If AWS services update their APIs, regenerate using the latest template version.
 | Container image cold starts | Enable SageMaker multi-model endpoints or keep min instances ≥ 1 for prod |
 | Step Functions timeout | Set `HeartbeatSeconds` for long-running SageMaker training jobs |
 | ECR image lifecycle | Always add lifecycle policy to avoid unbounded storage costs |
+| Glue job bookmark misconfiguration | Enable job bookmarks for incremental processing; reset bookmarks when reprocessing is needed (`data/01`) |
+| Kinesis shard limits throttling producers | Monitor `WriteProvisionedThroughputExceeded`; use enhanced fan-out or increase shard count (`data/02`) |
+| Lake Formation permissions not propagating | Grant permissions to both IAM role AND Lake Formation; allow time for permission propagation (`data/03`) |
+| Config rule evaluation lag | Custom Config rules evaluate asynchronously — allow up to 15 min before checking compliance status (`devops/05`) |
+| Macie classification job scan costs | Scope Macie jobs to specific S3 prefixes; avoid scanning entire buckets to control costs (`devops/07`) |
+| KMS key policy too restrictive | Always include the root account principal in key policy to prevent lockout; use `kms:ViaService` conditions (`devops/08`) |
+| Savings Plans commitment lock-in | Start with Compute Savings Plans (flexible) before committing to SageMaker-specific plans; use 1-year no-upfront first (`finops/03`) |
+| Spot instance interruption during training | Enable SageMaker managed spot with checkpointing; set `MaxWaitTimeInSeconds` > `MaxRuntimeInSeconds` (`finops/02`) |
+| SCP deny effects blocking break-glass access | Always include a break-glass IAM role condition in SCPs; test SCPs in a sandbox OU first (`enterprise/01`) |
+| Cross-account IAM trust misconfiguration | Verify trust policies on both sides; use `sts:ExternalId` for third-party accounts (`enterprise/02`) |
+| OpenTelemetry high-cardinality spans | Set sampling rates appropriately (1-5% for prod); avoid per-request custom attributes that explode cardinality (`devops/10`) |
+| Bedrock invocation logging costs | Log to S3 (not CloudWatch Logs) for high-volume workloads; use lifecycle rules on the logging bucket (`devops/12`) |
+| Edge device connectivity gaps | Design for offline inference with local model cache; sync results when connectivity resumes (`edge/01`, `edge/02`) |
+| Model compilation compatibility on edge | Verify target device hardware against SageMaker Neo supported frameworks and chip architectures before compiling (`edge/01`) |
 
 ---
 
 ## 12. Template Interaction Map
 
+67 templates across 8 directories organized into 10 layers:
+
 ```
-                    ┌──────────────┐
-                    │ devops/04    │  IAM Roles & Policies
-                    │ (Always First)│
-                    └──────┬───────┘
-                           │ roleArns
-              ┌────────────┼────────────┐
-              ▼            ▼            ▼
-        devops/02     devops/01    devops/03
-        VPC/Subnets   ECR Registry  CloudWatch
-              │            │
-              └────────────┘
-                     │ infra
-              ┌──────▼──────┐
-              │  iac/02     │  CDK Stack (or iac/01 Terraform)
-              │  iac/03/04  │
-              └──────┬──────┘
-                     │ resources
-              ┌──────▼──────────────────────────────────────┐
-              │  mlops/00 — SageMaker AI Workspace          │
-              │  Domain + Studio + Users + Canvas + JumpStart│
-              │  Data Scientists experiment here             │
-              └──────┬──────────────────────────────────────┘
-                     │ notebook_to_pipeline bridge
-         ┌───────────┼──────────────────┐
-         ▼           ▼                  ▼
-    mlops/07    mlops/01,02,09      mlops/04
-    Feature     Training Pipeline   RAG Pipeline
-    Store            │
-                     ▼
-                mlops/06        mlops/10
-                Experiments     Model Registry
-                     │               │
-                     └───────┬───────┘
-                             ▼
-                   mlops/03         mlops/05
-                   Inference +      Monitoring
-                   Inf. Components
-                        │
-                   mlops/12         mlops/11
-                   Guardrails +     Governance +
-                   Agents           Bias + Audit
-                        │
-                    ┌────▼────────┐
-                    │  mlops/08   │  Full E2E Pipeline
-                    │ (Orchestrate│
-                    │  all above) │
-                    └────┬────────┘
-                         │
-                    mlops/13         Continuous Training
-                    Drift→Retrain    + Data Versioning
-                         │
-           ┌─────────────┼──────────────┐
-           ▼             ▼              ▼
-      cicd/03        cicd/04        cicd/05
-      CodePipeline   GitHub         Bitbucket
-           │         Actions        Pipelines
-      ┌────┴────┐
-      ▼         ▼
-   cicd/01   cicd/02
-   CodeBuild  CodeDeploy
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 1 — FOUNDATION                                                      │
+│  devops/01 ECR  ·  devops/02 VPC  ·  devops/03 CloudWatch  ·  devops/04 IAM│
+│                          │                                                  │
+│  devops/04 (IAM) is ALWAYS FIRST — all other templates consume role ARNs   │
+└──────────┬──────────────┬──────────────┬──────────────┬─────────────────────┘
+           │              │              │              │
+           ▼              ▼              ▼              ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 2 — SECURITY & COMPLIANCE                                           │
+│  devops/05 Config Rules  ◄── devops/08 KMS key ARNs                        │
+│  devops/06 GuardDuty + Security Hub                                        │
+│  devops/07 Macie PII Detection                                             │
+│  devops/08 KMS Encryption  ──► data/01, data/03, enterprise/02             │
+│  devops/09 VPC Endpoint Policies  ◄── devops/02 VPC                        │
+└──────────┬──────────────────────────────────────────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 3 — DATA ENGINEERING                                                │
+│  data/01 Glue ETL  ──► mlops/07 Feature Store, mlops/01 Training, data/02  │
+│  data/02 Kinesis Real-Time Features  ──► mlops/07 Feature Store            │
+│  data/03 Lake Formation Governance  ◄── devops/08 KMS                      │
+│  data/04 S3 Data Lifecycle                                                 │
+│  data/05 EventBridge ML  ──► mlops/13 Continuous Training, devops/05,      │
+│                               enterprise/05 Central Registry               │
+└──────────┬──────────────────────────────────────────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 4 — MLOps CORE                                                      │
+│                                                                             │
+│  Existing (mlops/00-13):                                                   │
+│  00 Workspace · 01 Training · 02 Fine-tuning · 03 Inference · 04 RAG      │
+│  05 Monitoring · 06 Experiments · 07 Feature Store · 08 E2E Pipeline       │
+│  09 Bedrock Fine-tuning · 10 Model Registry · 11 Governance               │
+│  12 Guardrails & Agents · 13 Continuous Training                           │
+│                                                                             │
+│  New AI/ML Gaps (mlops/14-19):                                             │
+│  14 Bedrock Agents  ──► mlops/16 Flows, devops/10 OpenTelemetry            │
+│  15 Multimodal Pipelines                                                   │
+│  16 Bedrock Flows  ◄── mlops/14 Agents                                     │
+│  17 LLM Evaluation  ──► mlops/10 Registry, enterprise/05 Central Registry  │
+│  18 Prompt Caching                                                         │
+│  19 Marketplace Models                                                     │
+└──────────┬──────────────────────────────────────────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 5 — OBSERVABILITY                                                   │
+│  devops/10 OpenTelemetry  ──► devops/13 Cost-per-Inference, devops/11      │
+│  devops/11 Custom CloudWatch Metrics  ◄── devops/10                        │
+│  devops/12 Bedrock Invocation Logging  ──► devops/13, finops/01            │
+│  devops/13 Cost-per-Inference Dashboards  ◄── devops/10, devops/12         │
+│  devops/14 Clarify Real-Time Bias Monitoring                               │
+└──────────┬──────────────────────────────────────────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 6 — FINOPS / COST MANAGEMENT                                       │
+│  finops/01 Cost Allocation  ──► finops/05 Dashboards, devops/13            │
+│  finops/02 Spot Instance Strategies  ──► finops/01                         │
+│  finops/03 Savings Plans                                                   │
+│  finops/04 Inference Cost Optimization  ──► devops/13, finops/05           │
+│  finops/05 FinOps Dashboards  ◄── finops/01, finops/04                     │
+└──────────┬──────────────────────────────────────────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 7 — ENTERPRISE / MULTI-ACCOUNT                                      │
+│  enterprise/01 Organizations SCPs  ──► enterprise/04 Control Tower         │
+│  enterprise/02 Cross-Account Deploy  ◄── devops/08 KMS, enterprise/05      │
+│  enterprise/03 Service Catalog  ◄── enterprise/04                          │
+│  enterprise/04 Control Tower  ──► enterprise/03                            │
+│  enterprise/05 Centralized Registry  ──► enterprise/02, mlops/03           │
+└──────────┬──────────────────────────────────────────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 8 — EDGE / HYBRID                                                   │
+│  edge/01 SageMaker Edge Deployment  ──► edge/02 IoT Greengrass             │
+│  edge/02 IoT Greengrass ML Inference                                       │
+│  edge/03 Outposts ML Patterns                                              │
+└──────────┬──────────────────────────────────────────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 9 — IaC                                                             │
+│  iac/01 Terraform SageMaker  ·  iac/02 CDK ML/LLM  ·  iac/03 Terraform    │
+│  Bedrock+RAG  ·  iac/04 CDK ECS LLM Inference                             │
+└──────────┬──────────────────────────────────────────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 10 — CI/CD                                                          │
+│  cicd/01 CodeBuild  ·  cicd/02 CodeDeploy  ·  cicd/03 CodePipeline        │
+│  cicd/04 GitHub Actions  ·  cicd/05 Bitbucket Pipelines                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+KEY CROSS-LAYER REFERENCES:
+  devops/04 (IAM)          ──► ALL templates (upstream for every layer)
+  devops/08 (KMS)          ──► devops/05, enterprise/02, data/01, data/03
+  data/01 (Glue)           ──► mlops/07, mlops/01, data/02
+  data/05 (EventBridge)    ──► mlops/13, devops/05, enterprise/05
+  mlops/14 (Agents)        ──► mlops/16, devops/10
+  mlops/17 (Evaluation)    ──► mlops/10, enterprise/05
+  enterprise/05 (Registry) ──► enterprise/02, mlops/03
+  devops/10 (OpenTelemetry)──► devops/13, devops/11
+  devops/12 (Bedrock Logs) ──► devops/13, finops/01
+  finops/01 (Cost Alloc)   ──► finops/05, devops/13
 ```

@@ -145,3 +145,5 @@ model_package = model.register(
 - **Downstream**: `mlops/03` → deploy approved model to endpoint
 - **Downstream**: `cicd/03` → CodePipeline approval stage maps to registry approval
 - **Downstream**: `mlops/05` → monitoring baseline from registered model
+- **Downstream**: `enterprise/02` → cross-account model deployment reads from registry
+- **Downstream**: `enterprise/05` → centralized model registry aggregates model packages across accounts
