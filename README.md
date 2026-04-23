@@ -1,10 +1,66 @@
 # F369 — AWS MLOps & AI/LLM CI/CD Prompt Template Library
 
-A curated collection of **74 LLM prompt templates** across **8 directories** for generating production-ready AWS infrastructure code. Feed any template to Claude (or another capable LLM) to get fully deployable code for MLOps pipelines, LLM inference, data engineering, security, FinOps, enterprise governance, observability, edge deployment, CI/CD, and IaC.
+A curated collection of **78 LLM prompt templates** across **8 directories** + **5 end-to-end engagement kits** for generating production-ready AWS infrastructure code. Feed any template to Claude (or another capable LLM) to get fully deployable code for MLOps pipelines, LLM inference, data engineering, security, FinOps, enterprise governance, observability, edge deployment, CI/CD, and IaC.
+
+For 2-week consulting engagements with business-level client asks, use the **[kits/](./kits/)** — playbooks that chain 10-15 templates + 40+ partials from the companion repo.
+
+---
+
+## Three-Layer Model
+
+```
+┌───────────────────────────────────────────────────────────────────────┐
+│  LAYER 1 — Kits (business-ask playbooks)                              │
+│  ./kits/*.md                                                          │
+│                                                                       │
+│  "Client wants: chat over our data" → kits/ai-native-lakehouse.md    │
+│  "Client wants: HR interview analyzer" → kits/hr-interview-analyzer  │
+│                                                                       │
+│  5 kits, each = 2-week engagement, $125K-$500K pitch price.           │
+│  See kits/README.md for the decision tree + pricing.                  │
+└──────────────────────────────┬────────────────────────────────────────┘
+                               │  chains
+                               ▼
+┌───────────────────────────────────────────────────────────────────────┐
+│  LAYER 2 — LLM Prompt Templates (thin routers)                        │
+│  ./mlops/ ./cicd/ ./iac/ ./devops/ ./data/ ./finops/                  │
+│  ./enterprise/ ./edge/                                                │
+│                                                                       │
+│  78 templates. Each is a ~100-line prompt that tells Claude WHAT to   │
+│  build and WHICH partial to reference for authoritative CDK code.     │
+│  See the Template Map below.                                          │
+└──────────────────────────────┬────────────────────────────────────────┘
+                               │  references
+                               ▼
+┌───────────────────────────────────────────────────────────────────────┐
+│  LAYER 3 — Partials (authoritative SOPs)                              │
+│  ../F369_CICD_Template/prompt_templates/partials/*.md                 │
+│                                                                       │
+│  75 partials at v2.0. Each covers ONE CDK primitive / service pattern │
+│  with dual monolith/micro-stack variants, 5 non-negotiables, gotchas, │
+│  pytest synth harness. Three audit rounds completed.                  │
+│  See F369_CICD_Template/prompt_templates/partials/README.md.          │
+└───────────────────────────────────────────────────────────────────────┘
+```
+
+**When to use each layer:**
+
+- **Kit** — you have a business-level client ask ("chat over our data", "interview analyzer", "deep research on X") and want a 2-week engagement playbook. Start here.
+- **Template** — you have a single AWS-level task ("set up a VPC for ML", "configure Bedrock Guardrails") and want the prompt + partial cross-references. Use directly.
+- **Partial** — you want the authoritative CDK pattern for one primitive (S3 Vectors, Lake Formation, Athena, etc.). Referenced by templates; don't consume directly unless you already know CDK well.
 
 ---
 
 ## Quick Start
+
+**For a 2-week engagement (most common):**
+
+1. Open [kits/README.md](./kits/README.md) → find the kit matching the client ask
+2. Read the kit's design doc (`kits/_design/<kit>.md`) — business case + pricing + rationale
+3. Fill in kit parameters (DOMAIN_PACK, TARGET_LANGUAGE, COMPLIANCE_STANDARD, etc.)
+4. Follow the day-by-day execution plan — each day points at templates + partials
+
+**For a single AWS-level task:**
 
 1. Open the template that matches your need (see map below)
 2. Fill in your `[PARAMETERS]` at the top of the template
@@ -12,6 +68,22 @@ A curated collection of **74 LLM prompt templates** across **8 directories** for
 4. Receive deployable AWS infrastructure code
 
 See **[PROMPT_GUIDE.md](./PROMPT_GUIDE.md)** for advanced usage, chaining templates, and tips.
+
+---
+
+## Engagement Kits
+
+5 end-to-end 2-week playbooks. Each chains 10-15 templates + 40+ partials + a React/Next.js UI + compliance overlay.
+
+| Kit | Client ask | Price range | Payback | Status |
+|---|---|---|---|---|
+| [hr-interview-analyzer](./kits/hr-interview-analyzer.md) | "Upload interview video → AI scoring + summary" | $100K-$175K | 5-8 months | v1.1, audited |
+| [rag-chatbot-per-client](./kits/rag-chatbot-per-client.md) | "ChatGPT over our docs, per tenant" | $125K-$225K | 4-7 months | v1.0, audited |
+| [deep-research-agent](./kits/deep-research-agent.md) | "Perplexity for our data + tools" | $175K-$350K | 3-6 months | v1.0, audited |
+| [acoustic-fault-diagnostic-agent](./kits/acoustic-fault-diagnostic-agent.md) | "Diagnose equipment from its sound" | $200K-$350K | 3-5 months | v1.0, audited |
+| [ai-native-lakehouse](./kits/ai-native-lakehouse.md) | "Single chat over structured + unstructured data" | $150K-$500K | 3-12 months | v1.0, audited |
+
+**See [kits/README.md](./kits/README.md) for the decision tree, composition patterns, and per-kit navigation.**
 
 ---
 
@@ -46,6 +118,8 @@ See **[PROMPT_GUIDE.md](./PROMPT_GUIDE.md)** for advanced usage, chaining templa
 | 22 | [mlops/22_strands_agentcore_deployment.md](./mlops/22_strands_agentcore_deployment.md) | AgentCore Runtime deployment + identity integration + auto-scaling |
 | 23 | [mlops/23_agent_sop_authoring.md](./mlops/23_agent_sop_authoring.md) | Agent SOP markdown authoring with RFC 2119 keywords + chaining |
 | 24 | [mlops/24_bedrock_prompt_management.md](./mlops/24_bedrock_prompt_management.md) | Bedrock Prompt Management API lifecycle + A/B testing + Flows integration |
+| 25 | [mlops/25_react_portal_cloudfront.md](./mlops/25_react_portal_cloudfront.md) | Thin router → `LAYER_FRONTEND` partial (React/Next + CloudFront + OAC) |
+| 26 | [mlops/26_fargate_ml_container.md](./mlops/26_fargate_ml_container.md) | Thin router → `LAYER_BACKEND_ECS` + `MLOPS_SAGEMAKER_SERVING` (Fargate ML container) |
 
 ### CI/CD Pipelines
 
@@ -86,6 +160,7 @@ See **[PROMPT_GUIDE.md](./PROMPT_GUIDE.md)** for advanced usage, chaining templa
 | 14 | [devops/14_clarify_realtime_bias_monitoring.md](./devops/14_clarify_realtime_bias_monitoring.md) | SageMaker Clarify real-time bias monitoring: explainability, bias drift, scheduled checks |
 | 15 | [devops/15_strands_agent_observability.md](./devops/15_strands_agent_observability.md) | Strands Agent OTel tracing + CloudWatch metrics + dashboards |
 | 16 | [devops/16_agent_guardrails_control.md](./devops/16_agent_guardrails_control.md) | Agent Control + Bedrock Guardrails + consent + defense |
+| 17 | [devops/17_step_functions_orchestration.md](./devops/17_step_functions_orchestration.md) | Thin router → `WORKFLOW_STEP_FUNCTIONS` partial (SFN orchestration for ML pipelines) |
 
 ### Data Engineering
 
@@ -116,6 +191,7 @@ See **[PROMPT_GUIDE.md](./PROMPT_GUIDE.md)** for advanced usage, chaining templa
 | 03 | [enterprise/03_service_catalog_ml.md](./enterprise/03_service_catalog_ml.md) | Service Catalog ML products: self-service SageMaker Domain, training env, inference endpoint |
 | 04 | [enterprise/04_control_tower_ml.md](./enterprise/04_control_tower_ml.md) | Control Tower for ML: landing zone, account baselines, detective/preventive guardrails |
 | 05 | [enterprise/05_centralized_model_registry.md](./enterprise/05_centralized_model_registry.md) | Centralized model registry: cross-account Model Registry, EventBridge sync, lineage metadata |
+| 06 | [enterprise/06_compliance_blueprint.md](./enterprise/06_compliance_blueprint.md) | Thin router → `COMPLIANCE_HIPAA_PCIDSS` partial (SOC 2 / HIPAA / PCI-DSS baseline) |
 
 ### Edge / Hybrid
 
