@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | Model IDs: 2026-04-22 refresh -->
 
 # Template 15 — Multimodal Processing Pipelines
 
@@ -51,16 +51,16 @@ INSTANCE_TYPE:          [OPTIONAL: ml.m5.xlarge - SageMaker Processing instance 
                         - ml.c5.2xlarge (compute-optimized for image processing)
 INSTANCE_COUNT:         [OPTIONAL: 1 - number of SageMaker Processing instances]
 
-VISION_MODEL:           [OPTIONAL: anthropic.claude-3-5-sonnet-20241022-v2:0]
+VISION_MODEL:           [OPTIONAL: us.anthropic.claude-sonnet-4-7-20260109-v1:0]
                         Options (must support vision):
-                        - anthropic.claude-3-5-sonnet-20241022-v2:0 (Claude 3.5 Sonnet v2)
-                        - anthropic.claude-3-5-haiku-20241022-v1:0 (Claude 3.5 Haiku)
-                        - anthropic.claude-3-haiku-20240307-v1:0 (Claude 3 Haiku — lower cost)
+                        - us.anthropic.claude-sonnet-4-7-20260109-v1:0 (Claude Sonnet 4.7)
+                        - us.anthropic.claude-haiku-4-5-20251001-v1:0 (Claude Haiku 4.5)
+                        - us.anthropic.claude-haiku-4-5-20251001-v1:0 (Claude Haiku 4.5 — lower cost)
                         - amazon.nova-pro-v1:0 (Amazon Nova Pro)
                         - amazon.nova-lite-v1:0 (Amazon Nova Lite)
 
-SUMMARIZATION_MODEL:    [OPTIONAL: anthropic.claude-3-5-sonnet-20241022-v2:0]
-EXTRACTION_MODEL:       [OPTIONAL: anthropic.claude-3-5-sonnet-20241022-v2:0]
+SUMMARIZATION_MODEL:    [OPTIONAL: us.anthropic.claude-sonnet-4-7-20260109-v1:0]
+EXTRACTION_MODEL:       [OPTIONAL: us.anthropic.claude-sonnet-4-7-20260109-v1:0]
 
 IMAGE_ANALYSIS_PROMPT:  [OPTIONAL: "Analyze this image and describe all objects, text, scenes, and relevant details in structured JSON."]
 AUDIO_SUMMARY_PROMPT:   [OPTIONAL: "Summarize the following transcript. Include key topics, action items, and speaker highlights."]

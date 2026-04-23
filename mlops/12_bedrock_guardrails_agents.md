@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | Model IDs: 2026-04-22 refresh -->
 
 # Template 12 — Bedrock Guardrails, Agents & Prompt Management
 
@@ -49,7 +49,7 @@ RELEVANCE_THRESHOLD:    [OPTIONAL: 0.7 - relevance check for RAG responses]
 
 # ─── Agents Config ───
 AGENT_NAME:             [OPTIONAL: {PROJECT_NAME}-{ENV}-agent]
-AGENT_MODEL:            [OPTIONAL: anthropic.claude-3-5-sonnet-20241022-v2:0]
+AGENT_MODEL:            [OPTIONAL: us.anthropic.claude-sonnet-4-7-20260109-v1:0]
 AGENT_INSTRUCTION:      [OPTIONAL - system prompt for the agent]
 KNOWLEDGE_BASE_ID:      [OPTIONAL - from mlops/04 RAG pipeline]
 ACTION_GROUPS:          [OPTIONAL - JSON list of agent action groups]
@@ -63,9 +63,9 @@ ACTION_GROUPS:          [OPTIONAL - JSON list of agent action groups]
 # ─── Prompt Management ───
 PROMPT_TEMPLATES:       [OPTIONAL - JSON list of prompt templates to create]
     Example: [
-        {"name": "qa_prompt", "model": "anthropic.claude-3-5-sonnet-20241022-v2:0",
+        {"name": "qa_prompt", "model": "us.anthropic.claude-sonnet-4-7-20260109-v1:0",
          "template": "Answer based on context:\n{{context}}\n\nQuestion: {{question}}"},
-        {"name": "summarize_prompt", "model": "anthropic.claude-3-haiku-20240307-v1:0",
+        {"name": "summarize_prompt", "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
          "template": "Summarize the following:\n{{document}}"}
     ]
 

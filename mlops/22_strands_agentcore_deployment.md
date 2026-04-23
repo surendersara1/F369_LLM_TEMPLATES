@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ | strands-agents: 1.x+ | CDK: 2.170+ | bedrock-agentcore: latest -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | strands-agents: 1.x+ | CDK: 2.170+ | bedrock-agentcore: latest | Model IDs: 2026-04-22 refresh -->
 
 # Template 22 — Strands AgentCore Deployment
 
@@ -47,11 +47,11 @@ AGENT_SYSTEM_PROMPT:    [REQUIRED - system prompt / instructions for the Strands
                         workflows. Maintain conversation context across interactions
                         and use available tools to complete multi-step tasks."
 
-MODEL_ID:               [OPTIONAL: us.anthropic.claude-sonnet-4-20250514-v1:0]
+MODEL_ID:               [OPTIONAL: us.anthropic.claude-sonnet-4-7-20260109-v1:0]
                         Options (verify current availability):
-                        - us.anthropic.claude-sonnet-4-20250514-v1:0 (Claude Sonnet 4)
-                        - us.anthropic.claude-3-5-sonnet-20241022-v2:0 (Claude 3.5 Sonnet v2)
-                        - us.anthropic.claude-3-5-haiku-20241022-v1:0 (Claude 3.5 Haiku)
+                        - us.anthropic.claude-sonnet-4-7-20260109-v1:0 (Claude Sonnet 4.7)
+                        - us.anthropic.claude-sonnet-4-7-20260109-v1:0 (Claude Sonnet 4.7)
+                        - us.anthropic.claude-haiku-4-5-20251001-v1:0 (Claude Haiku 4.5)
                         - us.amazon.nova-pro-v1:0 (Amazon Nova Pro)
                         - us.amazon.nova-lite-v1:0 (Amazon Nova Lite)
 
@@ -294,7 +294,7 @@ logger = logging.getLogger(__name__)
 
 # Initialize model and agent at module level for reuse across requests
 model = BedrockModel(
-    model_id=os.environ.get("MODEL_ID", "us.anthropic.claude-sonnet-4-20250514-v1:0"),
+    model_id=os.environ.get("MODEL_ID", "us.anthropic.claude-sonnet-4-7-20260109-v1:0"),
     region_name=os.environ.get("AWS_REGION", "us-east-1"),
     max_tokens=4096,
     temperature=0.7,
@@ -356,7 +356,7 @@ response = agentcore_client.create_runtime_endpoint(
         "networkMode": "PUBLIC",  # or "VPC" for private endpoints
     },
     environmentVariables={
-        "MODEL_ID": "us.anthropic.claude-sonnet-4-20250514-v1:0",
+        "MODEL_ID": "us.anthropic.claude-sonnet-4-7-20260109-v1:0",
         "AGENT_SYSTEM_PROMPT": "You are a helpful assistant...",
         "AWS_REGION": AWS_REGION,
     },

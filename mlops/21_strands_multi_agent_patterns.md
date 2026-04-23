@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ | strands-agents: 1.x+ | strands-agents-tools: 1.x+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | strands-agents: 1.x+ | strands-agents-tools: 1.x+ | Model IDs: 2026-04-22 refresh -->
 
 # Template 21 — Strands Multi-Agent Patterns
 
@@ -49,28 +49,28 @@ AGENT_DEFINITIONS:      [REQUIRED - JSON list of agent definitions]
                                 "name": "researcher",
                                 "system_prompt": "You research topics thoroughly...",
                                 "tools": ["retrieve", "browser"],
-                                "model_id": "us.anthropic.claude-sonnet-4-20250514-v1:0"
+                                "model_id": "us.anthropic.claude-sonnet-4-7-20260109-v1:0"
                             },
                             {
                                 "name": "writer",
                                 "system_prompt": "You write clear, structured content...",
                                 "tools": ["editor"],
-                                "model_id": "us.anthropic.claude-sonnet-4-20250514-v1:0"
+                                "model_id": "us.anthropic.claude-sonnet-4-7-20260109-v1:0"
                             },
                             {
                                 "name": "reviewer",
                                 "system_prompt": "You review content for accuracy...",
                                 "tools": ["think"],
-                                "model_id": "us.anthropic.claude-sonnet-4-20250514-v1:0"
+                                "model_id": "us.anthropic.claude-sonnet-4-7-20260109-v1:0"
                             }
                         ]
 
-MODEL_ID:               [OPTIONAL: us.anthropic.claude-sonnet-4-20250514-v1:0]
+MODEL_ID:               [OPTIONAL: us.anthropic.claude-sonnet-4-7-20260109-v1:0]
                         Default model for agents without an explicit model_id.
                         Options (verify current availability):
-                        - us.anthropic.claude-sonnet-4-20250514-v1:0 (Claude Sonnet 4)
-                        - us.anthropic.claude-3-5-sonnet-20241022-v2:0 (Claude 3.5 Sonnet v2)
-                        - us.anthropic.claude-3-5-haiku-20241022-v1:0 (Claude 3.5 Haiku)
+                        - us.anthropic.claude-sonnet-4-7-20260109-v1:0 (Claude Sonnet 4.7)
+                        - us.anthropic.claude-sonnet-4-7-20260109-v1:0 (Claude Sonnet 4.7)
+                        - us.anthropic.claude-haiku-4-5-20251001-v1:0 (Claude Haiku 4.5)
                         - us.amazon.nova-pro-v1:0 (Amazon Nova Pro)
                         - us.amazon.nova-lite-v1:0 (Amazon Nova Lite)
 
@@ -299,7 +299,7 @@ researcher = create_agent(
     name="researcher",
     system_prompt="You research topics thoroughly using available tools...",
     tools=[retrieve, browser, think],
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region="us-east-1",
 )
 
@@ -307,7 +307,7 @@ writer = create_agent(
     name="writer",
     system_prompt="You write clear, structured content based on research...",
     tools=[editor, think],
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region="us-east-1",
 )
 
@@ -315,7 +315,7 @@ reviewer = create_agent(
     name="reviewer",
     system_prompt="You review content for accuracy and completeness...",
     tools=[think],
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region="us-east-1",
 )
 ```
@@ -327,7 +327,7 @@ from strands.models.bedrock import BedrockModel
 from strands_tools import graph, think
 
 model = BedrockModel(
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region_name="us-east-1",
     max_tokens=4096,
 )
@@ -366,7 +366,7 @@ from strands.models.bedrock import BedrockModel
 from strands_tools import swarm, think
 
 model = BedrockModel(
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region_name="us-east-1",
     max_tokens=4096,
 )
@@ -400,7 +400,7 @@ from strands.models.bedrock import BedrockModel
 from strands_tools import workflow, think
 
 model = BedrockModel(
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region_name="us-east-1",
     max_tokens=4096,
 )
@@ -433,7 +433,7 @@ from strands.models.bedrock import BedrockModel
 from strands_tools import use_agent, think
 
 model = BedrockModel(
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region_name="us-east-1",
     max_tokens=4096,
 )
@@ -465,7 +465,7 @@ from strands.models.bedrock import BedrockModel
 from strands_tools import a2a_client, think
 
 model = BedrockModel(
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region_name="us-east-1",
     max_tokens=4096,
 )
@@ -493,7 +493,7 @@ from strands.models.bedrock import BedrockModel
 from strands_tools import think, retrieve, editor
 
 model = BedrockModel(
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region_name="us-east-1",
     max_tokens=4096,
 )
@@ -524,7 +524,7 @@ from strands import Agent
 from strands.models.bedrock import BedrockModel
 
 model = BedrockModel(
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region_name="us-east-1",
     max_tokens=4096,
 )

@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ | opensearch-py: 2.7+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | opensearch-py: 2.7+ | Model IDs: 2026-04-22 refresh -->
 
 # Template 04 — RAG Pipeline (Retrieval-Augmented Generation)
 
@@ -49,7 +49,7 @@ CHUNK_SIZE:             [OPTIONAL: 512]
 CHUNK_OVERLAP:          [OPTIONAL: 50]
 CHUNKING_STRATEGY:      [OPTIONAL: fixed | semantic | hierarchical]
 
-GENERATION_MODEL:       [OPTIONAL: anthropic.claude-3-5-sonnet-20241022-v2:0]
+GENERATION_MODEL:       [OPTIONAL: us.anthropic.claude-sonnet-4-7-20260109-v1:0]
 RETRIEVAL_TOP_K:        [OPTIONAL: 5]
 RERANKING_ENABLED:      [OPTIONAL: false]
 RERANKING_MODEL:        [OPTIONAL: cohere.rerank-english-v3:0]

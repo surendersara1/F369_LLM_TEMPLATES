@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | Model IDs: 2026-04-22 refresh -->
 
 # Template 14 — Bedrock Agents with Action Groups
 
@@ -31,11 +31,11 @@ AWS_REGION:             [REQUIRED - must be a Bedrock Agents supported region]
 AWS_ACCOUNT_ID:         [REQUIRED]
 ENV:                    [REQUIRED - dev | stage | prod]
 
-AGENT_MODEL:            [OPTIONAL: anthropic.claude-3-5-sonnet-20241022-v2:0]
+AGENT_MODEL:            [OPTIONAL: us.anthropic.claude-sonnet-4-7-20260109-v1:0]
                         Options (verify current availability):
-                        - anthropic.claude-3-5-sonnet-20241022-v2:0 (Claude 3.5 Sonnet v2)
-                        - anthropic.claude-3-5-haiku-20241022-v1:0 (Claude 3.5 Haiku)
-                        - anthropic.claude-3-haiku-20240307-v1:0 (Claude 3 Haiku)
+                        - us.anthropic.claude-sonnet-4-7-20260109-v1:0 (Claude Sonnet 4.7)
+                        - us.anthropic.claude-haiku-4-5-20251001-v1:0 (Claude Haiku 4.5)
+                        - us.anthropic.claude-haiku-4-5-20251001-v1:0 (Claude Haiku 4.5)
                         - amazon.nova-pro-v1:0 (Amazon Nova Pro)
                         - amazon.nova-lite-v1:0 (Amazon Nova Lite)
 

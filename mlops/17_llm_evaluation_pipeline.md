@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ | rouge-score: 0.1.2+ | nltk: 3.9+ | bert-score: 0.3.13+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | rouge-score: 0.1.2+ | nltk: 3.9+ | bert-score: 0.3.13+ | Model IDs: 2026-04-22 refresh -->
 
 # Template 17 — LLM Evaluation Pipeline
 
@@ -46,8 +46,8 @@ METRICS:                [OPTIONAL: ROUGE,BLEU,BERTScore]
 
 MODEL_VARIANTS:         [OPTIONAL - JSON list of models to evaluate]
                         Example: [
-                            {"name": "model_a", "model_id": "anthropic.claude-3-5-sonnet-20241022-v2:0"},
-                            {"name": "model_b", "model_id": "anthropic.claude-3-5-haiku-20241022-v1:0"}
+                            {"name": "model_a", "model_id": "us.anthropic.claude-sonnet-4-7-20260109-v1:0"},
+                            {"name": "model_b", "model_id": "us.anthropic.claude-haiku-4-5-20251001-v1:0"}
                         ]
 
 THRESHOLD_CONFIG:       [OPTIONAL - JSON thresholds for promotion gating]
@@ -374,7 +374,7 @@ response = bedrock.create_evaluation_job(
         "models": [
             {
                 "bedrockModel": {
-                    "modelIdentifier": model_id,  # e.g. "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0"
+                    "modelIdentifier": model_id,  # e.g. "arn:aws:bedrock:us-east-1::foundation-model/us.anthropic.claude-sonnet-4-7-20260109-v1:0"
                     "inferenceParams": '{"inferenceConfig":{"maxTokens":512,"temperature":0.7,"topP":0.9}}',
                 }
             }

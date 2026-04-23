@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ | strands-agents: 1.x+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | strands-agents: 1.x+ | Model IDs: 2026-04-22 refresh -->
 
 # Template 24 — Bedrock Prompt Management
 
@@ -51,12 +51,12 @@ PROMPT_VARIABLES:       [REQUIRED - JSON list of input variable definitions]
                             {"name": "question", "description": "User question to answer"}
                         ]
 
-MODEL_ID:               [OPTIONAL: us.anthropic.claude-sonnet-4-20250514-v1:0]
+MODEL_ID:               [OPTIONAL: us.anthropic.claude-sonnet-4-7-20260109-v1:0]
                         The default model ID for the prompt's primary variant.
                         Options (verify current availability):
-                        - us.anthropic.claude-sonnet-4-20250514-v1:0 (Claude Sonnet 4)
-                        - us.anthropic.claude-3-5-sonnet-20241022-v2:0 (Claude 3.5 Sonnet v2)
-                        - us.anthropic.claude-3-5-haiku-20241022-v1:0 (Claude 3.5 Haiku)
+                        - us.anthropic.claude-sonnet-4-7-20260109-v1:0 (Claude Sonnet 4.7)
+                        - us.anthropic.claude-sonnet-4-7-20260109-v1:0 (Claude Sonnet 4.7)
+                        - us.anthropic.claude-haiku-4-5-20251001-v1:0 (Claude Haiku 4.5)
                         - us.amazon.nova-pro-v1:0 (Amazon Nova Pro)
                         - us.amazon.nova-lite-v1:0 (Amazon Nova Lite)
 
@@ -67,7 +67,7 @@ VARIANTS:               [OPTIONAL - JSON list of variant definitions for A/B tes
                             {
                                 "name": "concise",
                                 "template_text": "Answer briefly: {{question}}",
-                                "model_id": "us.anthropic.claude-3-5-haiku-20241022-v1:0",
+                                "model_id": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
                                 "temperature": 0.3,
                                 "max_tokens": 512,
                                 "weight": 50
@@ -75,7 +75,7 @@ VARIANTS:               [OPTIONAL - JSON list of variant definitions for A/B tes
                             {
                                 "name": "detailed",
                                 "template_text": "Provide a detailed answer with examples: {{question}}",
-                                "model_id": "us.anthropic.claude-sonnet-4-20250514-v1:0",
+                                "model_id": "us.anthropic.claude-sonnet-4-7-20260109-v1:0",
                                 "temperature": 0.7,
                                 "max_tokens": 2048,
                                 "weight": 50
@@ -270,7 +270,7 @@ response = bedrock_agent.create_prompt(
     variants=[
         {
             "name": "v1",
-            "modelId": "us.anthropic.claude-sonnet-4-20250514-v1:0",
+            "modelId": "us.anthropic.claude-sonnet-4-7-20260109-v1:0",
             "templateType": "TEXT",
             "templateConfiguration": {
                 "text": {
@@ -333,7 +333,7 @@ response = bedrock_agent.create_prompt(
     variants=[
         {
             "name": "concise",
-            "modelId": "us.anthropic.claude-3-5-haiku-20241022-v1:0",
+            "modelId": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
             "templateType": "TEXT",
             "templateConfiguration": {
                 "text": {
@@ -347,7 +347,7 @@ response = bedrock_agent.create_prompt(
         },
         {
             "name": "detailed",
-            "modelId": "us.anthropic.claude-sonnet-4-20250514-v1:0",
+            "modelId": "us.anthropic.claude-sonnet-4-7-20260109-v1:0",
             "templateType": "TEXT",
             "templateConfiguration": {
                 "text": {
@@ -437,7 +437,7 @@ system_prompt = load_prompt_as_system_prompt(
 )
 
 model = BedrockModel(
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region_name="us-east-1",
     max_tokens=4096,
 )

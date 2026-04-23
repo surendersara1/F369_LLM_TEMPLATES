@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | strands-agents: 1.x+ | Format: Structured Markdown with RFC 2119 -->
+<!-- Template Version: 1.1 | strands-agents: 1.x+ | Format: Structured Markdown with RFC 2119 | Model IDs: 2026-04-22 refresh -->
 
 # Template 23 — Agent SOP Authoring
 
@@ -359,7 +359,7 @@ sop_prompt = parameterize_sop(sop_content, {
 
 # Create agent with SOP as system prompt
 model = BedrockModel(
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region_name="us-east-1",
     max_tokens=4096,
     temperature=0.7,
@@ -610,7 +610,7 @@ def chain_sops(sop_chain: list[dict], model: BedrockModel, tools: list) -> dict:
 
 # Example: chain data_retrieval → report_generation
 model = BedrockModel(
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region_name="us-east-1",
 )
 
@@ -656,7 +656,7 @@ tracker = ProgressTracker(sop_name="data_retrieval", total_steps=3)
 
 # Create agent with SOP
 model = BedrockModel(
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region_name="us-east-1",
     max_tokens=4096,
 )

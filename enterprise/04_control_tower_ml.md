@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ | cdk: 2.170+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | cdk: 2.170+ | Model IDs: 2026-04-22 refresh -->
 
 # Template Enterprise 04 — AWS Control Tower Landing Zone for ML Account Governance
 
@@ -76,7 +76,7 @@ APPROVED_INSTANCE_TYPES:    [OPTIONAL: ml.m5.xlarge,ml.m5.2xlarge,ml.g5.xlarge,m
                             Comma-separated list of SageMaker instance types allowed by
                             detective and preventive guardrails.
 
-APPROVED_BEDROCK_MODELS:    [OPTIONAL: anthropic.claude-3-sonnet-*,anthropic.claude-3-haiku-*,amazon.titan-embed-text-v2:0]
+APPROVED_BEDROCK_MODELS:    [OPTIONAL: us.anthropic.claude-sonnet-4-7-*,us.anthropic.claude-haiku-4-5-*,amazon.titan-embed-text-v2:0]
                             Comma-separated list of Bedrock model IDs allowed by preventive
                             guardrails. Supports wildcards.
 
@@ -335,7 +335,7 @@ resources:
       - parameter_key: ApprovedInstanceTypes
         parameter_value: "ml.m5.xlarge,ml.m5.2xlarge,ml.g5.xlarge,ml.g5.2xlarge"
       - parameter_key: ApprovedBedrockModels
-        parameter_value: "anthropic.claude-3-sonnet-*,anthropic.claude-3-haiku-*"
+        parameter_value: "us.anthropic.claude-sonnet-4-7-*,us.anthropic.claude-haiku-4-5-*"
     deployment_targets:
       organizational_units:
         - ou-abc1-mlworkloads
@@ -422,8 +422,8 @@ organization_policies:
       "Condition": {
         "ForAnyValue:StringNotLike": {
           "bedrock:ModelId": [
-            "anthropic.claude-3-sonnet-*",
-            "anthropic.claude-3-haiku-*",
+            "us.anthropic.claude-sonnet-4-7-*",
+            "us.anthropic.claude-haiku-4-5-*",
             "amazon.titan-embed-text-v2:0"
           ]
         },

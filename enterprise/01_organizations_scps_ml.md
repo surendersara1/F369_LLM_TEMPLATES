@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | Model IDs: 2026-04-22 refresh -->
 
 # Template Enterprise 01 — AWS Organizations SCPs for ML Governance
 
@@ -45,9 +45,9 @@ APPROVED_REGIONS:           [REQUIRED - comma-separated list of allowed AWS regi
                             Applies to SageMaker, Bedrock, Glue, and Comprehend actions.
 
 APPROVED_BEDROCK_MODELS:    [REQUIRED - comma-separated list of allowed Bedrock model IDs]
-                            Example: "anthropic.claude-3-sonnet-20240229-v1:0,anthropic.claude-3-haiku-20240307-v1:0,amazon.titan-embed-text-v2:0"
+                            Example: "us.anthropic.claude-sonnet-4-7-20260109-v1:0,us.anthropic.claude-haiku-4-5-20251001-v1:0,amazon.titan-embed-text-v2:0"
                             SCP will deny bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream
-                            for model IDs not in this list. Supports wildcards: "anthropic.claude-3-*"
+                            for model IDs not in this list. Supports wildcards: "us.anthropic.claude-sonnet-4-*"
 
 TARGET_OUS:                 [REQUIRED - comma-separated list of OU IDs to attach SCPs]
                             Example: "ou-abc1-mlworkloads,ou-abc1-mlsandbox"
@@ -398,7 +398,7 @@ bedrock_model_policy = {
             "Condition": {
                 "ForAnyValue:StringNotLike": {
                     "bedrock:ModelId": APPROVED_BEDROCK_MODELS
-                    # Example: ["anthropic.claude-3-sonnet*", "anthropic.claude-3-haiku*", "amazon.titan-embed*"]
+                    # Example: ["us.anthropic.claude-sonnet-4-7*", "us.anthropic.claude-haiku-4-5*", "amazon.titan-embed*"]
                 },
                 "ArnNotLike": {
                     "aws:PrincipalArn": BREAK_GLASS_ROLE_ARNS

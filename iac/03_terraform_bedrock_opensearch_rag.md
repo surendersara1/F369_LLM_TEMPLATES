@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | Terraform: 1.9+ | AWS Provider: 5.70+ -->
+<!-- Template Version: 1.1 | Terraform: 1.9+ | AWS Provider: 5.70+ | Model IDs: 2026-04-22 refresh -->
 
 # Template IaC 03 — Terraform for Bedrock + OpenSearch RAG Infrastructure
 
@@ -30,9 +30,9 @@ ENV:                    [REQUIRED - dev | stage | prod]
 
 VECTOR_DIMENSIONS:      [OPTIONAL: 1536 for Titan v2]
 EMBEDDING_MODEL_ARN:    [OPTIONAL: arn:aws:bedrock:{region}::foundation-model/amazon.titan-embed-text-v2:0]
-GENERATION_MODEL_ARN:   [OPTIONAL: arn:aws:bedrock:{region}::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0]
+GENERATION_MODEL_ARN:   [OPTIONAL: arn:aws:bedrock:{region}::foundation-model/us.anthropic.claude-sonnet-4-7-20260109-v1:0]
                         # NOTE: Verify model ID availability in your region with:
-                        #   aws bedrock list-foundation-models --region {region} --query "modelSummaries[?modelId=='anthropic.claude-3-5-sonnet-20241022-v2:0']"
+                        #   aws bedrock list-foundation-models --region {region} --query "modelSummaries[?modelId=='us.anthropic.claude-sonnet-4-7-20260109-v1:0']"
 
 DOCUMENTS_BUCKET_NAME:  [OPTIONAL: {PROJECT_NAME}-{AWS_ACCOUNT_ID}-{ENV}-documents]
 ENABLE_BEDROCK_KB:      [OPTIONAL: true - create managed Bedrock Knowledge Base]

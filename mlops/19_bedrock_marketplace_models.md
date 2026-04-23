@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | Model IDs: 2026-04-22 refresh -->
 
 # Template 19 — Bedrock Marketplace Models
 
@@ -64,7 +64,7 @@ MARKETPLACE_INSTANCE_COUNT: [OPTIONAL: 1]
 MODEL_ID:               [OPTIONAL - Bedrock foundation model ID for provisioned throughput]
                         Required when DEPLOYMENT_MODE is provisioned or both.
                         Examples:
-                        - anthropic.claude-3-5-sonnet-20241022-v2:0
+                        - us.anthropic.claude-sonnet-4-7-20260109-v1:0
                         - amazon.nova-pro-v1:0
                         - meta.llama3-1-70b-instruct-v1:0
                         - Custom model ARN from fine-tuning job
@@ -91,7 +91,7 @@ BENCHMARK_PROMPTS_S3:   [OPTIONAL - s3://bucket/path/to/benchmark_prompts.jsonl]
                         If not provided, uses built-in benchmark prompts.
 
 BENCHMARK_MODELS:       [OPTIONAL - JSON list of model IDs to compare]
-                        Example: ["anthropic.claude-3-5-sonnet-20241022-v2:0",
+                        Example: ["us.anthropic.claude-sonnet-4-7-20260109-v1:0",
                                   "amazon.nova-pro-v1:0",
                                   "meta.llama3-1-70b-instruct-v1:0"]
 
@@ -191,7 +191,7 @@ Generate complete Bedrock Marketplace and provisioned throughput deployment:
 
 **create_inference_profile.py**: Create cross-region application inference profile using `bedrock.create_inference_profile()`:
 - For single-region tracking: set `modelSource.copyFrom` to the foundation model ARN in the target region
-- For cross-region routing: set `modelSource.copyFrom` to the system-defined inference profile ARN (e.g., `us.anthropic.claude-3-5-sonnet-20241022-v2:0`)
+- For cross-region routing: set `modelSource.copyFrom` to the system-defined inference profile ARN (e.g., `us.anthropic.claude-sonnet-4-7-20260109-v1:0`)
 - Return `inferenceProfileArn` for use as `modelId` in inference calls
 - Tag with Project and Environment
 
@@ -257,7 +257,7 @@ Output ALL files with headers: `### FILE: [path]`
 
 **Provisioned Throughput:** Request model unit (MU) quota increase via AWS Support before purchasing. No-commitment provisioned throughput can be deleted anytime. Committed throughput (1-month or 6-month) cannot be deleted before the commitment expires. Provisioned throughput is billed per hour per model unit regardless of utilization. Monitor utilization — under-utilized provisioned throughput is wasted cost. The `provisionedModelArn` returned by `CreateProvisionedModelThroughput` is used as `modelId` for inference.
 
-**Cross-Region Inference Profiles:** Application inference profiles track metrics and costs per profile. System-defined inference profiles route requests across pre-configured regions (e.g., `us.anthropic.claude-3-5-sonnet-20241022-v2:0` routes across US regions). Create application inference profiles from system-defined profiles for cross-region routing with per-application cost tracking. Inference profiles do not add latency — routing is handled at the Bedrock service level. IAM policies must allow `bedrock:InvokeModel` on the inference profile ARN.
+**Cross-Region Inference Profiles:** Application inference profiles track metrics and costs per profile. System-defined inference profiles route requests across pre-configured regions (e.g., `us.anthropic.claude-sonnet-4-7-20260109-v1:0` routes across US regions). Create application inference profiles from system-defined profiles for cross-region routing with per-application cost tracking. Inference profiles do not add latency — routing is handled at the Bedrock service level. IAM policies must allow `bedrock:InvokeModel` on the inference profile ARN.
 
 **Security:** Marketplace endpoint execution roles need SageMaker permissions. Provisioned throughput requires `bedrock:CreateProvisionedModelThroughput` and `bedrock:InvokeModel` on the provisioned model ARN. Inference profiles require `bedrock:CreateInferenceProfile` and `bedrock:InvokeModel` on the profile ARN. Use VPC endpoints for Bedrock API calls in private subnets. Enable CloudTrail for all Bedrock API calls.
 
@@ -525,10 +525,10 @@ def create_inference_profile(
     """Create an application inference profile for cost tracking or cross-region routing.
 
     For single-region tracking:
-        model_source_arn = "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0"
+        model_source_arn = "arn:aws:bedrock:us-east-1::foundation-model/us.anthropic.claude-sonnet-4-7-20260109-v1:0"
 
     For cross-region routing (use system-defined inference profile ARN):
-        model_source_arn = "arn:aws:bedrock:us-east-1:{account_id}:inference-profile/us.anthropic.claude-3-5-sonnet-20241022-v2:0"
+        model_source_arn = "arn:aws:bedrock:us-east-1:{account_id}:inference-profile/us.anthropic.claude-sonnet-4-7-20260109-v1:0"
     """
     create_params = {
         "inferenceProfileName": profile_name,

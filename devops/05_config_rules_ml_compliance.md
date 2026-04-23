@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | Model IDs: 2026-04-22 refresh -->
 
 # Template DevOps 05 — AWS Config Rules for ML Compliance
 
@@ -62,7 +62,7 @@ CUSTOM_RULES:               [OPTIONAL: all]
 APPROVED_INSTANCE_TYPES:    [OPTIONAL: ml.m5.xlarge,ml.m5.2xlarge,ml.g5.xlarge,ml.g5.2xlarge,ml.inf2.xlarge]
                             Comma-separated list of allowed SageMaker instance types.
 
-APPROVED_BEDROCK_MODELS:    [OPTIONAL: anthropic.claude-3-5-sonnet-20241022-v2:0,anthropic.claude-3-haiku-20240307-v1:0,amazon.nova-pro-v1:0]
+APPROVED_BEDROCK_MODELS:    [OPTIONAL: us.anthropic.claude-sonnet-4-7-20260109-v1:0,us.anthropic.claude-haiku-4-5-20251001-v1:0,amazon.nova-pro-v1:0]
                             Comma-separated list of allowed Bedrock model IDs.
 
 CONFORMANCE_PACK_NAME:      [OPTIONAL: {PROJECT_NAME}-ml-compliance-{ENV}]

@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ | redis: 5.0+ | numpy: 1.26+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | redis: 5.0+ | numpy: 1.26+ | Model IDs: 2026-04-22 refresh -->
 
 # Template 18 — Prompt Caching Patterns
 
@@ -42,9 +42,9 @@ CACHE_STRATEGY:         [REQUIRED - bedrock_native | semantic | exact_match | al
 MODEL_ID:               [REQUIRED - Bedrock model ID for inference]
                         Must support prompt caching for bedrock_native strategy.
                         Options (verify current availability):
-                        - anthropic.claude-3-5-sonnet-20241022-v2:0 (min 1,024 tokens)
-                        - anthropic.claude-3-7-sonnet-20250219-v1:0 (min 1,024 tokens)
-                        - anthropic.claude-3-5-haiku-20241022-v1:0 (min 2,048 tokens)
+                        - us.anthropic.claude-sonnet-4-7-20260109-v1:0 (min 1,024 tokens)
+                        - us.anthropic.claude-sonnet-4-7-20260109-v1:0 (min 1,024 tokens)
+                        - us.anthropic.claude-haiku-4-5-20251001-v1:0 (min 2,048 tokens)
                         - amazon.nova-pro-v1:0 (min 1,000 tokens)
                         - amazon.nova-lite-v1:0 (min 1,000 tokens)
 
@@ -239,7 +239,7 @@ Output ALL files with headers: `### FILE: [path]`
 
 ## Requirements & Constraints
 
-**Bedrock Native Caching:** Cache checkpoints require a minimum token count per model (1,024 for Claude 3.5 Sonnet v2 / Claude 3.7 Sonnet, 2,048 for Claude 3.5 Haiku, 1,000 for Nova models). Maximum 4 cache checkpoints per request. Cache TTL is 5 minutes by default (resets on each cache hit). Place `cachePoint` markers after static content (system prompt, large context documents) — not after dynamic user queries. Cache is per-session and per-model; changing the prefix invalidates the cache.
+**Bedrock Native Caching:** Cache checkpoints require a minimum token count per model (1,024 for Claude Sonnet 4.7, 2,048 for Claude Haiku 4.5, 1,000 for Nova models). Maximum 4 cache checkpoints per request. Cache TTL is 5 minutes by default (resets on each cache hit). Place `cachePoint` markers after static content (system prompt, large context documents) — not after dynamic user queries. Cache is per-session and per-model; changing the prefix invalidates the cache.
 
 **Semantic Caching:** ElastiCache Redis must have the Redis Search module enabled for vector similarity search. HNSW index provides approximate nearest neighbor search — tune M and EF_CONSTRUCTION for your latency/recall tradeoff. Embedding generation adds latency (~50-100ms per query) — only use semantic caching when the cost savings from cache hits outweigh the embedding overhead. Similarity threshold tuning is critical: too low causes incorrect cache hits, too high causes excessive misses.
 
@@ -619,7 +619,7 @@ def publish_cache_metrics(strategy: str, model_id: str, cache_hit: bool, input_t
     # Estimate cost savings (approximate — varies by model)
     # Standard input token cost vs cached input token cost
     if cache_hit and cached_tokens > 0:
-        # Example: Claude 3.5 Sonnet standard=$0.003/1K, cached=$0.0003/1K (90% savings)
+        # Example: Claude Sonnet 4.7 standard=$0.003/1K, cached=$0.0003/1K (90% savings)
         standard_cost = (cached_tokens / 1000) * 0.003
         cached_cost = (cached_tokens / 1000) * 0.0003
         savings = standard_cost - cached_cost

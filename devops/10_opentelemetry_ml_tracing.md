@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ | opentelemetry-api: 1.27+ | opentelemetry-sdk: 1.27+ | aws-opentelemetry-distro: 0.7+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | opentelemetry-api: 1.27+ | opentelemetry-sdk: 1.27+ | aws-opentelemetry-distro: 0.7+ | Model IDs: 2026-04-22 refresh -->
 
 # Template DevOps 10 — OpenTelemetry Distributed Tracing for ML Inference
 
@@ -149,7 +149,7 @@ Generate complete OpenTelemetry distributed tracing infrastructure for ML infere
 **span_attributes.py**: ML-specific span attribute definitions:
 - Define constants for standard ML span attribute keys: `MODEL_ID = "model.id"`, `MODEL_PROVIDER = "model.provider"`, `TOKENS_INPUT = "tokens.input"`, `TOKENS_OUTPUT = "tokens.output"`, `LATENCY_MS = "latency_ms"`, `GUARDRAIL_ID = "guardrail.id"`, `GUARDRAIL_ACTION = "guardrail.action"`, `GEN_AI_SYSTEM = "gen_ai.system"`, `STOP_REASON = "stop_reason"`
 - `build_ml_attributes(model_id, latency_ms, tokens_in, tokens_out, **extra)`: helper that constructs a dict of span attributes from ML inference results, merging with CUSTOM_SPAN_ATTRIBUTES.
-- `parse_model_provider(model_id)`: extract provider from Bedrock model ID (e.g., `anthropic` from `anthropic.claude-3-sonnet-20240229-v1:0`).
+- `parse_model_provider(model_id)`: extract provider from Bedrock model ID (e.g., `anthropic` from `us.anthropic.claude-sonnet-4-7-20260109-v1:0`).
 
 **adot_lambda_layer.py**: ADOT Lambda layer configuration:
 - Provide the ADOT Lambda layer ARN for the target region: `arn:aws:lambda:{AWS_REGION}:901920570463:layer:aws-otel-python-amd64-ver-1-25-0:1` (update version as needed)
@@ -329,7 +329,7 @@ tracer = trace.get_tracer("ml-inference")
 
 
 def parse_model_provider(model_id: str) -> str:
-    """Extract provider from Bedrock model ID (e.g., 'anthropic' from 'anthropic.claude-3-sonnet...')."""
+    """Extract provider from Bedrock model ID (e.g., 'anthropic' from 'us.anthropic.claude-sonnet-4-7...')."""
     return model_id.split(".")[0] if "." in model_id else "unknown"
 
 
@@ -458,7 +458,7 @@ def lambda_handler(event, context):
         # Stage 1: Parse request
         with tracer.start_as_current_span("inference.parse_request") as parse_span:
             body = json.loads(event.get("body", "{}"))
-            model_id = body.get("model_id", "anthropic.claude-3-sonnet-20240229-v1:0")
+            model_id = body.get("model_id", "us.anthropic.claude-sonnet-4-7-20260109-v1:0")
             messages = body.get("messages", [])
             parse_span.set_attribute("request.source", event.get("requestContext", {}).get("identity", {}).get("sourceIp", "unknown"))
             parse_span.set_attribute("request.size_bytes", len(event.get("body", "")))

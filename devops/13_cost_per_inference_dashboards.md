@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ | QuickSight: Enterprise Edition -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | QuickSight: Enterprise Edition | Model IDs: 2026-04-22 refresh -->
 
 # Template DevOps 13 — Cost-per-Inference Dashboards and Per-Customer Cost Allocation
 
@@ -40,7 +40,7 @@ ENDPOINTS_TO_TRACK:         [REQUIRED - JSON list of SageMaker endpoint names to
 BEDROCK_MODELS_TO_TRACK:    [REQUIRED - JSON list of Bedrock model IDs to track]
                             List of Bedrock model IDs for cost-per-inference tracking.
                             Pricing is computed from token counts in invocation logs.
-                            Example: ["anthropic.claude-3-sonnet-20240229-v1:0", "amazon.titan-text-express-v1"]
+                            Example: ["us.anthropic.claude-sonnet-4-7-20260109-v1:0", "amazon.titan-text-express-v1"]
 
 CUSTOMER_TRACKING_ENABLED:  [OPTIONAL: false]
                             Enable per-customer cost allocation tracking.
@@ -142,7 +142,7 @@ Generate complete cost-per-inference analytics infrastructure:
 **config.py**: Central configuration dataclass with all parameters. Load from environment variables or CLI args. Validate required fields. Construct resource names using `{PROJECT_NAME}-{component}-{ENV}` convention. Parse ENDPOINTS_TO_TRACK and BEDROCK_MODELS_TO_TRACK from JSON strings. Validate that at least one endpoint or model is specified. Set defaults for CUSTOMER_TRACKING_ENABLED, QUICKSIGHT_ENABLED, COST_ALERT_THRESHOLD, REPORT_FREQUENCY. Validate that CUSTOMER_ID_FIELD is provided when CUSTOMER_TRACKING_ENABLED is true.
 
 **pricing_data.py**: Bedrock and SageMaker pricing reference:
-- Define a Python dictionary `BEDROCK_PRICING` mapping `modelId` to `{"input_per_1k_tokens": float, "output_per_1k_tokens": float, "provider": str}` for common models: Claude 3 Sonnet, Claude 3 Haiku, Claude 3.5 Sonnet, Claude 3.5 Haiku, Titan Text Express, Titan Text Lite, Llama 3 models, Mistral models.
+- Define a Python dictionary `BEDROCK_PRICING` mapping `modelId` to `{"input_per_1k_tokens": float, "output_per_1k_tokens": float, "provider": str}` for common models: Claude Sonnet 4.7, Claude Haiku 4.5, Titan Text Express, Titan Text Lite, Llama 3 models, Mistral models.
 - Define a Python dictionary `SAGEMAKER_PRICING` mapping instance type to hourly cost in USD for common inference instances: ml.m5.xlarge, ml.g5.xlarge, ml.g5.2xlarge, ml.inf2.xlarge, ml.c7g.xlarge.
 - `get_bedrock_cost(model_id, input_tokens, output_tokens)`: compute total cost for a single Bedrock invocation: `(input_tokens / 1000) * input_price + (output_tokens / 1000) * output_price`.
 - `get_sagemaker_cost_per_invocation(instance_type, invocations_per_hour)`: compute per-invocation cost for a SageMaker endpoint: `hourly_cost / invocations_per_hour`.
@@ -567,9 +567,9 @@ COST_NAMESPACE = f"{PROJECT_NAME}/InferenceCost"
 CUSTOMER_ID_FIELD = "customer_id"  # configurable
 
 BEDROCK_PRICING = {
-    "anthropic.claude-3-sonnet-20240229-v1:0": {"input": 0.003, "output": 0.015},
-    "anthropic.claude-3-haiku-20240307-v1:0": {"input": 0.00025, "output": 0.00125},
-    "anthropic.claude-3-5-sonnet-20241022-v2:0": {"input": 0.003, "output": 0.015},
+    "us.anthropic.claude-sonnet-4-7-20260109-v1:0": {"input": 0.003, "output": 0.015},
+    "us.anthropic.claude-haiku-4-5-20251001-v1:0": {"input": 0.00025, "output": 0.00125},
+    "us.anthropic.claude-sonnet-4-7-20260109-v1:0": {"input": 0.003, "output": 0.015},
     "amazon.titan-text-express-v1": {"input": 0.0002, "output": 0.0006},
 }
 

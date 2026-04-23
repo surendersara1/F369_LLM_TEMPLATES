@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | Model IDs: 2026-04-22 refresh -->
 
 # Template DevOps 12 — Bedrock Invocation Logging and Analysis
 
@@ -82,7 +82,7 @@ FAILOVER_MODEL_ID:          [OPTIONAL: none]
 
 PRIMARY_MODEL_ID:           [OPTIONAL: none]
                             Primary model ID being monitored.
-                            Example: "anthropic.claude-3-sonnet-20240229-v1:0"
+                            Example: "us.anthropic.claude-sonnet-4-7-20260109-v1:0"
                             Used for cost tracking and failover configuration.
 
 LOG_MODEL_INPUT_OUTPUT:     [OPTIONAL: false]
@@ -208,7 +208,7 @@ Generate complete Bedrock invocation logging and analysis infrastructure:
 
 **pricing_table.py**: Bedrock pricing reference data:
 - Define a Python dictionary mapping `modelId` to pricing per 1K input tokens and per 1K output tokens
-- Include pricing for common models: Claude 3 Sonnet, Claude 3 Haiku, Claude 3.5 Sonnet, Titan Text Express, Titan Text Lite, Llama models, Mistral models
+- Include pricing for common models: Claude Sonnet 4.7, Claude Haiku 4.5, Titan Text Express, Titan Text Lite, Llama models, Mistral models
 - Create an Athena table `bedrock_pricing` with columns: `model_id`, `input_price_per_1k_tokens`, `output_price_per_1k_tokens`, `provider`
 - Populate the pricing table using INSERT INTO from a VALUES clause
 - Include a utility function to refresh pricing data
@@ -767,10 +767,10 @@ CREATE TABLE IF NOT EXISTS {ATHENA_DATABASE}.bedrock_pricing (
 # Populate pricing data (update values as pricing changes)
 PRICING_INSERT = f"""
 INSERT INTO {ATHENA_DATABASE}.bedrock_pricing VALUES
-    ('anthropic.claude-3-5-sonnet-20241022-v2:0', 'Anthropic', 0.003, 0.015),
-    ('anthropic.claude-3-5-haiku-20241022-v1:0',  'Anthropic', 0.001, 0.005),
-    ('anthropic.claude-3-sonnet-20240229-v1:0',   'Anthropic', 0.003, 0.015),
-    ('anthropic.claude-3-haiku-20240307-v1:0',    'Anthropic', 0.00025, 0.00125),
+    ('us.anthropic.claude-sonnet-4-7-20260109-v1:0', 'Anthropic', 0.003, 0.015),
+    ('us.anthropic.claude-haiku-4-5-20251001-v1:0',  'Anthropic', 0.001, 0.005),
+    ('us.anthropic.claude-sonnet-4-7-20260109-v1:0',   'Anthropic', 0.003, 0.015),
+    ('us.anthropic.claude-haiku-4-5-20251001-v1:0',    'Anthropic', 0.00025, 0.00125),
     ('amazon.titan-text-express-v1',              'Amazon',    0.0002, 0.0006),
     ('amazon.titan-text-lite-v1',                 'Amazon',    0.00015, 0.0002),
     ('meta.llama3-1-70b-instruct-v1:0',           'Meta',      0.00099, 0.00099),

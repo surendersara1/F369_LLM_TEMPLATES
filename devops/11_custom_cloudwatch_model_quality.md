@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ | numpy: 1.26+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | numpy: 1.26+ | Model IDs: 2026-04-22 refresh -->
 
 # Template DevOps 11 — Custom CloudWatch Metrics for ML Model Quality Monitoring
 
@@ -35,7 +35,7 @@ ENV:                        [REQUIRED - dev | stage | prod]
 ENDPOINT_NAMES:             [REQUIRED - JSON list of endpoint/model identifiers]
                             List of SageMaker endpoint names or Bedrock model IDs to monitor.
                             Each endpoint gets its own dimension in custom metrics.
-                            Example: ["my-llm-endpoint-prod", "anthropic.claude-3-sonnet-20240229-v1:0"]
+                            Example: ["my-llm-endpoint-prod", "us.anthropic.claude-sonnet-4-7-20260109-v1:0"]
 
 METRIC_NAMESPACE:           [OPTIONAL: {PROJECT_NAME}/MLModelQuality]
                             CloudWatch custom metric namespace for all published metrics.

@@ -1,4 +1,4 @@
-<!-- Template Version: 1.0 | boto3: 1.35+ | strands-agents: 1.x+ | CDK: 2.170+ -->
+<!-- Template Version: 1.1 | boto3: 1.35+ | strands-agents: 1.x+ | CDK: 2.170+ | Model IDs: 2026-04-22 refresh -->
 
 # Template 20 — Strands Agent Lambda Deployment
 
@@ -35,11 +35,11 @@ AGENT_SYSTEM_PROMPT:    [REQUIRED - system prompt / instructions for the Strands
                         Example: "You are a helpful assistant that answers questions
                         using available tools. Always cite your sources and be concise."
 
-MODEL_ID:               [OPTIONAL: us.anthropic.claude-sonnet-4-20250514-v1:0]
+MODEL_ID:               [OPTIONAL: us.anthropic.claude-sonnet-4-7-20260109-v1:0]
                         Options (verify current availability):
-                        - us.anthropic.claude-sonnet-4-20250514-v1:0 (Claude Sonnet 4)
-                        - us.anthropic.claude-3-5-sonnet-20241022-v2:0 (Claude 3.5 Sonnet v2)
-                        - us.anthropic.claude-3-5-haiku-20241022-v1:0 (Claude 3.5 Haiku)
+                        - us.anthropic.claude-sonnet-4-7-20260109-v1:0 (Claude Sonnet 4.7)
+                        - us.anthropic.claude-sonnet-4-7-20260109-v1:0 (Claude Sonnet 4.7)
+                        - us.anthropic.claude-haiku-4-5-20251001-v1:0 (Claude Haiku 4.5)
                         - us.amazon.nova-pro-v1:0 (Amazon Nova Pro)
                         - us.amazon.nova-lite-v1:0 (Amazon Nova Lite)
 
@@ -206,7 +206,7 @@ Output ALL files with headers: `### FILE: [path]`
 from strands.models.bedrock import BedrockModel
 
 model = BedrockModel(
-    model_id="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    model_id="us.anthropic.claude-sonnet-4-7-20260109-v1:0",
     region_name="us-east-1",
     max_tokens=4096,
     temperature=0.7,
@@ -273,7 +273,7 @@ from strands.agent.conversation_manager import SlidingWindowConversationManager
 
 # Initialize outside handler for warm start reuse
 model = BedrockModel(
-    model_id=os.environ.get("MODEL_ID", "us.anthropic.claude-sonnet-4-20250514-v1:0"),
+    model_id=os.environ.get("MODEL_ID", "us.anthropic.claude-sonnet-4-7-20260109-v1:0"),
     region_name=os.environ.get("AWS_REGION", "us-east-1"),
     max_tokens=4096,
 )
@@ -435,7 +435,7 @@ class StrandsAgentStack(Stack):
             timeout=Duration.seconds(120),
             memory_size=512,
             environment={
-                "MODEL_ID": "us.anthropic.claude-sonnet-4-20250514-v1:0",
+                "MODEL_ID": "us.anthropic.claude-sonnet-4-7-20260109-v1:0",
                 "AGENT_SYSTEM_PROMPT": "You are a helpful assistant.",
                 "SESSION_TABLE_NAME": session_table.table_name,
                 "CONVERSATION_MANAGER_TYPE": "sliding_window",
