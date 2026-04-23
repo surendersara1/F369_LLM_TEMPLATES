@@ -1,7 +1,7 @@
 # F369 Engagement Kits — Decision Tree + Navigation
 
 **Location:** `E:\F369_LLM_TEMPLATES\kits\`
-**Count:** 5 kits (as of 2026-04-23)
+**Count:** 6 kits (as of 2026-04-23)
 **Design docs:** [`_design/`](./_design/README.md)
 
 Kits are **2-week consulting engagement playbooks**. Each kit is a business-ask-focused artifact (not an AWS-service-focused one) that chains LLM templates + CDK partials + a React/Next.js UI + compliance overlay into a single deliverable a consulting team can ship in ~10 developer-days.
@@ -29,6 +29,7 @@ Most kits expose 3–5 optional flags (`MULTIMODAL_ENABLED`, `ZERO_ETL_ENABLED`,
 | 3 | [deep-research-agent](./deep-research-agent.md) | "Perplexity for our data + tools" | 2 wk · 2 devs | $175K–$350K | 2 new + ~14 reused | [_design/deep-research-agent.md](./_design/deep-research-agent.md) |
 | 4 | [acoustic-fault-diagnostic-agent](./acoustic-fault-diagnostic-agent.md) | "Diagnose equipment from its sound" | 2 wk · 2 devs | $200K–$350K | 2 new + ~12 reused | [_design/acoustic-fault-diagnostic-agent.md](./_design/acoustic-fault-diagnostic-agent.md) |
 | 5 | [ai-native-lakehouse](./ai-native-lakehouse.md) | "Single chat over structured + unstructured data" | 2 wk · 2 devs | $150K–$500K | 12 new + ~6 reused | [_design/ai-native-lakehouse.md](./_design/ai-native-lakehouse.md) |
+| 6 | [qualitative-research-audio-analytics](./qualitative-research-audio-analytics.md) | "Industrial qualitative audio analytics (1K+/day, multi-persona)" | 2 wk POC · 2 devs | $250K–$500K | 5 new + ~15 reused | [_design/qualitative-research-audio-analytics.md](./_design/qualitative-research-audio-analytics.md) |
 
 **Status:** All 5 kits have been audited through at least one round. The 12 new partials introduced by kit 5 were audited in round R3 (2026-04-23) with surgical fixes applied. See `../F369_CICD_Template/docs/audit_report_partials_v2*.md` for the audit trail.
 
@@ -59,6 +60,12 @@ Read the client's ask verbatim. Match the **bold phrase** below to pick the kit:
   → **ai-native-lakehouse**
   - The flagship kit: text-to-SQL + RAG + multimodal + QuickSight Q, blended
   - DOMAIN_PACK variants: finance_analytics / operations_ops / sales_revenue / mixed_multi_domain
+
+- **"We run [focus groups | in-depth interviews | telephone surveys] and need AI to transcribe + summarize + extract themes + enable cross-study search across thousands of recordings per month"**
+  → **qualitative-research-audio-analytics**
+  - First kit with industrial-scale media ingest (1K+ audio files/day)
+  - Multi-persona UX: Admin ops cockpit + Analyst research workspace
+  - DOMAIN_PACK: qualitative_research; CLIENT_VERTICALS for pharma/retail/finance/automotive/healthcare
 
 ### Tiebreakers — overlapping asks
 

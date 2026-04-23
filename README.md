@@ -1,6 +1,6 @@
 # F369 — AWS MLOps & AI/LLM CI/CD Prompt Template Library
 
-A curated collection of **78 LLM prompt templates** across **8 directories** + **5 end-to-end engagement kits** for generating production-ready AWS infrastructure code. Feed any template to Claude (or another capable LLM) to get fully deployable code for MLOps pipelines, LLM inference, data engineering, security, FinOps, enterprise governance, observability, edge deployment, CI/CD, and IaC.
+A curated collection of **78 LLM prompt templates** across **8 directories** + **6 end-to-end engagement kits** for generating production-ready AWS infrastructure code. Feed any template to Claude (or another capable LLM) to get fully deployable code for MLOps pipelines, LLM inference, data engineering, security, FinOps, enterprise governance, observability, edge deployment, CI/CD, and IaC.
 
 For 2-week consulting engagements with business-level client asks, use the **[kits/](./kits/)** — playbooks that chain 10-15 templates + 40+ partials from the companion repo.
 
@@ -82,6 +82,7 @@ See **[PROMPT_GUIDE.md](./PROMPT_GUIDE.md)** for advanced usage, chaining templa
 | [deep-research-agent](./kits/deep-research-agent.md) | "Perplexity for our data + tools" | $175K-$350K | 3-6 months | v1.0, audited |
 | [acoustic-fault-diagnostic-agent](./kits/acoustic-fault-diagnostic-agent.md) | "Diagnose equipment from its sound" | $200K-$350K | 3-5 months | v1.0, audited |
 | [ai-native-lakehouse](./kits/ai-native-lakehouse.md) | "Single chat over structured + unstructured data" | $150K-$500K | 3-12 months | v1.0, audited |
+| [qualitative-research-audio-analytics](./kits/qualitative-research-audio-analytics.md) | "Industrial-scale qualitative audio analytics with multi-persona ops" | $250K-$500K | 3-5 months | v1.0, kit only (awaiting R4 audit on 5 new partials) |
 
 **See [kits/README.md](./kits/README.md) for the decision tree, composition patterns, and per-kit navigation.**
 
