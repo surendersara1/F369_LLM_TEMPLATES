@@ -1,10 +1,13 @@
 # F369 Engagement Kits — Decision Tree + Navigation
 
 **Location:** `E:\F369_LLM_TEMPLATES\kits\`
-**Count:** 6 kits (as of 2026-04-23)
+**Count:** 6 kits (1 at v2.0 reference standard · 5 grandfathered v1.x as of 2026-04-23)
+**Authoring standard (mandatory for new kits):** [`_template/README.md`](./_template/README.md) — **Business-First Kit Standard v1.0**
 **Design docs:** [`_design/`](./_design/README.md)
 
 Kits are **2-week consulting engagement playbooks**. Each kit is a business-ask-focused artifact (not an AWS-service-focused one) that chains LLM templates + CDK partials + a React/Next.js UI + compliance overlay into a single deliverable a consulting team can ship in ~10 developer-days.
+
+**As of 2026-04-23,** every NEW kit MUST follow the [Business-First Kit Standard v1.0](./_template/README.md): §1 business outcome → §2 personas + workflows → §3 frontend reference spec → §4 AWS architecture → §5 delivery plan. The reference implementation is [`qualitative-research-audio-analytics.md`](./qualitative-research-audio-analytics.md) (v2.0). Existing v1.x kits are grandfathered; retrofit only when a paying engagement lights them up.
 
 ---
 
@@ -22,16 +25,18 @@ Most kits expose 3–5 optional flags (`MULTIMODAL_ENABLED`, `ZERO_ETL_ENABLED`,
 
 ## Kit Registry
 
-| # | Kit | Client-ask quote | Engagement | Pitch price | Partials (new + reused) | Design doc |
-|---|---|---|---|---|---|---|
-| 1 | [hr-interview-analyzer](./hr-interview-analyzer.md) | "Upload interview video → AI scoring" | 2 wk · 2 devs | $100K–$175K | 3 new + ~8 reused | (design merged into kit) |
-| 2 | [rag-chatbot-per-client](./rag-chatbot-per-client.md) | "ChatGPT over our docs, per tenant" | 2 wk · 2 devs | $125K–$225K | 2 new + ~10 reused | (design merged into kit) |
-| 3 | [deep-research-agent](./deep-research-agent.md) | "Perplexity for our data + tools" | 2 wk · 2 devs | $175K–$350K | 2 new + ~14 reused | [_design/deep-research-agent.md](./_design/deep-research-agent.md) |
-| 4 | [acoustic-fault-diagnostic-agent](./acoustic-fault-diagnostic-agent.md) | "Diagnose equipment from its sound" | 2 wk · 2 devs | $200K–$350K | 2 new + ~12 reused | [_design/acoustic-fault-diagnostic-agent.md](./_design/acoustic-fault-diagnostic-agent.md) |
-| 5 | [ai-native-lakehouse](./ai-native-lakehouse.md) | "Single chat over structured + unstructured data" | 2 wk · 2 devs | $150K–$500K | 12 new + ~6 reused | [_design/ai-native-lakehouse.md](./_design/ai-native-lakehouse.md) |
-| 6 | [qualitative-research-audio-analytics](./qualitative-research-audio-analytics.md) | "Industrial qualitative audio analytics (1K+/day, multi-persona)" | 2 wk POC · 2 devs | $250K–$500K | 5 new + ~15 reused | [_design/qualitative-research-audio-analytics.md](./_design/qualitative-research-audio-analytics.md) |
+| # | Kit | Standard | Client-ask quote | Engagement | Pitch price | Partials (new + reused) | Design doc |
+|---|---|---|---|---|---|---|---|
+| 1 | [hr-interview-analyzer](./hr-interview-analyzer.md) | v1.x | "Upload interview video → AI scoring" | 2 wk · 2 devs | $100K–$175K | 3 new + ~8 reused | (design merged into kit) |
+| 2 | [rag-chatbot-per-client](./rag-chatbot-per-client.md) | v1.x | "ChatGPT over our docs, per tenant" | 2 wk · 2 devs | $125K–$225K | 2 new + ~10 reused | (design merged into kit) |
+| 3 | [deep-research-agent](./deep-research-agent.md) | v1.x | "Perplexity for our data + tools" | 2 wk · 2 devs | $175K–$350K | 2 new + ~14 reused | [_design/deep-research-agent.md](./_design/deep-research-agent.md) |
+| 4 | [acoustic-fault-diagnostic-agent](./acoustic-fault-diagnostic-agent.md) | v1.x | "Diagnose equipment from its sound" | 2 wk · 2 devs | $200K–$350K | 2 new + ~12 reused | [_design/acoustic-fault-diagnostic-agent.md](./_design/acoustic-fault-diagnostic-agent.md) |
+| 5 | [ai-native-lakehouse](./ai-native-lakehouse.md) | v1.x | "Single chat over structured + unstructured data" | 2 wk · 2 devs | $150K–$500K | 12 new + ~6 reused | [_design/ai-native-lakehouse.md](./_design/ai-native-lakehouse.md) |
+| 6 | **[qualitative-research-audio-analytics](./qualitative-research-audio-analytics.md)** | **v2.0 ★** | "Industrial qualitative audio analytics (1K+/day, multi-persona)" | 2 wk POC · 2 devs | $250K–$500K | 7 new + ~15 reused | [_design/qualitative-research-audio-analytics.md](./_design/qualitative-research-audio-analytics.md) |
 
-**Status:** All 5 kits have been audited through at least one round. The 12 new partials introduced by kit 5 were audited in round R3 (2026-04-23) with surgical fixes applied. See `../F369_CICD_Template/docs/audit_report_partials_v2*.md` for the audit trail.
+**★ Reference implementation** for the [Business-First Kit Standard v1.0](./_template/README.md). Read this kit end-to-end as the canonical example before authoring a new kit.
+
+**Status:** All 6 kits have been audited through at least one round. The 12 new partials introduced by kit 5 were audited in round R3 (2026-04-23) with surgical fixes applied. Kit 6 v2.0 surfaced 2 additional new partials (`PROMPT_LAB_VERSIONING`, `EVIDENCE_LINKED_LLM_OUTPUT`) — not yet audited. See `../F369_CICD_Template/docs/audit_report_partials_v2*.md` for the audit trail.
 
 ---
 
@@ -170,15 +175,24 @@ Client is a SaaS vendor wanting to RESELL any kit's capability to their own cust
 
 ## Authoring a new kit (checklist)
 
+> **NEW KITS MUST FOLLOW [Business-First Kit Standard v1.0](./_template/README.md).** Read it end-to-end before starting. Copy [`_template/EXAMPLE_kit-skeleton.md`](./_template/EXAMPLE_kit-skeleton.md) as your starting file.
+
+Authoring sequence (the standard enforces this order — DO NOT skip):
+
+1. **Buyer interview (or proxy)** — get on a call with someone in the §1.1 buyer role. If unavailable, find a published case study / job posting / earnings transcript that exposes the buyer's priorities. Capture verbatim language. Write §1.
+2. **Persona workflow mapping** — sketch the 3-5 personas. Write the day-in-the-life narratives BEFORE thinking about screens. Write §2.
+3. **Frontend reference spec** — sketch routes, declare every domain entity with fields, list every visualization, list standout features. Write §3.
+4. **Reference frontend (working code)** — build the actual SPA in a sibling repo (e.g. `E:\NBS_<client>_regen\frontend\`). Field-tune §3.2 domain types as build reveals friction. **You cannot publish §3 without a working reference frontend.**
+5. **Architecture from constraints** — read §1.4 anti-patterns + §3.2 types + §3.4 features; the architecture is a function of these. Write §4. Each component cites its §1-§3 driver.
+6. **Delivery plan** — day-by-day execution table, partials referenced, deliverables checklist, golden-set assertions. Write §5.
+7. **Identify partial gaps** — list new partials surfaced in §4.5. Build them in `F369_CICD_Template/prompt_templates/partials/` per Canonical-Copy Rule.
+8. **Audit the new partials** — follow `F369_CICD_Template/prompt_templates/partials/_prompts/audit_partials_v2.md`.
+9. **Run the kit audit gate** — see `_template/README.md §Audit gate` (~30 sign-off items across §1-§5). All MUST pass.
+10. **Register the kit** — add to the Registry table above with `Standard: v2.0`. Update top-level `../README.md`.
+
 Each prior kit has surfaced 2-12 new partials. Budget this in when estimating.
 
-1. **Write the design doc first** (`kits/_design/<new-kit>.md`) — business case, UX rationale, 3 business flows with pricing, "what we considered and didn't do".
-2. **Draft the kit** (`kits/<new-kit>.md`) — parameters, architecture, 10-day execution plan, partials reference list, deliverables checklist, golden-set questions for nightly regression.
-3. **Identify partial gaps** — which AWS primitives does the kit need that no existing partial covers? Add a §7 in the kit listing the gaps.
-4. **Build new partials** in `F369_CICD_Template/prompt_templates/partials/` **following the Canonical-Copy Rule** (see that repo's README). New partials MUST copy audited patterns from canonical partials for shared primitives.
-5. **Audit the new partials** before shipping — follow the rubric in `F369_CICD_Template/prompt_templates/partials/_prompts/audit_partials_v2.md`.
-6. **Update this README** — add the new kit to the Registry table + decision tree.
-7. **Update top-level `../README.md`** — add the kit to the Engagement Kits section.
+**Effort:** A v2.0 kit takes 5-10 days to author (vs. 1-2 days for v1.x). The extra effort buys durable sales assets that retain value across multiple engagements. See `_template/README.md §Why this is worth the extra effort` for the tradeoff.
 
 ---
 
