@@ -36,7 +36,17 @@ Most kits expose 3–5 optional flags (`MULTIMODAL_ENABLED`, `ZERO_ETL_ENABLED`,
 
 **★ Reference implementation** for the [Business-First Kit Standard v1.0](./_template/README.md). Read this kit end-to-end as the canonical example before authoring a new kit.
 
-**Status:** All 6 kits have been audited through at least one round. The 12 new partials introduced by kit 5 were audited in round R3 (2026-04-23) with surgical fixes applied. Kit 6 v2.0 surfaced 2 additional new partials (`PROMPT_LAB_VERSIONING`, `EVIDENCE_LINKED_LLM_OUTPUT`) — not yet audited. See `../F369_CICD_Template/docs/audit_report_partials_v2*.md` for the audit trail.
+**Planned kit slots (not yet authored, priority for engagement-driven build):**
+
+| # | Slot | Trigger to author | Will use new partials |
+|---|---|---|---|
+| 7 | `multi-source-data-platform` | First client engagement requiring Oracle/SQL-Server migration + 60+ SaaS ingest + cross-region DR + active-passive reads — typically a finance / healthcare / retail BI engagement at $300K-$1M | `DATA_DMS_REPLICATION`, `DATA_RDS_MULTIAZ_CLUSTER`, `DATA_EVENTBRIDGE_PIPES`, `DATA_APPFLOW_SAAS_INGEST`, `DATA_AURORA_GLOBAL_DR`, `DATA_ATHENA_FEDERATED_QUERY` |
+| 8 | `regulated-lakehouse-soc2-hipaa` | First HIPAA / SOC 2 Type II audit-prep engagement | `SECURITY_DATALAKE_CHECKLIST`, `COMPLIANCE_HIPAA_PCIDSS`, `DATA_LAKE_FORMATION` |
+| 9 | `spark-heavy-feature-engineering` | First ML feature-engineering engagement requiring custom UDFs / Hudi upserts at scale | `DATA_EMR_SERVERLESS_SPARK`, `DATA_LAKEHOUSE_ICEBERG`, `MLOPS_SAGEMAKER_TRAINING` |
+
+These slots are **not built speculatively**. They author when a paying engagement lights them up, per the Business-First Kit Standard's retrofit policy. The 8 underlying partials (Wave 5, 2026-04-26) are already authored and audit-pending — when an engagement lands, the kit composes them rather than building from scratch.
+
+**Status:** All 6 published kits have been audited through at least one round. The 12 new partials introduced by kit 5 were audited in round R3 (2026-04-23) with surgical fixes applied. Kit 6 v2.0 surfaced 2 additional new partials (`PROMPT_LAB_VERSIONING`, `EVIDENCE_LINKED_LLM_OUTPUT`) — not yet audited. **Wave 5 (2026-04-26) added 8 data-platform partials** (DMS, RDS Multi-AZ, EventBridge Pipes, AppFlow, EMR Serverless, Aurora Global, Athena Federated, Security Datalake Checklist) — not yet audited. See `../F369_CICD_Template/docs/audit_report_partials_v2*.md` for the audit trail.
 
 ---
 

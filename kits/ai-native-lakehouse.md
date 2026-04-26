@@ -340,9 +340,23 @@ SPICE_CAPACITY_GB:          100    (for QuickSight Enterprise)
 
 This kit ships with **100% partial coverage** — the 12 new partials built in Waves 1-4 (+ `DATA_S3_VECTORS` + `PATTERN_DOC_INGESTION_RAG` from prior kits) fully cover the engagement. No new partials to write during the first client engagement.
 
-**Known template gaps surfaced by prior kits (unchanged):**
+**Known template gaps surfaced by prior kits (now CLOSED in Wave 5, 2026-04-26):**
+
+The following 8 partials were authored in Wave 5 (2026-04-26) and are available as **opt-in extensions** to this kit. Add them when the client engagement requires migration / multi-DB / cross-region DR / SaaS ingest patterns:
+
+| Extension | When to add | New partial |
+|---|---|---|
+| Lift-and-shift Oracle / SQL Server / on-prem Postgres into the lakehouse | Client has legacy DB to retire | [`DATA_DMS_REPLICATION`](../../F369_CICD_Template/prompt_templates/partials/DATA_DMS_REPLICATION.md) |
+| Non-Aurora HA (RDS Multi-AZ DB cluster, 1 writer + 2 readable standbys) | Client wants RDS not Aurora; needs in-region HA | [`DATA_RDS_MULTIAZ_CLUSTER`](../../F369_CICD_Template/prompt_templates/partials/DATA_RDS_MULTIAZ_CLUSTER.md) |
+| Cross-region DR (RPO ≤ 1s, RTO ≤ 1 min) | Regulated workload requires cross-region | [`DATA_AURORA_GLOBAL_DR`](../../F369_CICD_Template/prompt_templates/partials/DATA_AURORA_GLOBAL_DR.md) |
+| DB-stream → S3 / Iceberg without Lambda glue | DDB Streams / Kinesis CDC → lakehouse | [`DATA_EVENTBRIDGE_PIPES`](../../F369_CICD_Template/prompt_templates/partials/DATA_EVENTBRIDGE_PIPES.md) |
+| Salesforce / Slack / ServiceNow / 60+ SaaS sources → lakehouse | Marketing/sales/CRM data needs to land in lakehouse | [`DATA_APPFLOW_SAAS_INGEST`](../../F369_CICD_Template/prompt_templates/partials/DATA_APPFLOW_SAAS_INGEST.md) |
+| Spark on Iceberg/Hudi/Delta — heavy transforms beyond Athena's scope | Custom UDFs, ML feature engineering, large compaction | [`DATA_EMR_SERVERLESS_SPARK`](../../F369_CICD_Template/prompt_templates/partials/DATA_EMR_SERVERLESS_SPARK.md) |
+| Cross-DB JOIN / Snowflake / BigQuery in a single Athena SQL | Federation across multiple DBs from Athena | [`DATA_ATHENA_FEDERATED_QUERY`](../../F369_CICD_Template/prompt_templates/partials/DATA_ATHENA_FEDERATED_QUERY.md) |
+| SOC 2 / HIPAA / GDPR audit-ready data lake security baseline | Compliance audit prep | [`SECURITY_DATALAKE_CHECKLIST`](../../F369_CICD_Template/prompt_templates/partials/SECURITY_DATALAKE_CHECKLIST.md) |
+
+**Known template gaps still open:**
 - Multi-tenant partitioning — use `DATA_MULTITENANT_DDB` partial directly if client has multi-tenant isolation requirements.
-- Cross-region DR — this kit assumes single-region; add cross-region via Aurora Global Database or S3 CRR per client need.
 
 ---
 
