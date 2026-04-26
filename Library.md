@@ -6,7 +6,7 @@ F369_LLM_TEMPLATES/
 ├── PROMPT_GUIDE.md                               How to use templates effectively
 ├── Library.md                                    This file — full library overview
 │
-├── mlops/                                        (25 templates)
+├── mlops/                                        (32 templates — Wave 8 added 7 composite templates)
 │   ├── 00_sagemaker_ai_workspace                 **DEPLOY FIRST** SageMaker Domain + Studio + Users + Canvas + JumpStart
 │   ├── 01_sagemaker_training_pipeline            ML training pipeline
 │   ├── 02_llm_finetuning_pipeline                LoRA/QLoRA fine-tuning
@@ -31,7 +31,18 @@ F369_LLM_TEMPLATES/
 │   ├── 21_strands_multi_agent_patterns           Graph/Swarm/Workflow multi-agent orchestration
 │   ├── 22_strands_agentcore_deployment           AgentCore Runtime + identity + auto-scaling
 │   ├── 23_agent_sop_authoring                    Agent SOP markdown authoring with RFC 2119 keywords
-│   └── 24_bedrock_prompt_management              Bedrock Prompt Management API lifecycle + A/B testing
+│   ├── 24_bedrock_prompt_management              Bedrock Prompt Management API lifecycle + A/B testing
+│   ├── 25_react_portal_cloudfront                React portal hosted on CloudFront + OAC
+│   ├── 26_fargate_ml_container                   Fargate-based ML container hosting
+│   │
+│   │  — Wave 8 composite templates (2026-04-26) —
+│   ├── 27_fm_training_with_hyperpod              **NEW** FM training (Llama 3 70B/405B) on HyperPod + Distributed + Smart Sifting + Lineage
+│   ├── 28_llm_production_serving                 **NEW** Multi-tenant LoRA adapters + sync + async + Inference Recommender
+│   ├── 29_unified_studio_workspace               **NEW** DataZone + Studio Spaces + Canvas + MLflow + Lineage workspace
+│   ├── 30_enterprise_ml_governance               **NEW** 3-account ML governance (RAM share + drift + lineage + auto-rollback)
+│   ├── 31_aws_silicon_cost_optimization          **NEW** Trainium2 training + Inferentia2 inference + Smart Sifting (40-75% cost cut)
+│   ├── 32_geospatial_ml                          **NEW** Earth Observation Jobs + pre-built models + custom segmentation
+│   └── 33_managed_labeling_pipeline              **NEW** Ground Truth Plus → trigger Lambda → training pipeline
 │
 ├── cicd/                                         (5 templates)
 │   ├── 01_codebuild_ml_training                  buildspec.yml for ML
@@ -64,12 +75,18 @@ F369_LLM_TEMPLATES/
 │   ├── 15_strands_agent_observability            Agent OTel tracing + CloudWatch metrics + dashboards
 │   └── 16_agent_guardrails_control               Agent Control + Bedrock Guardrails + consent + defense
 │
-├── data/                                         (5 templates)
+├── data/                                         (9 templates — Wave 8 added 4 composite templates)
 │   ├── 01_glue_etl_ml_features                   Glue ETL PySpark feature engineering + data quality
 │   ├── 02_kinesis_realtime_features               Kinesis streaming feature computation + Flink aggregations
 │   ├── 03_lake_formation_ml_governance            Lake Formation fine-grained access + LF-TBAC + cross-account sharing
 │   ├── 04_s3_data_lifecycle_ml                    S3 Intelligent-Tiering + lifecycle rules + batch operations
-│   └── 05_eventbridge_ml_orchestration            EventBridge ML event bus + SageMaker event rules + drift→retrain
+│   ├── 05_eventbridge_ml_orchestration            EventBridge ML event bus + SageMaker event rules + drift→retrain
+│   │
+│   │  — Wave 8 composite templates (2026-04-26) —
+│   ├── 06_operational_db_to_lakehouse            **NEW** DMS + EventBridge Pipes + AppFlow → S3 → Iceberg (3 ingest paths)
+│   ├── 07_multi_db_federation_query              **NEW** Athena Federated Query (30+ connectors) + Glue Federation + LF
+│   ├── 08_resilient_db_dr                         **NEW** RDS Multi-AZ + Aurora Global DR + AWS Backup cross-region
+│   └── 09_emr_serverless_spark_iceberg            **NEW** EMR Serverless 7.12 + Spark on Iceberg + Lake Formation
 │
 ├── finops/                                       (5 templates)
 │   ├── 01_cost_allocation_ml                      Cost allocation tags + Budgets + Anomaly Detection
@@ -78,12 +95,16 @@ F369_LLM_TEMPLATES/
 │   ├── 04_inference_cost_optimization             Auto-scaling + scale-to-zero + batch transform + multi-model endpoints
 │   └── 05_finops_dashboards_ml                    CloudWatch + QuickSight FinOps dashboards + chargeback reports
 │
-├── enterprise/                                   (5 templates)
+├── enterprise/                                   (7 templates — Wave 8 added 1 composite template)
 │   ├── 01_organizations_scps_ml                   SCPs for ML instance types, regions, encryption, Bedrock models
 │   ├── 02_cross_account_model_deployment          Cross-account CodePipeline + shared artifacts + model promotion
 │   ├── 03_service_catalog_ml                      Service Catalog self-service ML products + launch constraints
 │   ├── 04_control_tower_ml                        Control Tower landing zone + ML account baselines + guardrails
-│   └── 05_centralized_model_registry              Centralized cross-account Model Registry + lineage + EventBridge
+│   ├── 05_centralized_model_registry              Centralized cross-account Model Registry + lineage + EventBridge
+│   ├── 06_compliance_blueprint                   HIPAA / SOC 2 / PCI compliance baseline
+│   │
+│   │  — Wave 8 composite template (2026-04-26) —
+│   └── 07_datalake_security_baseline             **NEW** 30-control composite for SOC 2 / HIPAA / GDPR / PCI-DSS + daily audit Lambda
 │
 └── edge/                                         (3 templates)
     ├── 01_sagemaker_edge_deployment               SageMaker Neo compilation + Edge Manager + IoT Jobs OTA
