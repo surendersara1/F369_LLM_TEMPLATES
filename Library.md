@@ -125,6 +125,12 @@ F369_LLM_TEMPLATES/
 │   ├── 09_landing_zone_baseline                  **NEW** Full AWS Landing Zone (5-7 days): Control Tower + Identity Center + SCPs/RCPs + TGW Hub + Log Archive
 │   └── 10_centralized_security_ops               **NEW** Org-wide SOC stand-up (3-5 days): Security Hub Central Config + GuardDuty 6 features + Inspector + Macie + Detective + Security Lake + IR runbook + auto-remediation
 │
+├── migration/                                    (3 templates — Wave 13 NEW)
+│   │  — Wave 13 composite templates (2026-04-27) —
+│   ├── 01_lift_and_shift_servers                 **NEW** MGN-driven server migration (50-500 servers, 6-12 weeks, wave-based)
+│   ├── 02_database_migration                     **NEW** Heterogeneous DB migration (Oracle/SQL Server → Aurora PG, Babelfish, 8-16 weeks)
+│   └── 03_modernization_strangler_fig            **NEW** Refactor Spaces Strangler Fig — incremental monolith decomposition (4-6 weeks initial)
+│
 ├── backend/                                      (3 templates — Wave 10 NEW)
 │   │  — Wave 10 composite templates (2026-04-26) —
 │   ├── 01_serverless_api_starter                 **NEW** HTTP API + Cognito JWT + Powertools + DDB single-table (2-day POC)
@@ -137,7 +143,7 @@ F369_LLM_TEMPLATES/
     └── 03_outposts_ml_patterns                    Outposts local ML training + inference + DataSync
 ```
 
-**Total: 86 template files** across 9 categories. (Wave 12 added 3 streaming analytics composites: clickstream / IoT anomaly / real-time UI.)
+**Total: 89 template files** across 10 categories. (Wave 13 added 3 migration composites + new `migration/` category.)
 
 ---
 
