@@ -135,11 +135,15 @@ F369_LLM_TEMPLATES/
 │   ├── 02_database_migration                     **NEW** Heterogeneous DB migration (Oracle/SQL Server → Aurora PG, Babelfish, 8-16 weeks)
 │   └── 03_modernization_strangler_fig            **NEW** Refactor Spaces Strangler Fig — incremental monolith decomposition (4-6 weeks initial)
 │
-├── backend/                                      (3 templates — Wave 10 NEW)
+├── backend/                                      (5 templates — Wave 16 added 2 ECS composites)
 │   │  — Wave 10 composite templates (2026-04-26) —
-│   ├── 01_serverless_api_starter                 **NEW** HTTP API + Cognito JWT + Powertools + DDB single-table (2-day POC)
-│   ├── 02_event_driven_workflow                  **NEW** EventBridge + Step Functions + SQS DLQ + Lambda step pattern (3-day POC)
-│   └── 03_graphql_realtime_api                   **NEW** AppSync + Cognito + DDB direct resolvers + JS pipeline + WebSocket subscriptions
+│   ├── 01_serverless_api_starter                 HTTP API + Cognito JWT + Powertools + DDB single-table (2-day POC)
+│   ├── 02_event_driven_workflow                  EventBridge + Step Functions + SQS DLQ + Lambda step pattern (3-day POC)
+│   ├── 03_graphql_realtime_api                   AppSync + Cognito + DDB direct resolvers + JS pipeline + WebSocket subscriptions
+│   │
+│   │  — Wave 16 composite templates (2026-04-27) —
+│   ├── 04_ecs_production_baseline                **NEW** ECS Fargate cluster + Service Connect + Blue/Green CodeDeploy + auto-scaling + GuardDuty Runtime (2-3 day POC)
+│   └── 05_ecs_blue_green_microservices           **NEW** ECS multi-service platform (5+ services) + Service Connect mesh + per-service Aurora/DDB + per-service CodeDeploy (5-7 days)
 │
 └── edge/                                         (3 templates)
     ├── 01_sagemaker_edge_deployment               SageMaker Neo compilation + Edge Manager + IoT Jobs OTA
@@ -147,7 +151,7 @@ F369_LLM_TEMPLATES/
     └── 03_outposts_ml_patterns                    Outposts local ML training + inference + DataSync
 ```
 
-**Total: 91 template files** across 10 categories. (Wave 14 added 2 enterprise DR/resilience composites.)
+**Total: 93 template files** across 10 categories. (Wave 16 added 2 ECS production composites.)
 
 ---
 
