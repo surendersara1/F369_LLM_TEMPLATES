@@ -79,7 +79,7 @@ F369_LLM_TEMPLATES/
 │   │  — Wave 9 composite template (2026-04-26) —
 │   └── 18_eks_production_baseline                **NEW** EKS 1.32 + Karpenter v1 + LBC + Pod Identity + ArgoCD + Container Insights (3-day POC)
 │
-├── data/                                         (9 templates — Wave 8 added 4 composite templates)
+├── data/                                         (12 templates — Wave 12 added 3 streaming composites)
 │   ├── 01_glue_etl_ml_features                   Glue ETL PySpark feature engineering + data quality
 │   ├── 02_kinesis_realtime_features               Kinesis streaming feature computation + Flink aggregations
 │   ├── 03_lake_formation_ml_governance            Lake Formation fine-grained access + LF-TBAC + cross-account sharing
@@ -90,7 +90,12 @@ F369_LLM_TEMPLATES/
 │   ├── 06_operational_db_to_lakehouse            **NEW** DMS + EventBridge Pipes + AppFlow → S3 → Iceberg (3 ingest paths)
 │   ├── 07_multi_db_federation_query              **NEW** Athena Federated Query (30+ connectors) + Glue Federation + LF
 │   ├── 08_resilient_db_dr                         **NEW** RDS Multi-AZ + Aurora Global DR + AWS Backup cross-region
-│   └── 09_emr_serverless_spark_iceberg            **NEW** EMR Serverless 7.12 + Spark on Iceberg + Lake Formation
+│   ├── 09_emr_serverless_spark_iceberg            **NEW** EMR Serverless 7.12 + Spark on Iceberg + Lake Formation
+│   │
+│   │  — Wave 12 composite templates (2026-04-26) —
+│   ├── 10_streaming_clickstream_analytics        **NEW** KDS + Firehose + OS Serverless + Athena + QuickSight + Q (3-4 day clickstream pipeline)
+│   ├── 11_iot_anomaly_detection                  **NEW** IoT Core + KDS + Flink (z-score/EWMA/CUSUM) + OS Dashboards + Bedrock NL explainer + alerts (4-5 day)
+│   └── 12_realtime_dashboard                     **NEW** KDS + Flink 1s windows + DDB Streams + AppSync subscriptions + React 19 (3-4 day collaborative UI)
 │
 ├── finops/                                       (6 templates — Wave 9 added 1 EKS composite)
 │   ├── 01_cost_allocation_ml                      Cost allocation tags + Budgets + Anomaly Detection
@@ -132,7 +137,7 @@ F369_LLM_TEMPLATES/
     └── 03_outposts_ml_patterns                    Outposts local ML training + inference + DataSync
 ```
 
-**Total: 83 template files** across 9 categories. (Wave 11 added 2 enterprise governance composites: full landing zone + SOC stand-up.)
+**Total: 86 template files** across 9 categories. (Wave 12 added 3 streaming analytics composites: clickstream / IoT anomaly / real-time UI.)
 
 ---
 
