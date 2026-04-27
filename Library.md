@@ -116,13 +116,19 @@ F369_LLM_TEMPLATES/
 │   │  — Wave 9 composite template (2026-04-26) —
 │   └── 08_eks_security_hardening                 **NEW** EKS regulated-workload posture: 7-layer defense (PSS + NetPol + ECR/Inspector + GuardDuty + Kyverno + signing + IR runbook)
 │
+├── backend/                                      (3 templates — Wave 10 NEW)
+│   │  — Wave 10 composite templates (2026-04-26) —
+│   ├── 01_serverless_api_starter                 **NEW** HTTP API + Cognito JWT + Powertools + DDB single-table (2-day POC)
+│   ├── 02_event_driven_workflow                  **NEW** EventBridge + Step Functions + SQS DLQ + Lambda step pattern (3-day POC)
+│   └── 03_graphql_realtime_api                   **NEW** AppSync + Cognito + DDB direct resolvers + JS pipeline + WebSocket subscriptions
+│
 └── edge/                                         (3 templates)
     ├── 01_sagemaker_edge_deployment               SageMaker Neo compilation + Edge Manager + IoT Jobs OTA
     ├── 02_iot_greengrass_ml_inference              IoT Greengrass V2 ML components + Stream Manager
     └── 03_outposts_ml_patterns                    Outposts local ML training + inference + DataSync
 ```
 
-**Total: 78 template files** across 8 categories. (Wave 9 added 3 EKS composite templates.)
+**Total: 81 template files** across 9 categories. (Wave 10 added 3 serverless backend templates + new `backend/` category.)
 
 ---
 
