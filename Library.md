@@ -107,7 +107,7 @@ F369_LLM_TEMPLATES/
 │   │  — Wave 9 composite template (2026-04-26) —
 │   └── 06_eks_cost_optimization                  **NEW** EKS 40-70% bill cut: Karpenter consolidation + VPA + Spot + Graviton + Kubecost + SP (1-weekend)
 │
-├── enterprise/                                   (10 templates — Wave 11 added 2 governance composites)
+├── enterprise/                                   (12 templates — Wave 14 added 2 DR/resilience composites)
 │   ├── 01_organizations_scps_ml                   SCPs for ML instance types, regions, encryption, Bedrock models
 │   ├── 02_cross_account_model_deployment          Cross-account CodePipeline + shared artifacts + model promotion
 │   ├── 03_service_catalog_ml                      Service Catalog self-service ML products + launch constraints
@@ -123,7 +123,11 @@ F369_LLM_TEMPLATES/
 │   │
 │   │  — Wave 11 composite templates (2026-04-26) —
 │   ├── 09_landing_zone_baseline                  **NEW** Full AWS Landing Zone (5-7 days): Control Tower + Identity Center + SCPs/RCPs + TGW Hub + Log Archive
-│   └── 10_centralized_security_ops               **NEW** Org-wide SOC stand-up (3-5 days): Security Hub Central Config + GuardDuty 6 features + Inspector + Macie + Detective + Security Lake + IR runbook + auto-remediation
+│   ├── 10_centralized_security_ops               **NEW** Org-wide SOC stand-up (3-5 days): Security Hub Central Config + GuardDuty 6 features + Inspector + Macie + Detective + Security Lake + IR runbook + auto-remediation
+│   │
+│   │  — Wave 14 composite templates (2026-04-27) —
+│   ├── 11_multi_region_dr                        **NEW** Multi-region DR program (3-5 weeks): Pilot Light/Warm Standby/Active-Active + Aurora Global + DDB Global + ARC failover + Vault Lock backups
+│   └── 12_chaos_engineering_program              **NEW** Chaos engineering program (4-6 weeks): Resilience Hub + FIS experiments + game days + SLO-guarded automation + CI score gate
 │
 ├── migration/                                    (3 templates — Wave 13 NEW)
 │   │  — Wave 13 composite templates (2026-04-27) —
@@ -143,7 +147,7 @@ F369_LLM_TEMPLATES/
     └── 03_outposts_ml_patterns                    Outposts local ML training + inference + DataSync
 ```
 
-**Total: 89 template files** across 10 categories. (Wave 13 added 3 migration composites + new `migration/` category.)
+**Total: 91 template files** across 10 categories. (Wave 14 added 2 enterprise DR/resilience composites.)
 
 ---
 
