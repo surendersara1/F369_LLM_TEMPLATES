@@ -57,7 +57,7 @@ F369_LLM_TEMPLATES/
 │   ├── 03_terraform_bedrock_opensearch            Terraform RAG infra
 │   └── 04_cdk_ecs_llm_inference                  CDK ECS + vLLM/TGI
 │
-├── devops/                                       (16 templates)
+├── devops/                                       (17 templates — Wave 9 added 1 EKS composite)
 │   ├── 01_ecr_ml_docker                          Dockerfiles + ECR
 │   ├── 02_vpc_networking_ml                      VPC + PrivateLink
 │   ├── 03_cloudwatch_monitoring                  Dashboards + alarms + Slack
@@ -73,7 +73,11 @@ F369_LLM_TEMPLATES/
 │   ├── 13_cost_per_inference_dashboards          Cost-per-inference tracking + per-customer metering
 │   ├── 14_clarify_realtime_bias_monitoring       SageMaker Clarify real-time bias + explainability monitoring
 │   ├── 15_strands_agent_observability            Agent OTel tracing + CloudWatch metrics + dashboards
-│   └── 16_agent_guardrails_control               Agent Control + Bedrock Guardrails + consent + defense
+│   ├── 16_agent_guardrails_control               Agent Control + Bedrock Guardrails + consent + defense
+│   ├── 17_step_functions_orchestration           Step Functions ML pipeline orchestration
+│   │
+│   │  — Wave 9 composite template (2026-04-26) —
+│   └── 18_eks_production_baseline                **NEW** EKS 1.32 + Karpenter v1 + LBC + Pod Identity + ArgoCD + Container Insights (3-day POC)
 │
 ├── data/                                         (9 templates — Wave 8 added 4 composite templates)
 │   ├── 01_glue_etl_ml_features                   Glue ETL PySpark feature engineering + data quality
@@ -88,14 +92,17 @@ F369_LLM_TEMPLATES/
 │   ├── 08_resilient_db_dr                         **NEW** RDS Multi-AZ + Aurora Global DR + AWS Backup cross-region
 │   └── 09_emr_serverless_spark_iceberg            **NEW** EMR Serverless 7.12 + Spark on Iceberg + Lake Formation
 │
-├── finops/                                       (5 templates)
+├── finops/                                       (6 templates — Wave 9 added 1 EKS composite)
 │   ├── 01_cost_allocation_ml                      Cost allocation tags + Budgets + Anomaly Detection
 │   ├── 02_spot_instance_strategies_ml             SageMaker managed spot training + checkpointing + fallback
 │   ├── 03_savings_plans_ml                        Savings Plans analysis + utilization reports + right-sizing
 │   ├── 04_inference_cost_optimization             Auto-scaling + scale-to-zero + batch transform + multi-model endpoints
-│   └── 05_finops_dashboards_ml                    CloudWatch + QuickSight FinOps dashboards + chargeback reports
+│   ├── 05_finops_dashboards_ml                    CloudWatch + QuickSight FinOps dashboards + chargeback reports
+│   │
+│   │  — Wave 9 composite template (2026-04-26) —
+│   └── 06_eks_cost_optimization                  **NEW** EKS 40-70% bill cut: Karpenter consolidation + VPA + Spot + Graviton + Kubecost + SP (1-weekend)
 │
-├── enterprise/                                   (7 templates — Wave 8 added 1 composite template)
+├── enterprise/                                   (8 templates — Wave 8 + Wave 9 composites)
 │   ├── 01_organizations_scps_ml                   SCPs for ML instance types, regions, encryption, Bedrock models
 │   ├── 02_cross_account_model_deployment          Cross-account CodePipeline + shared artifacts + model promotion
 │   ├── 03_service_catalog_ml                      Service Catalog self-service ML products + launch constraints
@@ -104,7 +111,10 @@ F369_LLM_TEMPLATES/
 │   ├── 06_compliance_blueprint                   HIPAA / SOC 2 / PCI compliance baseline
 │   │
 │   │  — Wave 8 composite template (2026-04-26) —
-│   └── 07_datalake_security_baseline             **NEW** 30-control composite for SOC 2 / HIPAA / GDPR / PCI-DSS + daily audit Lambda
+│   ├── 07_datalake_security_baseline             **NEW** 30-control composite for SOC 2 / HIPAA / GDPR / PCI-DSS + daily audit Lambda
+│   │
+│   │  — Wave 9 composite template (2026-04-26) —
+│   └── 08_eks_security_hardening                 **NEW** EKS regulated-workload posture: 7-layer defense (PSS + NetPol + ECR/Inspector + GuardDuty + Kyverno + signing + IR runbook)
 │
 └── edge/                                         (3 templates)
     ├── 01_sagemaker_edge_deployment               SageMaker Neo compilation + Edge Manager + IoT Jobs OTA
@@ -112,7 +122,7 @@ F369_LLM_TEMPLATES/
     └── 03_outposts_ml_patterns                    Outposts local ML training + inference + DataSync
 ```
 
-**Total: 74 template files** across 8 categories.
+**Total: 78 template files** across 8 categories. (Wave 9 added 3 EKS composite templates.)
 
 ---
 
@@ -185,3 +195,8 @@ See [PROMPT_GUIDE.md](./PROMPT_GUIDE.md) for chaining templates and advanced usa
 33. `devops/04` (IAM) → `mlops/23` (Agent SOP Authoring) → `mlops/24` (Bedrock Prompt Management)
 34. `mlops/20` (Strands Lambda Deployment) or `mlops/22` (AgentCore Deployment)
 35. `mlops/21` (Multi-Agent Patterns) → `devops/15` (Agent Observability) → `devops/16` (Agent Guardrails & Control)
+
+### Phase 12 — EKS / Kubernetes platform (Wave 9)
+36. `devops/18` (EKS Production Baseline) — 3-day cluster + Karpenter + LBC + Pod Identity + ArgoCD
+37. `enterprise/08` (EKS Security Hardening) — 3-day regulated-posture: PSS + NetPol + ECR/Inspector + GuardDuty + Kyverno
+38. `finops/06` (EKS Cost Optimization) — 1-weekend 40-70% bill cut: Karpenter + VPA + Spot + Graviton + Kubecost
