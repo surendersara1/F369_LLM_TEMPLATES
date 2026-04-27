@@ -102,7 +102,7 @@ F369_LLM_TEMPLATES/
 │   │  — Wave 9 composite template (2026-04-26) —
 │   └── 06_eks_cost_optimization                  **NEW** EKS 40-70% bill cut: Karpenter consolidation + VPA + Spot + Graviton + Kubecost + SP (1-weekend)
 │
-├── enterprise/                                   (8 templates — Wave 8 + Wave 9 composites)
+├── enterprise/                                   (10 templates — Wave 11 added 2 governance composites)
 │   ├── 01_organizations_scps_ml                   SCPs for ML instance types, regions, encryption, Bedrock models
 │   ├── 02_cross_account_model_deployment          Cross-account CodePipeline + shared artifacts + model promotion
 │   ├── 03_service_catalog_ml                      Service Catalog self-service ML products + launch constraints
@@ -114,7 +114,11 @@ F369_LLM_TEMPLATES/
 │   ├── 07_datalake_security_baseline             **NEW** 30-control composite for SOC 2 / HIPAA / GDPR / PCI-DSS + daily audit Lambda
 │   │
 │   │  — Wave 9 composite template (2026-04-26) —
-│   └── 08_eks_security_hardening                 **NEW** EKS regulated-workload posture: 7-layer defense (PSS + NetPol + ECR/Inspector + GuardDuty + Kyverno + signing + IR runbook)
+│   ├── 08_eks_security_hardening                 **NEW** EKS regulated-workload posture: 7-layer defense (PSS + NetPol + ECR/Inspector + GuardDuty + Kyverno + signing + IR runbook)
+│   │
+│   │  — Wave 11 composite templates (2026-04-26) —
+│   ├── 09_landing_zone_baseline                  **NEW** Full AWS Landing Zone (5-7 days): Control Tower + Identity Center + SCPs/RCPs + TGW Hub + Log Archive
+│   └── 10_centralized_security_ops               **NEW** Org-wide SOC stand-up (3-5 days): Security Hub Central Config + GuardDuty 6 features + Inspector + Macie + Detective + Security Lake + IR runbook + auto-remediation
 │
 ├── backend/                                      (3 templates — Wave 10 NEW)
 │   │  — Wave 10 composite templates (2026-04-26) —
@@ -128,7 +132,7 @@ F369_LLM_TEMPLATES/
     └── 03_outposts_ml_patterns                    Outposts local ML training + inference + DataSync
 ```
 
-**Total: 81 template files** across 9 categories. (Wave 10 added 3 serverless backend templates + new `backend/` category.)
+**Total: 83 template files** across 9 categories. (Wave 11 added 2 enterprise governance composites: full landing zone + SOC stand-up.)
 
 ---
 
