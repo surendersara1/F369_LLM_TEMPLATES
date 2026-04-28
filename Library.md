@@ -6,7 +6,7 @@ F369_LLM_TEMPLATES/
 ├── PROMPT_GUIDE.md                               How to use templates effectively
 ├── Library.md                                    This file — full library overview
 │
-├── mlops/                                        (32 templates — Wave 8 added 7 composite templates)
+├── mlops/                                        (36 templates — Wave 15 added 3 Bedrock GenAI composites)
 │   ├── 00_sagemaker_ai_workspace                 **DEPLOY FIRST** SageMaker Domain + Studio + Users + Canvas + JumpStart
 │   ├── 01_sagemaker_training_pipeline            ML training pipeline
 │   ├── 02_llm_finetuning_pipeline                LoRA/QLoRA fine-tuning
@@ -42,7 +42,12 @@ F369_LLM_TEMPLATES/
 │   ├── 30_enterprise_ml_governance               **NEW** 3-account ML governance (RAM share + drift + lineage + auto-rollback)
 │   ├── 31_aws_silicon_cost_optimization          **NEW** Trainium2 training + Inferentia2 inference + Smart Sifting (40-75% cost cut)
 │   ├── 32_geospatial_ml                          **NEW** Earth Observation Jobs + pre-built models + custom segmentation
-│   └── 33_managed_labeling_pipeline              **NEW** Ground Truth Plus → trigger Lambda → training pipeline
+│   ├── 33_managed_labeling_pipeline              **NEW** Ground Truth Plus → trigger Lambda → training pipeline
+│   │
+│   │  — Wave 15 composite templates (2026-04-27) —
+│   ├── 34_q_business_enterprise_assistant        **NEW** Q Business + 40+ connectors + plugins + Q Apps + AppRoles + IDC SSO (3-5 day enterprise rollout)
+│   ├── 35_advanced_rag_with_kb                   **NEW** Bedrock KB hybrid + reranking + multi-tenant + Guardrails + custom UI (4-6 day deploy)
+│   └── 36_multi_agent_collaboration              **NEW** Supervisor + 3-5 collaborator agents + KBs + actions + memory + Code Interpreter (4-6 day production agent system)
 │
 ├── cicd/                                         (5 templates)
 │   ├── 01_codebuild_ml_training                  buildspec.yml for ML
@@ -151,7 +156,7 @@ F369_LLM_TEMPLATES/
     └── 03_outposts_ml_patterns                    Outposts local ML training + inference + DataSync
 ```
 
-**Total: 93 template files** across 10 categories. (Wave 16 added 2 ECS production composites.)
+**Total: 96 template files** across 10 categories. (Wave 15 added 3 Bedrock GenAI composites.)
 
 ---
 
