@@ -88,7 +88,7 @@ F369_LLM_TEMPLATES/
 │   ├── 19_q_developer_team_rollout               **NEW** Q Developer Pro rollout for 50+ devs (1-2 weeks): IDC SSO + Customizations + adoption metrics
 │   └── 20_legacy_modernization_with_q            **NEW** Java 8 → 17 / .NET Fx → .NET 8 modernization with /transform + agentic CI (4-12 week program)
 │
-├── data/                                         (12 templates — Wave 12 added 3 streaming composites)
+├── data/                                         (13 templates — Wave 19 added 1 DQ composite)
 │   ├── 01_glue_etl_ml_features                   Glue ETL PySpark feature engineering + data quality
 │   ├── 02_kinesis_realtime_features               Kinesis streaming feature computation + Flink aggregations
 │   ├── 03_lake_formation_ml_governance            Lake Formation fine-grained access + LF-TBAC + cross-account sharing
@@ -102,9 +102,12 @@ F369_LLM_TEMPLATES/
 │   ├── 09_emr_serverless_spark_iceberg            **NEW** EMR Serverless 7.12 + Spark on Iceberg + Lake Formation
 │   │
 │   │  — Wave 12 composite templates (2026-04-26) —
-│   ├── 10_streaming_clickstream_analytics        **NEW** KDS + Firehose + OS Serverless + Athena + QuickSight + Q (3-4 day clickstream pipeline)
-│   ├── 11_iot_anomaly_detection                  **NEW** IoT Core + KDS + Flink (z-score/EWMA/CUSUM) + OS Dashboards + Bedrock NL explainer + alerts (4-5 day)
-│   └── 12_realtime_dashboard                     **NEW** KDS + Flink 1s windows + DDB Streams + AppSync subscriptions + React 19 (3-4 day collaborative UI)
+│   ├── 10_streaming_clickstream_analytics        KDS + Firehose + OS Serverless + Athena + QuickSight + Q (3-4 day clickstream pipeline)
+│   ├── 11_iot_anomaly_detection                  IoT Core + KDS + Flink (z-score/EWMA/CUSUM) + OS Dashboards + Bedrock NL explainer + alerts (4-5 day)
+│   ├── 12_realtime_dashboard                     KDS + Flink 1s windows + DDB Streams + AppSync subscriptions + React 19 (3-4 day collaborative UI)
+│   │
+│   │  — Wave 19 composite template (2026-04-28) —
+│   └── 13_data_quality_program                   **NEW** Glue Data Quality + DQDL + data contracts + drift detection + SLO dashboards (4-6 week program)
 │
 ├── finops/                                       (6 templates — Wave 9 added 1 EKS composite)
 │   ├── 01_cost_allocation_ml                      Cost allocation tags + Budgets + Anomaly Detection
@@ -116,7 +119,7 @@ F369_LLM_TEMPLATES/
 │   │  — Wave 9 composite template (2026-04-26) —
 │   └── 06_eks_cost_optimization                  **NEW** EKS 40-70% bill cut: Karpenter consolidation + VPA + Spot + Graviton + Kubecost + SP (1-weekend)
 │
-├── enterprise/                                   (12 templates — Wave 14 added 2 DR/resilience composites)
+├── enterprise/                                   (13 templates — Wave 19 added 1 data mesh composite)
 │   ├── 01_organizations_scps_ml                   SCPs for ML instance types, regions, encryption, Bedrock models
 │   ├── 02_cross_account_model_deployment          Cross-account CodePipeline + shared artifacts + model promotion
 │   ├── 03_service_catalog_ml                      Service Catalog self-service ML products + launch constraints
@@ -135,8 +138,11 @@ F369_LLM_TEMPLATES/
 │   ├── 10_centralized_security_ops               **NEW** Org-wide SOC stand-up (3-5 days): Security Hub Central Config + GuardDuty 6 features + Inspector + Macie + Detective + Security Lake + IR runbook + auto-remediation
 │   │
 │   │  — Wave 14 composite templates (2026-04-27) —
-│   ├── 11_multi_region_dr                        **NEW** Multi-region DR program (3-5 weeks): Pilot Light/Warm Standby/Active-Active + Aurora Global + DDB Global + ARC failover + Vault Lock backups
-│   └── 12_chaos_engineering_program              **NEW** Chaos engineering program (4-6 weeks): Resilience Hub + FIS experiments + game days + SLO-guarded automation + CI score gate
+│   ├── 11_multi_region_dr                        Multi-region DR program (3-5 weeks): Pilot Light/Warm Standby/Active-Active + Aurora Global + DDB Global + ARC failover + Vault Lock backups
+│   ├── 12_chaos_engineering_program              Chaos engineering program (4-6 weeks): Resilience Hub + FIS experiments + game days + SLO-guarded automation + CI score gate
+│   │
+│   │  — Wave 19 composite template (2026-04-28) —
+│   └── 13_data_mesh_governance                   **NEW** Multi-domain data mesh transformation (3-6 month program): per-domain accounts + DataZone + LF-Tag ABAC + Service Catalog + federated governance
 │
 ├── migration/                                    (3 templates — Wave 13 NEW)
 │   │  — Wave 13 composite templates (2026-04-27) —
@@ -163,7 +169,7 @@ F369_LLM_TEMPLATES/
     └── 03_outposts_ml_patterns                    Outposts local ML training + inference + DataSync
 ```
 
-**Total: 99 template files** across 10 categories. (Wave 18 added 2 Q Developer composites.)
+**Total: 101 template files** across 10 categories. (Wave 19 added 2 Data Quality + Data Mesh composites.)
 
 ---
 
