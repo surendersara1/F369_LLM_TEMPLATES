@@ -140,15 +140,18 @@ F369_LLM_TEMPLATES/
 │   ├── 02_database_migration                     **NEW** Heterogeneous DB migration (Oracle/SQL Server → Aurora PG, Babelfish, 8-16 weeks)
 │   └── 03_modernization_strangler_fig            **NEW** Refactor Spaces Strangler Fig — incremental monolith decomposition (4-6 weeks initial)
 │
-├── backend/                                      (5 templates — Wave 16 added 2 ECS composites)
+├── backend/                                      (6 templates — Wave 17 added 1 CDN composite)
 │   │  — Wave 10 composite templates (2026-04-26) —
 │   ├── 01_serverless_api_starter                 HTTP API + Cognito JWT + Powertools + DDB single-table (2-day POC)
 │   ├── 02_event_driven_workflow                  EventBridge + Step Functions + SQS DLQ + Lambda step pattern (3-day POC)
 │   ├── 03_graphql_realtime_api                   AppSync + Cognito + DDB direct resolvers + JS pipeline + WebSocket subscriptions
 │   │
 │   │  — Wave 16 composite templates (2026-04-27) —
-│   ├── 04_ecs_production_baseline                **NEW** ECS Fargate cluster + Service Connect + Blue/Green CodeDeploy + auto-scaling + GuardDuty Runtime (2-3 day POC)
-│   └── 05_ecs_blue_green_microservices           **NEW** ECS multi-service platform (5+ services) + Service Connect mesh + per-service Aurora/DDB + per-service CodeDeploy (5-7 days)
+│   ├── 04_ecs_production_baseline                ECS Fargate cluster + Service Connect + Blue/Green CodeDeploy + auto-scaling + GuardDuty Runtime (2-3 day POC)
+│   ├── 05_ecs_blue_green_microservices           ECS multi-service platform (5+ services) + Service Connect mesh + per-service Aurora/DDB + per-service CodeDeploy (5-7 days)
+│   │
+│   │  — Wave 17 composite template (2026-04-27) —
+│   └── 06_cloudfront_global_edge_app             **NEW** CloudFront + OAC + WAF + edge compute (Functions + KVS) + multi-origin failover (2-3 day deploy)
 │
 └── edge/                                         (3 templates)
     ├── 01_sagemaker_edge_deployment               SageMaker Neo compilation + Edge Manager + IoT Jobs OTA
@@ -156,7 +159,7 @@ F369_LLM_TEMPLATES/
     └── 03_outposts_ml_patterns                    Outposts local ML training + inference + DataSync
 ```
 
-**Total: 96 template files** across 10 categories. (Wave 15 added 3 Bedrock GenAI composites.)
+**Total: 97 template files** across 10 categories. (Wave 17 added 1 CloudFront edge composite.)
 
 ---
 
