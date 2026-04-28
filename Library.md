@@ -62,7 +62,7 @@ F369_LLM_TEMPLATES/
 │   ├── 03_terraform_bedrock_opensearch            Terraform RAG infra
 │   └── 04_cdk_ecs_llm_inference                  CDK ECS + vLLM/TGI
 │
-├── devops/                                       (17 templates — Wave 9 added 1 EKS composite)
+├── devops/                                       (20 templates — Wave 18 added 2 Q Developer composites)
 │   ├── 01_ecr_ml_docker                          Dockerfiles + ECR
 │   ├── 02_vpc_networking_ml                      VPC + PrivateLink
 │   ├── 03_cloudwatch_monitoring                  Dashboards + alarms + Slack
@@ -82,7 +82,11 @@ F369_LLM_TEMPLATES/
 │   ├── 17_step_functions_orchestration           Step Functions ML pipeline orchestration
 │   │
 │   │  — Wave 9 composite template (2026-04-26) —
-│   └── 18_eks_production_baseline                **NEW** EKS 1.32 + Karpenter v1 + LBC + Pod Identity + ArgoCD + Container Insights (3-day POC)
+│   ├── 18_eks_production_baseline                EKS 1.32 + Karpenter v1 + LBC + Pod Identity + ArgoCD + Container Insights (3-day POC)
+│   │
+│   │  — Wave 18 composite templates (2026-04-28) —
+│   ├── 19_q_developer_team_rollout               **NEW** Q Developer Pro rollout for 50+ devs (1-2 weeks): IDC SSO + Customizations + adoption metrics
+│   └── 20_legacy_modernization_with_q            **NEW** Java 8 → 17 / .NET Fx → .NET 8 modernization with /transform + agentic CI (4-12 week program)
 │
 ├── data/                                         (12 templates — Wave 12 added 3 streaming composites)
 │   ├── 01_glue_etl_ml_features                   Glue ETL PySpark feature engineering + data quality
@@ -159,7 +163,7 @@ F369_LLM_TEMPLATES/
     └── 03_outposts_ml_patterns                    Outposts local ML training + inference + DataSync
 ```
 
-**Total: 97 template files** across 10 categories. (Wave 17 added 1 CloudFront edge composite.)
+**Total: 99 template files** across 10 categories. (Wave 18 added 2 Q Developer composites.)
 
 ---
 
